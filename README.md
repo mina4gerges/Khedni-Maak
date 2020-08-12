@@ -1,9 +1,9 @@
 # Khedni Maak
 ###### Par Mina Gerges (mina.gerges@isae.edu.lb) et Samer Barhouche (samer.barhouche@isae.edu.lb)
 
-Idée générale:
+**Idée générale:**
 
-“Khedni Maak” est une application mobile dont son idée générale est d'aider les travailleur, les étudiant ou chaque personne qui n’a pas une voiture pour qu’il puisse se déplacer facilement.
+“*Khedni Maak*” est une application mobile dont son idée générale est d'aider les travailleur, les étudiant ou chaque personne qui n’a pas une voiture pour qu’il puisse se déplacer facilement.
 
 Alors c’est une programme a pour objectif de répondre au besoin d’une personne qui souhaite de se déplacer d’un endroit à un autre gratuitement ou avec honoraires où l’utilisateur qui va répondre au service le décide.
 
