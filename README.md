@@ -15,6 +15,7 @@ L’utilisateur qui demande le service peut voir de déplacement de la personne 
 
 Chaque utilisateur a un profile détaillé est vérifié, ce profilé comporte deux chose important tous les information de la voiture et la photo d’utilisateur pour bien identique la voiture et la personne et d'éviter tout  arnaque. De plus une section pour le rating pour savoir plus d’information sur l’utilisateur par exemple son comportement, faire confiance ...
 
+Khedni Maak application mobile pour aide les personnes qui non pas une voiture a se déplace d'un endroit à un autre a l'aide d'autre personne
 
 
 
