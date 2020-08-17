@@ -4,11 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="916d5a2a-36d2-4c82-9572-0f6ce5004297" name="Default Changelist" comment="" />
+    <list default="true" id="916d5a2a-36d2-4c82-9572-0f6ce5004297" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitToolBoxStore">
     <option name="projectConfigVersion" value="2" />
@@ -26,9 +33,35 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlserver" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/back-end" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -39,7 +72,8 @@
       <option name="presentableId" value="Default" />
       <updated>1597476577841</updated>
       <workItem from="1597476588996" duration="150000" />
-      <workItem from="1597476776445" duration="325000" />
+      <workItem from="1597476776445" duration="1899000" />
+      <workItem from="1597532037054" duration="2150000" />
     </task>
     <servers />
   </component>
@@ -47,13 +81,33 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="275" y="4" key="#Plugins" timestamp="1597476756227">
+    <state x="275" y="4" key="#Plugins" timestamp="1597477081528">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="4" key="#Plugins/0.0.1366.728@0.0.1366.728" timestamp="1597476756227" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1597476613205">
+    <state x="275" y="4" key="#Plugins/0.0.1366.728@0.0.1366.728" timestamp="1597477081528" />
+    <state x="275" y="22" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597534871731">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1597476613205" />
+    <state x="275" y="22" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1597534871731" />
+    <state x="502" y="54" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog" timestamp="1597535293432">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="502" y="54" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog/0.0.1366.728@0.0.1366.728" timestamp="1597535293432" />
+    <state x="404" y="226" key="DetectedRootsChooserDialog" timestamp="1597535261122">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="404" y="226" key="DetectedRootsChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1597535261122" />
+    <state x="313" y="105" key="FileChooserDialogImpl" timestamp="1597535352741">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="313" y="105" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1597535352741" />
+    <state x="87" y="0" key="SettingsEditor" timestamp="1597535325503">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="87" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1597535325503" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1597535169920">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1597535169920" />
   </component>
 </project>
