@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.khednimaak.khednimaak.user.entity.Users;
-import com.khednimaak.khednimaak.user.repositry.UsersRepository;
+import com.khednimaak.khednimaak.user.repository.UsersRepository;
 
 
 
