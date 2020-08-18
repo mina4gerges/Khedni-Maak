@@ -1,4 +1,4 @@
-package com.khednimaak.khednimaak.entity;
+package com.khednimaak.khednimaak.user.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

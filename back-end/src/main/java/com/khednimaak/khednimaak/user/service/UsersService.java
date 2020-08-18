@@ -1,12 +1,12 @@
-package com.khednimaak.khednimaak.service;
+package com.khednimaak.khednimaak.user.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.khednimaak.khednimaak.entity.Users;
-import com.khednimaak.khednimaak.repository.UsersRepository;
+import com.khednimaak.khednimaak.user.entity.Users;
+import com.khednimaak.khednimaak.user.repositry.UsersRepository;
 
 
 

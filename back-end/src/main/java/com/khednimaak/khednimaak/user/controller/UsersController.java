@@ -1,11 +1,11 @@
-package com.khednimaak.khednimaak.controller;
+package com.khednimaak.khednimaak.user.controller;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.khednimaak.khednimaak.entity.Users;
-import com.khednimaak.khednimaak.service.UsersService;
+import com.khednimaak.khednimaak.user.entity.Users;
+import com.khednimaak.khednimaak.user.service.UsersService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
