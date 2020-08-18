@@ -1,6 +1,6 @@
 # khedni_maak
 
-khedni maak
+University project 2020 C2
 
 ## Getting Started
 
