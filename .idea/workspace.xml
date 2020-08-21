@@ -23,14 +23,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="916d5a2a-36d2-4c82-9572-0f6ce5004297" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/khedni-maak.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/khedni-maak.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/wrapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18-Aug-20_8_52_PM_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18-Aug-20_8_52_PM__Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,8 +74,12 @@
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="sqlserver" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -66,9 +91,23 @@
     <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="RunManager">
+    <configuration default="true" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/front-end/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/front-end/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="916d5a2a-36d2-4c82-9572-0f6ce5004297" name="Default Changelist" comment="" />
@@ -80,56 +119,78 @@
       <workItem from="1597476776445" duration="1899000" />
       <workItem from="1597532037054" duration="2150000" />
       <workItem from="1597772992730" duration="390000" />
+      <workItem from="1597988686473" duration="1180000" />
+      <workItem from="1597990070681" duration="267000" />
+      <workItem from="1597990353525" duration="453000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="275" y="4" key="#Plugins" timestamp="1597477081528">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="-1478" y="85" key="#Plugins" timestamp="1597990338752">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="275" y="4" key="#Plugins/0.0.1366.728@0.0.1366.728" timestamp="1597477081528" />
-    <state x="275" y="22" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597534871731">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="-1478" y="85" key="#Plugins/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990338752" />
+    <state x="387" y="31" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597990413169">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="275" y="22" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1597534871731" />
+    <state x="387" y="31" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990413169" />
+    <state x="600" y="125" key="#com.intellij.ide.util.TreeFileChooserDialog" timestamp="1597990392093">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="600" y="125" key="#com.intellij.ide.util.TreeFileChooserDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990392093" />
     <state x="502" y="54" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog" timestamp="1597535293432">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="502" y="54" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog/0.0.1366.728@0.0.1366.728" timestamp="1597535293432" />
+    <state x="417" y="1" key="CommitChangelistDialog2" timestamp="1597990800835">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="417" y="1" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990800835" />
     <state x="404" y="226" key="DetectedRootsChooserDialog" timestamp="1597535261122">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="404" y="226" key="DetectedRootsChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1597535261122" />
-    <state x="313" y="105" key="FileChooserDialogImpl" timestamp="1597535352741">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="440" y="150" key="FileChooserDialogImpl" timestamp="1597990105379">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="313" y="105" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1597535352741" />
-    <state x="87" y="0" key="SettingsEditor" timestamp="1597535325503">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="440" y="150" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990105379" />
+    <state x="122" y="0" key="SettingsEditor" timestamp="1597990232243">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="87" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1597535325503" />
+    <state x="122" y="0" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990232243" />
+    <state x="591" y="302" key="com.intellij.ide.util.TipDialog" timestamp="1597990353494">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="591" y="302" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990353494" />
     <state x="2143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1597773143345">
       <screen x="1366" y="0" width="1920" height="1040" />
     </state>
     <state x="2143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1597773143345" />
-    <state x="1852" y="70" width="945" height="969" key="search.everywhere.popup" timestamp="1597773044749">
-      <screen x="1366" y="0" width="1920" height="1040" />
+    <state x="486" y="70" width="945" height="969" key="search.everywhere.popup" timestamp="1597990290121">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1852" y="70" width="945" height="969" key="search.everywhere.popup/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1597773044749" />
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1597535169920" />
+    <state x="486" y="70" width="945" height="969" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990290121" />
   </component>
 </project>
