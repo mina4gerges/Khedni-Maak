@@ -72,6 +72,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="sqlserver" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -160,10 +161,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="502" y="54" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog/0.0.1366.728@0.0.1366.728" timestamp="1597535293432" />
-    <state x="417" y="1" key="CommitChangelistDialog2" timestamp="1597990800835">
+    <state x="417" y="1" key="CommitChangelistDialog2" timestamp="1597990862324">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="417" y="1" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990800835" />
+    <state x="417" y="1" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990862324" />
     <state x="404" y="226" key="DetectedRootsChooserDialog" timestamp="1597535261122">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -173,6 +174,22 @@
     </state>
     <state x="313" y="105" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1597535352741" />
     <state x="440" y="150" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990105379" />
+    <state width="1865" height="268" key="GridCell.Tab.0.bottom" timestamp="1597990871875">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1865" height="268" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990871875" />
+    <state width="1865" height="268" key="GridCell.Tab.0.center" timestamp="1597990871875">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1865" height="268" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990871875" />
+    <state width="1865" height="268" key="GridCell.Tab.0.left" timestamp="1597990871874">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1865" height="268" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990871874" />
+    <state width="1865" height="268" key="GridCell.Tab.0.right" timestamp="1597990871875">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1865" height="268" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597990871875" />
     <state x="122" y="0" key="SettingsEditor" timestamp="1597990232243">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
