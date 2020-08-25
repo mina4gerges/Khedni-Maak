@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:khedni_maak/introductionScreen/introduction_screen.dart';
+//import 'package:khedni_maak/test_widgets/post.dart';
+
+import 'introduction_screen/introduction_screen.dart';
+
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -18,5 +21,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Start screen',
         home: IntroductionView());
+//        home: PostsPage());
   }
 }
