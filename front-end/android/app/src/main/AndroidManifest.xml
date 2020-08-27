@@ -35,8 +35,9 @@
               />
 
             <!-- google maps API-->
+            <!-- TODO: add google api KEY-->
             <meta-data android:name="com.google.android.geo.API_KEY"
-                android:value='AIzaSyALdBwMTDH4Ly56r7mxCYilWe2PBz_zj0g'/>
+                android:value=''/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
