@@ -42,3 +42,10 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+#private constant values
+./lib/globals/constant.dart
+#AndroidManifest.xml contains API key
+./android/app/src/main/AndroidManifest.xml
+#AppDelegate.swift contains API key
+./ios/Runner/AppDelegate.swift
