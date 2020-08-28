@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 
 import 'introduction_screen/introduction_screen.dart';
 
-
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
@@ -18,9 +17,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Start screen',
-        home: IntroductionView());
+    return MaterialApp(title: 'Start screen', home: IntroductionView());
 //        home: PostsPage());
   }
 }

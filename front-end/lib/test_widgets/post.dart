@@ -3,9 +3,8 @@ import 'package:khedni_maak/http_requests/http_service.dart';
 import 'package:khedni_maak/test_widgets/posts_model.dart';
 
 class PostsPage extends StatelessWidget {
-  final HttpService httpService = HttpService(baseUrl: 'localhost:5000');
+  final HttpService httpService = HttpService(baseUrl: 'http://10.0.2.2:5000');
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +28,8 @@ class PostsPage extends StatelessWidget {
               children: posts
                   .map(
                     (Post post) => ListTile(
-                        title: Text(post.title), subtitle: Text("${post.body}")),
+                        title: Text(post.title),
+                        subtitle: Text("${post.body}")),
                   )
                   .toList(),
             );
