@@ -26,10 +26,13 @@ dependencies:
   #  introduction screen dependency
   introduction_screen: ^1.0.9
   #  dependency user for map
-  google_maps_flutter: ^0.5.30
   location: ^3.0.0
+  geoflutterfire: ^2.2.1
+  google_maps_flutter: ^0.5.30
   #  http requests dependency
   http: ^0.12.2
+#  RxDart adds additional capabilities to Dart Streams and StreamControllers.
+  rxdart: ^0.24.1
   #  fonts dependency
   font_awesome_flutter: ^8.5.0
   intl: ^0.16.1
