@@ -32,9 +32,9 @@ public class UsersService {
 				
 	}
 	
-	public Users getUserByName(String name) {
-		return repository.findByName(name);
-	}
+//	public Users getUserByName(String name) {
+//		return repository.findByName(name);
+//	}
 	
     public String deleteUser(int id) {
         repository.deleteById(id);
