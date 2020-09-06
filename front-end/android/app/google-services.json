@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "493228817756",
+    "firebase_url": "https://khedni-maak-test.firebaseio.com",
+    "project_id": "khedni-maak-test",
+    "storage_bucket": "khedni-maak-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493228817756:android:0770071b771120eea59599",
+        "android_client_info": {
+          "package_name": "com.khedniMaak.khedni_maak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493228817756-8bfku2besv5vvuu27okqu78kscp2qdt8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgtV4i09KivlW20kGytE1pC5cI527_0TA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493228817756-8bfku2besv5vvuu27okqu78kscp2qdt8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
