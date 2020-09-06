@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:khedni_maak/testFiles/firebase/add_user.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:location/location.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -33,7 +35,6 @@ class MapSampleState extends State<MapSample> {
   GoogleMapController _mapController;
   Location location = new Location();
 
-  Firestore fireStore = Firestore.instance;
   Geoflutterfire geo = Geoflutterfire();
 
 //  BehaviorSubject<double> radius = BehaviorSubject(seedValue:100.0);
@@ -80,15 +81,15 @@ class MapSampleState extends State<MapSample> {
   }
 
   //add a document to fire store
-  Future<DocumentReference> _addGeoPoint() async {
-    //access to user current position
-    var pos = await location.getLocation();
-    GeoFirePoint point =
-        geo.point(latitude: pos.latitude, longitude: pos.longitude);
-    return fireStore
-        .collection('locations')
-        .add({'position': point.data, 'name': 'yay I can be queried!'});
-  }
+//  Future<DocumentReference> _addGeoPoint() async {
+//    //access to user current position
+//    var pos = await location.getLocation();
+//    GeoFirePoint point =
+//        geo.point(latitude: pos.latitude, longitude: pos.longitude);
+//    return fireStore
+//        .collection('locations')
+//        .add({'position': point.data, 'name': 'yay I can be queried!'});
+//  }
 
 //  void _updateMarkers(List<DocumentSnapshot> documentList) {
 //    print(documentList);
@@ -123,21 +124,40 @@ class MapSampleState extends State<MapSample> {
 //    }).listen(_updateMarkers);
 //  }
 
-  void _updateQuery(value) {
-    final zoomMap = {
-      100.0: 12.0,
-      200.0: 10.0,
-      300.0: 7.0,
-      400.0: 6.0,
-      500.0: 5.0,
-    };
+//  void _updateQuery(value) {
+//    final zoomMap = {
+//      100.0: 12.0,
+//      200.0: 10.0,
+//      300.0: 7.0,
+//      400.0: 6.0,
+//      500.0: 5.0,
+//    };
+//
+//    final zoom = zoomMap[value];
+//    _mapController.moveCamera(CameraUpdate.zoomTo(zoom));
+//
+//    setState(() {
+//      radius.add(value);
+//    });
+//  }
 
-    final zoom = zoomMap[value];
-    _mapController.moveCamera(CameraUpdate.zoomTo(zoom));
+  Future<void> _addUser() async {
+    await Firebase.initializeApp();
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-    setState(() {
-      radius.add(value);
-    });
+    String fullName = 'samer';
+    String company = 'test';
+    int age = 25;
+
+    // Call the user's CollectionReference to add a new user
+    return users
+        .add({
+      'full_name': fullName, // John Doe
+      'company': company, // Stokes and Sons
+      'age': age // 42
+    })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 
   @override
@@ -166,8 +186,8 @@ class MapSampleState extends State<MapSample> {
             child: Icon(Icons.pin_drop, color: Colors.white),
             color: Colors.green,
 //            onPressed: _addGeoPoint,
-            onPressed: _addGeoPoint,
 //            onPressed: _animateToUserLocation,
+            onPressed: _addUser,
           ),
         ),
 //        Positioned(
