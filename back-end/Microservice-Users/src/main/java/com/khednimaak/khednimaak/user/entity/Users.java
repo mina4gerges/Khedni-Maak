@@ -23,6 +23,7 @@ public class Users {
     private String mobile;
     private String email;
     private String address;
+    private int carid;
     
 	public int getId() {
 		return id;
@@ -51,5 +52,13 @@ public class Users {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public int getCarid() {
+		return carid;
+	}
+
+	public void setCarid(int carid) {
+		this.carid = carid;
 	}
 }

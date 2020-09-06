@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.khednimaak.khednimaakcars.cars.entity.Cars;
 import com.khednimaak.khednimaakcars.cars.repository.CarsRepository;
 
+
+
 @Service
 public class CarsService {
 	@Autowired
@@ -16,6 +18,11 @@ public class CarsService {
 	
 	public List<Cars> getCars() {
 	return repository.findAll();
+	}
+
+	public Cars getCarById(int id) {
+		return repository.findById(id).orElse(null);
+				
 	}
 	
 }

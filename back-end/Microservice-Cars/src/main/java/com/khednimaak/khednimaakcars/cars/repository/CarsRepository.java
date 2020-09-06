@@ -6,7 +6,7 @@ import com.khednimaak.khednimaakcars.cars.entity.Cars;
 
 
 public interface CarsRepository extends JpaRepository<Cars, Integer>{
-	Cars findByName(String name);
+	
 }
 
 

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import reactor.core.publisher.Mono;
+
 import com.khednimaak.khednimaakcars.cars.entity.Cars;
 import com.khednimaak.khednimaakcars.cars.service.CarsService;
 
@@ -35,22 +37,43 @@ public class CarsController {
         return service.getCars();
     }
     
-    @GetMapping("/carsusers")
-    public String getUsers() {
-    	String baseurl="http://localhost:9191/users";
-    	
-    	RestTemplate restTemplate = new RestTemplate();
-    	ResponseEntity<String> response = null;
-    	
-    	response=restTemplate.exchange(baseurl, HttpMethod.GET, getHeaders(), String.class);
-    	
-    	System.out.println(response.getBody());
-    	
-    	return response.getBody().toString();    	
-    }
+//    @GetMapping("/carsusers")
+//    public String getUsers() {
+//    	String baseurl="http://localhost:9191/users";
+//    	
+//    	RestTemplate restTemplate = new RestTemplate();
+//    	ResponseEntity<String> response = null;
+//    	
+//    	response=restTemplate.exchange(baseurl, HttpMethod.GET, getHeaders(), String.class);
+//    	
+//    	System.out.println(response.getBody());
+//    	
+//    	return response.getBody().toString();    	
+//    }
 
+    
+//    @GetMapping("/carsusers")
+//    public Object[] getUsers() {
+//    	String baseurl="http://localhost:9191/users";
+//    
+//    	RestTemplate restTemplate = new RestTemplate();
+//		ResponseEntity<Object[]> responseEntity = restTemplate.exchange(baseurl, HttpMethod.GET, getHeaders(),Object[].class);
+//		Object[] objects = responseEntity.getBody();
+//		
+//		System.out.println(objects);
+//		return objects;
+//    	 }
+//    
+    
+    
+    @GetMapping("/carById/{id}")
+    public Cars findCarById(@PathVariable int id) {
+        return service.getCarById(id);
+    }
+    
+   
+   
 	private static HttpEntity<?> getHeaders() {
-		// TODO Auto-generated method stub
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
