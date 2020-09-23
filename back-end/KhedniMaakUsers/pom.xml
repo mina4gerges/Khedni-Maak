@@ -8,11 +8,11 @@
 		<version>2.1.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.devglan</groupId>
-	<artifactId>spring-webflux-jwt</artifactId>
+	<groupId>com.khednimaak</groupId>
+	<artifactId>khednimaakusers</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-webflux-jwt</name>
-	<description>Demo project for Spring Boot</description>
+	<name>khednimaakusers</name>
+	<description>KhedniMaakUsers SpringBoot Microservice </description>
 
 	<properties>
 		<java.version>1.8</java.version>
