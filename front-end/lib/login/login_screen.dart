@@ -41,6 +41,10 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<String> _signUpUser(SignUpData data) async {
+    String firstName = data.firstName;
+    String lastName = data.lastName;
+    String name = "$firstName $lastName";
+
     final http.Response response = await http.post(
       '$baseUrl/auth/signup',
       headers: <String, String>{
@@ -51,7 +55,7 @@ class LoginScreen extends StatelessWidget {
         "password": data.password,
         "email": data.name,
         "age": 0,
-        "name": data.firstName + data.lastName,
+        "name": name,
         "phone": data.phoneNumber,
         "roles": [
           {
