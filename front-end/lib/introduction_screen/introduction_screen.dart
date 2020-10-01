@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:khedni_maak/login/dashboard_screen.dart';
 import 'package:khedni_maak/login/login_screen.dart';
 import 'package:khedni_maak/login/transition_route_observer.dart';
 
@@ -165,7 +164,6 @@ class LoginPage extends StatelessWidget {
       navigatorObservers: [TransitionRouteObserver()],
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
-        DashboardScreen.routeName: (context) => DashboardScreen(),
       },
     );
   }

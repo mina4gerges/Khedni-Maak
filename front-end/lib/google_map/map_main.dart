@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 
-
 void main() => runApp(MapMain());
 
 class MapMain extends StatelessWidget {
@@ -22,10 +21,23 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
-
   PickResult selectedPlace;
 
-  static final kInitialPosition = LatLng(-33.8567844, 151.213108);
+//  _getCurrentLocation() {
+//    geolocator
+//        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+//        .then((Position position) {
+//      setState(() {
+//        _currentPosition = position;
+//      });
+//
+//      _getAddressFromLatLng();
+//    }).catchError((e) {
+//      print(e);
+//    });
+//  }
+
+  static final kInitialPosition = LatLng(-29.8567844, 101.213108);
 
   @override
   Widget build(BuildContext context) {
