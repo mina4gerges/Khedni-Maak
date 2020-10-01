@@ -9,6 +9,9 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="khedni_maak"
         android:icon="@mipmap/ic_launcher">
+        <!-- google maps API-->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value=''/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -34,10 +37,6 @@
               android:resource="@drawable/launch_background"
               />
 
-            <!-- google maps API-->
-            <!-- TODO: add google api KEY-->
-            <meta-data android:name="com.google.android.geo.API_KEY"
-                android:value=''/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
