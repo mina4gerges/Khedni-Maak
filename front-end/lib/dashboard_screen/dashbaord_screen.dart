@@ -26,20 +26,28 @@ class DashboardScreenWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const ListTile(
-              leading: Icon(Icons.album),
-              title: Text('The Enchanted Nightingale'),
-              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+              leading: Icon(Icons.question_answer_outlined),
+              title: Text('I am a passenger'),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 TextButton(
-                  child: const Text('BUY TICKETS'),
+                  child: const Text('Find routes'),
                   onPressed: () {/* ... */},
                 ),
                 const SizedBox(width: 8),
+              ],
+            ),
+            const ListTile(
+              leading: Icon(Icons.album),
+              title: Text('I am a driver'),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
                 TextButton(
-                  child: const Text('LISTEN'),
+                  child: const Text('Add Route'),
                   onPressed: () {/* ... */},
                 ),
                 const SizedBox(width: 8),

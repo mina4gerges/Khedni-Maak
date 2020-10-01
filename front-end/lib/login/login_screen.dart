@@ -101,13 +101,10 @@ class LoginScreen extends StatelessWidget {
         confirmPasswordHint: 'Confirm',
         loginButton: 'LOG IN',
         signupButton: 'REGISTER',
-        forgotPasswordButton: 'Forgot huh?',
         recoverPasswordButton: 'HELP ME',
         goBackButton: 'GO BACK',
         confirmPasswordError: 'Not match!',
         recoverPasswordIntro: 'Don\'t feel bad. Happens all the time.',
-        recoverPasswordDescription:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
         recoverPasswordSuccess: 'Password rescued successfully',
       ),
       emailValidator: (value) {
@@ -150,7 +147,6 @@ class LoginScreen extends StatelessWidget {
       },
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(FadePageRoute(
-          // builder: (context) => DashboardScreen(),
 //          builder: (context) => MapMain(),
           builder: (context) => DashboardScreen(),
         ));
