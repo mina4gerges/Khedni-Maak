@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:http/http.dart' as http;
 import 'package:khedni_maak/globals/constant.dart';
+import 'package:khedni_maak/google_map/map_main.dart';
 import 'package:khedni_maak/introduction_screen/introduction_screen.dart';
 import 'package:khedni_maak/login/utils/models/login_data.dart';
 import 'package:khedni_maak/login/utils/models/signUp_data.dart';
@@ -149,7 +150,7 @@ class LoginScreen extends StatelessWidget {
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(FadePageRoute(
           // builder: (context) => DashboardScreen(),
-          builder: (context) => IntroductionView(),
+          builder: (context) => MapMain(),
         ));
       },
       onRecoverPassword: (name) {
