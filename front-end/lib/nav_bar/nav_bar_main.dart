@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:khedni_maak/google_map/map_main.dart';
+import 'package:khedni_maak/google_map/main.dart';
 import 'package:khedni_maak/login/login_screen.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 

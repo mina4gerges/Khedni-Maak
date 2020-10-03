@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_maps/new/providers/place_provider.dart';
-import 'package:flutter_maps/new/src/utils/uuid.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
+import 'package:khedni_maak/google_map/test_map/new/providers/place_provider.dart';
+import 'package:khedni_maak/google_map/test_map/new/src/utils/uuid.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
 

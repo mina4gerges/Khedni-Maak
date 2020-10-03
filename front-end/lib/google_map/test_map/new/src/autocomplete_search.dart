@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_maps/new/providers/place_provider.dart';
-import 'package:flutter_maps/new/providers/search_provider.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:khedni_maak/google_map/test_map/new/providers/place_provider.dart';
+import 'package:khedni_maak/google_map/test_map/new/providers/search_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'components/prediction_tile.dart';

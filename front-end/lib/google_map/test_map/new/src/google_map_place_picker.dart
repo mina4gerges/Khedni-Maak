@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter_maps/new/providers/place_provider.dart';
-import 'package:flutter_maps/new/src/place_picker.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:khedni_maak/google_map/test_map/new/providers/place_provider.dart';
+import 'package:khedni_maak/google_map/test_map/new/src/place_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 

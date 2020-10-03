@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_maps/new/src/components/rounded_frame.dart';
+import 'package:khedni_maak/google_map/test_map/new/src/components/rounded_frame.dart';
 
 class FloatingCard extends StatelessWidget {
   const FloatingCard({

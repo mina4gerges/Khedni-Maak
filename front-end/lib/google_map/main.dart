@@ -10,16 +10,16 @@ import 'package:provider/provider.dart';
 
 import 'dart:math' show cos, sqrt, asin;
 
-import 'Secrets.dart';
-import 'new/providers/place_provider.dart';
-import 'new/src/autocomplete_search.dart';
-import 'new/src/controllers/autocomplete_search_controller.dart';
-import 'new/src/google_map_place_picker.dart';
-import 'new/src/models/pick_result.dart';
-import 'new/src/place_picker.dart';
+import 'test_map/Secrets.dart';
+import 'test_map/new/providers/place_provider.dart';
+import 'test_map/new/src/autocomplete_search.dart';
+import 'test_map/new/src/controllers/autocomplete_search_controller.dart';
+import 'test_map/new/src/google_map_place_picker.dart';
+import 'test_map/new/src/models/pick_result.dart';
+import 'test_map/new/src/place_picker.dart';
 import 'dart:io' show Platform;
 
-import 'new/src/utils/uuid.dart';
+import 'test_map/new/src/utils/uuid.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,13 +35,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MapView(apiKey: Secrets.API_KEY, initialPosition: kInitialPosition),
+      home: MapMain(apiKey: Secrets.API_KEY, initialPosition: kInitialPosition),
     );
   }
 }
 
-class MapView extends StatefulWidget {
-  MapView(
+class MapMain extends StatefulWidget {
+  MapMain(
       {Key key,
       @required this.apiKey,
       this.onPlacePicked,
@@ -190,10 +190,10 @@ class MapView extends StatefulWidget {
   final bool hidePlaceDetailsWhenDraggingPin;
 
   @override
-  _MapViewState createState() => _MapViewState();
+  _MapMainState createState() => _MapMainState();
 }
 
-class _MapViewState extends State<MapView> {
+class _MapMainState extends State<MapMain> {
   GlobalKey appBarKey = GlobalKey();
   PlaceProvider provider;
   SearchBarController searchBarController = SearchBarController();

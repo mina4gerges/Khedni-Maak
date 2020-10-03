@@ -30,7 +30,12 @@ dependencies:
   introduction_screen: ^1.0.9
   #  dependency user for map
   google_maps_flutter: ^0.5.30
-  google_maps_place_picker: ^0.10.0
+#  geolocator: ^6.0.0+4
+  geolocator: ^5.3.1
+  permission_handler: ^5.0.1+1
+  google_maps_webservice: ^0.0.16
+  tuple: ^1.0.3
+  flutter_polyline_points: ^0.2.1
   #  http requests dependency
   http: ^0.12.2
   #firebase_core

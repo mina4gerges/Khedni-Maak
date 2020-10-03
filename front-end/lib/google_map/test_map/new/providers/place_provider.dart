@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_maps/new/src/models/pick_result.dart';
-import 'package:flutter_maps/new/src/place_picker.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
+import 'package:khedni_maak/google_map/test_map/new/src/models/pick_result.dart';
+import 'package:khedni_maak/google_map/test_map/new/src/place_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart';
 
 class PlaceProvider extends ChangeNotifier {
   PlaceProvider(String apiKey, String proxyBaseUrl, Client httpClient) {
