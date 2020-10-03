@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_maps/secrets.dart'; // Stores the Google Maps API Key
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import 'dart:math' show cos, sqrt, asin;
 
+import 'Secrets.dart';
 import 'new/providers/place_provider.dart';
 import 'new/src/autocomplete_search.dart';
 import 'new/src/controllers/autocomplete_search_controller.dart';
