@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:khedni_maak/dashboard_screen/dashbaord_screen.dart';
 import 'package:khedni_maak/globals/constant.dart';
+import 'package:khedni_maak/google_map/main.dart';
+import 'package:khedni_maak/google_map/test_map/Secrets.dart';
 import 'package:khedni_maak/login/utils/models/login_data.dart';
 import 'package:khedni_maak/login/utils/models/signUp_data.dart';
 import 'package:khedni_maak/login/utils/providers/login_messages.dart';
@@ -106,29 +108,24 @@ class LoginScreen extends StatelessWidget {
         recoverPasswordSuccess: 'Password rescued successfully',
       ),
       emailValidator: (value) {
-        if (!value.contains('@') || !value.endsWith('.com')) {
+        if (!value.contains('@') || !value.endsWith('.com'))
           return "Email must contain '@' and end with '.com'";
-        }
         return null;
       },
       passwordValidator: (value) {
         if (value.isEmpty) return 'Password is empty';
-
         return null;
       },
       firstNameValidator: (value) {
         if (value.isEmpty) return 'First Name is empty';
-
         return null;
       },
       lastNameValidator: (value) {
         if (value.isEmpty) return 'Last Name is empty';
-
         return null;
       },
       phoneNumberValidator: (value) {
         if (value.isEmpty) return 'Phone Number is empty';
-
         return null;
       },
       onLogin: (loginData) {
@@ -145,8 +142,9 @@ class LoginScreen extends StatelessWidget {
       },
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(FadePageRoute(
-//          builder: (context) => MapMain(),
-          builder: (context) => DashboardScreen(),
+          builder: (context) => MapMain(
+              apiKey: Secrets.API_KEY,
+              initialPosition: LatLng(-29.8567844, 101.213108)),
         ));
       },
       onRecoverPassword: (name) {

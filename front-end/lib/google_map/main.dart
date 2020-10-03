@@ -21,25 +21,6 @@ import 'dart:io' show Platform;
 
 import 'test_map/new/src/utils/uuid.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  static final kInitialPosition = LatLng(-29.8567844, 101.213108);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Maps',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MapMain(apiKey: Secrets.API_KEY, initialPosition: kInitialPosition),
-    );
-  }
-}
-
 class MapMain extends StatefulWidget {
   MapMain(
       {Key key,

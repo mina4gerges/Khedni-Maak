@@ -603,6 +603,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
 
   Widget _buildFirstNameField(width, LoginMessages messages, Auth auth) {
     return AnimatedTextFormField(
+      enabled: auth.isSignup,
       controller: _firstNameController,
       width: width,
       loadingController: _loadingController,
@@ -614,13 +615,14 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       onFieldSubmitted: (value) {
         FocusScope.of(context).requestFocus(_lastNameFocusNode);
       },
-      validator: widget.firstNameValidator,
+      validator: auth.isSignup ? widget.firstNameValidator : null,
       onSaved: (value) => auth.firstName = value,
     );
   }
 
   Widget _buildLastNameField(width, LoginMessages messages, Auth auth) {
     return AnimatedTextFormField(
+      enabled: auth.isSignup,
       controller: _lastNameController,
       width: width,
       loadingController: _loadingController,
@@ -633,13 +635,14 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
         FocusScope.of(context).requestFocus(_phoneNumberFocusNode);
       },
       focusNode: _lastNameFocusNode,
-      validator: widget.lastNameValidator,
+      validator: auth.isSignup ? widget.lastNameValidator : null,
       onSaved: (value) => auth.lastName = value,
     );
   }
 
   Widget _buildPhoneNumberField(width, LoginMessages messages, Auth auth) {
     return AnimatedTextFormField(
+      enabled: auth.isSignup,
       controller: _phoneNumberController,
       width: width,
       loadingController: _loadingController,
@@ -652,7 +655,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
         FocusScope.of(context).requestFocus(_nameFocusNode);
       },
       focusNode: _phoneNumberFocusNode,
-      validator: widget.phoneNumberValidator,
+      validator: auth.isSignup ?widget.phoneNumberValidator:null,
       onSaved: (value) => auth.phoneNumber = value,
     );
   }
