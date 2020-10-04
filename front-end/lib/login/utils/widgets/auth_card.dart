@@ -751,7 +751,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                   onExpandCompleted: () => _postSwitchAuthController.forward(),
                   child: _buildFirstNameField(textFieldWidth, messages, auth),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: isLogin ? 0 :20),
                 ExpandableContainer(
                   controller: _switchAuthController,
                   initialState: isLogin
@@ -763,7 +763,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                   onExpandCompleted: () => _postSwitchAuthController.forward(),
                   child: _buildLastNameField(textFieldWidth, messages, auth),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: isLogin ? 0 :20),
                 ExpandableContainer(
                   controller: _switchAuthController,
                   initialState: isLogin
