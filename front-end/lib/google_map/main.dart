@@ -30,7 +30,8 @@ class MapMain extends StatefulWidget {
       this.useCurrentLocation = true,
       this.desiredLocationAccuracy = LocationAccuracy.high,
       this.onMapCreated,
-      this.hintText,
+      this.hintText = 'Choose starting point',
+      this.hintDirectionText = 'Choose ending point',
       this.searchingText,
       // this.searchBarHeight,
       // this.contentPadding,
@@ -45,7 +46,7 @@ class MapMain extends StatefulWidget {
       this.initialMapType = MapType.normal,
       this.enableMapTypeButton = true,
       this.enableMyLocationButton = true,
-      this.myLocationButtonCooldown = 10,
+      this.myLocationButtonCooldown = 1,
       this.usePinPointingSearch = true,
       this.usePlaceDetailSearch = false,
       this.autocompleteOffset,
@@ -75,6 +76,7 @@ class MapMain extends StatefulWidget {
   final MapCreatedCallback onMapCreated;
 
   final String hintText;
+  final String hintDirectionText;
   final String searchingText;
 
   // final double searchBarHeight;
@@ -178,8 +180,9 @@ class _MapMainState extends State<MapMain> {
   GlobalKey appBarKey = GlobalKey();
   PlaceProvider provider;
   SearchBarController searchBarController = SearchBarController();
+  SearchBarController searchBarDestinationController = SearchBarController();
 
-  CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
+  // CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
   GoogleMapController mapController;
 
   final Geolocator _geolocator = Geolocator();
@@ -491,6 +494,9 @@ class _MapMainState extends State<MapMain> {
 
     provider.selectedPlace = PickResult.fromPlaceDetailResult(response.result);
 
+    var a = provider.selectedPlace.formattedAddress;
+    print('selected place result $a');
+
     // Prevents searching again by camera movement.
     provider.isAutoCompleteSearching = true;
 
@@ -515,82 +521,93 @@ class _MapMainState extends State<MapMain> {
   }
 
   Widget _buildSearchBar() {
-    return Row(
+    return Stack(
       children: <Widget>[
-        widget.automaticallyImplyAppBarLeading
-            ? IconButton(
-                onPressed: () => Navigator.maybePop(context),
-                icon: Icon(
-                  Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              children: <Widget>[
+                //TODO: check if we need back button
+                widget.automaticallyImplyAppBarLeading
+                    ? IconButton(
+                        onPressed: () => Navigator.maybePop(context),
+                        icon: Icon(
+                          Platform.isIOS
+                              ? Icons.arrow_back_ios
+                              : Icons.arrow_back,
+                        ),
+                        padding: EdgeInsets.zero)
+                    : SizedBox(width: 15),
+                // SizedBox(width: 15),
+                Expanded(
+                  child: AutoCompleteSearch(
+                      appBarKey: appBarKey,
+                      searchBarController: searchBarController,
+                      sessionToken: provider.sessionToken,
+                      hintText: widget.hintText,
+                      searchingText: widget.searchingText,
+                      debounceMilliseconds:
+                          widget.autoCompleteDebounceInMilliseconds,
+                      onPicked: (prediction) {
+                        _pickPrediction(prediction);
+                      },
+                      onSearchFailed: (status) {
+                        if (widget.onAutoCompleteFailed != null) {
+                          widget.onAutoCompleteFailed(status);
+                        }
+                      },
+                      autocompleteOffset: widget.autocompleteOffset,
+                      autocompleteRadius: widget.autocompleteRadius,
+                      autocompleteLanguage: widget.autocompleteLanguage,
+                      autocompleteComponents: widget.autocompleteComponents,
+                      autocompleteTypes: widget.autocompleteTypes,
+                      strictbounds: widget.strictbounds,
+                      region: widget.region,
+                      initialSearchString: widget.initialSearchString,
+                      searchForInitialValue: widget.searchForInitialValue,
+                      autocompleteOnTrailingWhitespace:
+                          widget.autocompleteOnTrailingWhitespace),
                 ),
-                padding: EdgeInsets.zero)
-            : SizedBox(width: 15),
-        Expanded(
-          child: AutoCompleteSearch(
-              appBarKey: appBarKey,
-              searchBarController: searchBarController,
-              sessionToken: provider.sessionToken,
-              hintText: widget.hintText,
-              searchingText: widget.searchingText,
-              debounceMilliseconds: widget.autoCompleteDebounceInMilliseconds,
-              onPicked: (prediction) {
-                _pickPrediction(prediction);
-              },
-              onSearchFailed: (status) {
-                if (widget.onAutoCompleteFailed != null) {
-                  widget.onAutoCompleteFailed(status);
-                }
-              },
-              autocompleteOffset: widget.autocompleteOffset,
-              autocompleteRadius: widget.autocompleteRadius,
-              autocompleteLanguage: widget.autocompleteLanguage,
-              autocompleteComponents: widget.autocompleteComponents,
-              autocompleteTypes: widget.autocompleteTypes,
-              strictbounds: widget.strictbounds,
-              region: widget.region,
-              initialSearchString: widget.initialSearchString,
-              searchForInitialValue: widget.searchForInitialValue,
-              autocompleteOnTrailingWhitespace:
-                  widget.autocompleteOnTrailingWhitespace),
-        ),
-        SizedBox(width: 5),
-
-//            // Show the place input fields & button for
-//            // showing the route
-//         Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-//           _textField(
-//             label: 'Start',
-//             hint: 'Choose starting point',
-//             prefixIcon: Icon(Icons.looks_one),
-//             suffixIcon: IconButton(
-//               icon: Icon(Icons.my_location),
-//               onPressed: () {
-//                 startAddressController.text = _currentAddress;
-//                 _startAddress = _currentAddress;
-//               },
-//             ),
-//             controller: startAddressController,
-//             // width: width,
-//             locationCallback: (String value) {
-//               setState(() {
-//                 _startAddress = value;
-//               });
-//             },
-//           ),
-          // SizedBox(height: 10),
-          // _textField(
-          //     label: 'Destination',
-          //     hint: 'Choose destination',
-          //     prefixIcon: Icon(Icons.looks_two),
-          //     controller: destinationAddressController,
-          //     // width: width,
-          //     locationCallback: (String value) {
-          //       setState(() {
-          //         _destinationAddress = value;
-          //       });
-          //     }),
-          // SizedBox(height: 10),
-        // ]),
+                // SizedBox(width: 5),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(width: 15),
+                Expanded(
+                  child: AutoCompleteSearch(
+                      appBarKey: appBarKey,
+                      searchBarController: searchBarDestinationController,
+                      sessionToken: provider.sessionToken,
+                      hintText: widget.hintDirectionText,
+                      searchingText: widget.searchingText,
+                      debounceMilliseconds:
+                          widget.autoCompleteDebounceInMilliseconds,
+                      onPicked: (prediction) {
+                        _pickPrediction(prediction);
+                      },
+                      onSearchFailed: (status) {
+                        if (widget.onAutoCompleteFailed != null) {
+                          widget.onAutoCompleteFailed(status);
+                        }
+                      },
+                      autocompleteOffset: widget.autocompleteOffset,
+                      autocompleteRadius: widget.autocompleteRadius,
+                      autocompleteLanguage: widget.autocompleteLanguage,
+                      autocompleteComponents: widget.autocompleteComponents,
+                      autocompleteTypes: widget.autocompleteTypes,
+                      strictbounds: widget.strictbounds,
+                      region: widget.region,
+                      initialSearchString: widget.initialSearchString,
+                      searchForInitialValue: widget.searchForInitialValue,
+                      autocompleteOnTrailingWhitespace:
+                          widget.autocompleteOnTrailingWhitespace),
+                ),
+              ],
+            ),
+          ],
+        )
       ],
     );
   }
@@ -606,7 +623,8 @@ class _MapMainState extends State<MapMain> {
             } else {
               if (provider.currentPosition == null) {
                 // return _buildMap(widget.initialPosition);
-                return _buildMap(LatLng(_currentPosition.latitude, _currentPosition.longitude));
+                return _buildMap(LatLng(
+                    _currentPosition.latitude, _currentPosition.longitude));
               } else {
                 return _buildMap(LatLng(provider.currentPosition.latitude,
                     provider.currentPosition.longitude));
@@ -620,7 +638,8 @@ class _MapMainState extends State<MapMain> {
           if (snap.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            return _buildMap(widget.initialPosition);
+            return _buildMap(
+                LatLng(_currentPosition.latitude, _currentPosition.longitude));
           }
         },
       );
@@ -629,7 +648,7 @@ class _MapMainState extends State<MapMain> {
 
   Widget _buildMap(LatLng initialTarget) {
     return GoogleMapPlacePicker(
-      polylines:polylines,
+      polylines: polylines,
       initialTarget: initialTarget,
       appBarKey: appBarKey,
       selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
@@ -655,9 +674,10 @@ class _MapMainState extends State<MapMain> {
           Timer(Duration(seconds: widget.myLocationButtonCooldown), () {
             provider.isOnUpdateLocationCooldown = false;
           });
-          await provider
-              .updateCurrentLocation(widget.forceAndroidLocationManager);
-          await _moveToCurrentPosition();
+          // await provider
+          //     .updateCurrentLocation(widget.forceAndroidLocationManager);
+          // await _moveToCurrentPosition();
+          await _moveTo(_currentPosition.latitude, _currentPosition.longitude);
         }
       },
       onMoveStart: () {
@@ -667,12 +687,12 @@ class _MapMainState extends State<MapMain> {
     );
   }
 
-  _moveToCurrentPosition() async {
-    if (provider.currentPosition != null) {
-      await _moveTo(provider.currentPosition.latitude,
-          provider.currentPosition.longitude);
-    }
-  }
+  // _moveToCurrentPosition() async {
+  // if (provider.currentPosition != null) {
+  //   await _moveTo(provider.currentPosition.latitude,
+  //       provider.currentPosition.longitude);
+  // }
+  // }
 
 //  @override
 //  Widget build(BuildContext context) {
@@ -924,6 +944,7 @@ class _MapMainState extends State<MapMain> {
                 resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
                 extendBodyBehindAppBar: true,
                 appBar: AppBar(
+                  toolbarHeight: 90.0,
                   key: appBarKey,
                   automaticallyImplyLeading: false,
                   iconTheme: Theme.of(context).iconTheme,

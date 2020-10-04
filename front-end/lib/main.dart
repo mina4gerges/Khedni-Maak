@@ -19,10 +19,10 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Start screen', home: LoginScreen()
-    // return MaterialApp(title: 'Start screen', home: MapMain(
-    //     apiKey: Secrets.API_KEY,
-    //     initialPosition: LatLng(-29.8567844, 101.213108))
+    // return MaterialApp(title: 'Start screen', home: LoginScreen()
+    return MaterialApp(title: 'Start screen', home: MapMain(
+        apiKey: Secrets.API_KEY,
+        initialPosition: LatLng(-29.8567844, 101.213108))
 //        home: MapMain()
 //        home: IntroductionView()
         //        home: PostsPage());
