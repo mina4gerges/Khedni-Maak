@@ -554,6 +554,43 @@ class _MapMainState extends State<MapMain> {
                   widget.autocompleteOnTrailingWhitespace),
         ),
         SizedBox(width: 5),
+
+//            // Show the place input fields & button for
+//            // showing the route
+//         Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+//           _textField(
+//             label: 'Start',
+//             hint: 'Choose starting point',
+//             prefixIcon: Icon(Icons.looks_one),
+//             suffixIcon: IconButton(
+//               icon: Icon(Icons.my_location),
+//               onPressed: () {
+//                 startAddressController.text = _currentAddress;
+//                 _startAddress = _currentAddress;
+//               },
+//             ),
+//             controller: startAddressController,
+//             // width: width,
+//             locationCallback: (String value) {
+//               setState(() {
+//                 _startAddress = value;
+//               });
+//             },
+//           ),
+          // SizedBox(height: 10),
+          // _textField(
+          //     label: 'Destination',
+          //     hint: 'Choose destination',
+          //     prefixIcon: Icon(Icons.looks_two),
+          //     controller: destinationAddressController,
+          //     // width: width,
+          //     locationCallback: (String value) {
+          //       setState(() {
+          //         _destinationAddress = value;
+          //       });
+          //     }),
+          // SizedBox(height: 10),
+        // ]),
       ],
     );
   }
@@ -568,7 +605,8 @@ class _MapMainState extends State<MapMain> {
               return const Center(child: CircularProgressIndicator());
             } else {
               if (provider.currentPosition == null) {
-                return _buildMap(widget.initialPosition);
+                // return _buildMap(widget.initialPosition);
+                return _buildMap(LatLng(_currentPosition.latitude, _currentPosition.longitude));
               } else {
                 return _buildMap(LatLng(provider.currentPosition.latitude,
                     provider.currentPosition.longitude));
@@ -591,6 +629,7 @@ class _MapMainState extends State<MapMain> {
 
   Widget _buildMap(LatLng initialTarget) {
     return GoogleMapPlacePicker(
+      polylines:polylines,
       initialTarget: initialTarget,
       appBarKey: appBarKey,
       selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,

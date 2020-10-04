@@ -34,6 +34,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     Key key,
     @required this.initialTarget,
     @required this.appBarKey,
+    this.polylines,
     this.selectedPlaceWidgetBuilder,
     this.pinBuilder,
     this.onSearchFailed,
@@ -55,6 +56,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   final LatLng initialTarget;
   final GlobalKey appBarKey;
+  final Map<PolylineId, Polyline> polylines;
 
   final SelectedPlaceWidgetBuilder selectedPlaceWidgetBuilder;
   final PinBuilder pinBuilder;
@@ -154,17 +156,26 @@ class GoogleMapPlacePicker extends StatelessWidget {
             initialCameraPosition: initialCameraPosition,
             mapType: data,
             myLocationEnabled: true,
-            onMapCreated: (GoogleMapController controller) {
-              provider.mapController = controller;
-              provider.setCameraPosition(null);
-              provider.pinState = PinState.Idle;
 
-              // When select initialPosition set to true.
-              if (selectInitialPosition) {
-                provider.setCameraPosition(initialCameraPosition);
-                _searchByCameraLocation(provider);
-              }
-            },
+             // markers: markers != null ? Set<Marker>.from(markers) : null,
+             zoomGesturesEnabled: true,
+             zoomControlsEnabled: false,
+             polylines: Set<Polyline>.of(polylines.values),
+             // onMapCreated: (GoogleMapController controller) {
+             //   mapController = controller;
+             // },
+             //
+            // onMapCreated: (GoogleMapController controller) {
+            //   provider.mapController = controller;
+            //   provider.setCameraPosition(null);
+            //   provider.pinState = PinState.Idle;
+            //
+            //   // When select initialPosition set to true.
+            //   if (selectInitialPosition) {
+            //     provider.setCameraPosition(initialCameraPosition);
+            //     _searchByCameraLocation(provider);
+            //   }
+            // },
             onCameraIdle: () {
               if (provider.isAutoCompleteSearching) {
                 provider.isAutoCompleteSearching = false;
