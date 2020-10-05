@@ -26,18 +26,16 @@ class DashboardScreenWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const ListTile(
-              leading: Icon(Icons.question_answer_outlined),
+              // leading: Icon(Icons.question_answer_outlined),
               title: Text('I am a passenger'),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                TextButton(
-                  child: const Text('Find routes'),
-                  onPressed: () {
-                    /* ... */
-                  },
-                ),
+                // TextButton(
+                //   child: const Text('Find routes'),
+                //   onPressed: () {/* ... */},
+                // ),
                 const SizedBox(width: 8),
               ],
             ),
@@ -48,12 +46,10 @@ class DashboardScreenWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                TextButton(
-                  child: const Text('Add Route'),
-                  onPressed: () {
-                    /* ... */
-                  },
-                ),
+                // TextButton(
+                //   child: const Text('Add Route'),
+                //   onPressed: () {/* ... */},
+                // ),
                 const SizedBox(width: 8),
               ],
             ),

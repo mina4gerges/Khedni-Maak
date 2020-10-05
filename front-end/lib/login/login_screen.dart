@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:khedni_maak/dashboard_screen/dashbaord_screen.dart';
 import 'package:khedni_maak/globals/constant.dart';
-import 'package:khedni_maak/google_map/map_main.dart';
-import 'package:khedni_maak/introduction_screen/introduction_screen.dart';
+import 'package:khedni_maak/globals/Validations.dart';
+import 'package:khedni_maak/google_map/main.dart';
+import 'package:khedni_maak/google_map/test_map/Secrets.dart';
 import 'package:khedni_maak/login/utils/models/login_data.dart';
 import 'package:khedni_maak/login/utils/models/signUp_data.dart';
 import 'package:khedni_maak/login/utils/providers/login_messages.dart';
@@ -17,6 +18,12 @@ import 'flutter_login.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/auth';
+
+  RegExp regexEmail = new RegExp(Validations.emailValidation["pattern"]);
+
+  RegExp regexPhone = new RegExp(Validations.phoneValidation["pattern"]);
+
+  RegExp regexPass = new RegExp(Validations.passValidation['pattern']);
 
   Duration get loginTime => Duration(milliseconds: timeDilation.ceil() * 2250);
 
@@ -108,29 +115,32 @@ class LoginScreen extends StatelessWidget {
         recoverPasswordSuccess: 'Password rescued successfully',
       ),
       emailValidator: (value) {
-        if (!value.contains('@') || !value.endsWith('.com')) {
-          return "Email must contain '@' and end with '.com'";
-        }
+        if (value.isEmpty || value.trim().isEmpty)
+          return "Email is empty";
+        else if (!regexEmail.hasMatch(value))
+          return Validations.emailValidation["errorMsg"];
         return null;
       },
       passwordValidator: (value) {
-        if (value.isEmpty) return 'Password is empty';
-
+        if (value.isEmpty || value.trim().isEmpty)
+          return 'Password is empty';
+        else if (!regexPass.hasMatch(value))
+          return Validations.passValidation["errorMsg"];
         return null;
       },
       firstNameValidator: (value) {
-        if (value.isEmpty) return 'First Name is empty';
-
+        if (value.isEmpty || value.trim().isEmpty) return 'First Name is empty';
         return null;
       },
       lastNameValidator: (value) {
-        if (value.isEmpty) return 'Last Name is empty';
-
+        if (value.isEmpty || value.trim().isEmpty) return 'Last Name is empty';
         return null;
       },
       phoneNumberValidator: (value) {
-        if (value.isEmpty) return 'Phone Number is empty';
-
+        if (value.isEmpty || value.trim().isEmpty)
+          return 'Phone Number is empty';
+        else if (!regexPhone.hasMatch(value))
+          return Validations.phoneValidation["errorMsg"];
         return null;
       },
       onLogin: (loginData) {
@@ -147,9 +157,7 @@ class LoginScreen extends StatelessWidget {
       },
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(FadePageRoute(
-//          builder: (context) => MapMain(),
-          builder: (context) => DashboardScreen(),
-        ));
+          builder: (context) => MapMain(initialPosition:LatLng(0, 0))));
       },
       onRecoverPassword: (name) {
         print('Recover password info');

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:khedni_maak/login/login_screen.dart';
 import 'package:khedni_maak/login/transition_route_observer.dart';
+import 'package:khedni_maak/nav_bar/nav_bar_main.dart';
 
 class IntroductionView extends StatelessWidget {
   @override
@@ -10,7 +11,7 @@ class IntroductionView extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         systemNavigationBarColor:
-        SystemUiOverlayStyle.dark.systemNavigationBarColor,
+            SystemUiOverlayStyle.dark.systemNavigationBarColor,
       ),
     );
 
@@ -59,7 +60,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       pages: [
         PageViewModel(
           title: "Khedni Maak 1",
-          body:"Intro 1",
+          body: "Intro 1",
           image: _buildImage('introduction1'),
           decoration: pageDecoration,
         ),
@@ -97,7 +98,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ),
         PageViewModel(
           title: "Khedni Maak 4",
-          body:"Intro 4",
+          body: "Intro 4",
           image: _buildImage('introduction4'),
           decoration: pageDecoration,
         ),
@@ -128,42 +129,42 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login Page',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        accentColor: Colors.orange,
-        cursorColor: Colors.orange,
-        textTheme: TextTheme(
-          headline1: TextStyle(fontFamily: 'Quicksand'),
-          headline2: TextStyle(fontFamily: 'Quicksand'),
-          headline3: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 45.0,
-            color: Colors.orange,
-          ),
-          headline4: TextStyle(fontFamily: 'Quicksand'),
-          headline5: TextStyle(fontFamily: 'NotoSans'),
-          headline6: TextStyle(fontFamily: 'NotoSans'),
-          subtitle1: TextStyle(fontFamily: 'NotoSans'),
-          bodyText1: TextStyle(fontFamily: 'NotoSans'),
-          bodyText2: TextStyle(fontFamily: 'NotoSans'),
-          subtitle2: TextStyle(fontFamily: 'NotoSans'),
-          overline: TextStyle(fontFamily: 'NotoSans'),
-          button: TextStyle(
-            fontFamily: 'OpenSans',
-          ),
-          caption: TextStyle(
-            fontFamily: 'NotoSans',
-            fontSize: 12.0,
-            fontWeight: FontWeight.normal,
-            color: Colors.deepPurple[300],
-          ),
-        ),
-      ),
+//      title: 'Login Page',
+//      theme: ThemeData(
+//        primarySwatch: Colors.deepPurple,
+//        accentColor: Colors.orange,
+//        cursorColor: Colors.orange,
+//        textTheme: TextTheme(
+//          headline1: TextStyle(fontFamily: 'Quicksand'),
+//          headline2: TextStyle(fontFamily: 'Quicksand'),
+//          headline3: TextStyle(
+//            fontFamily: 'OpenSans',
+//            fontSize: 45.0,
+//            color: Colors.orange,
+//          ),
+//          headline4: TextStyle(fontFamily: 'Quicksand'),
+//          headline5: TextStyle(fontFamily: 'NotoSans'),
+//          headline6: TextStyle(fontFamily: 'NotoSans'),
+//          subtitle1: TextStyle(fontFamily: 'NotoSans'),
+//          bodyText1: TextStyle(fontFamily: 'NotoSans'),
+//          bodyText2: TextStyle(fontFamily: 'NotoSans'),
+//          subtitle2: TextStyle(fontFamily: 'NotoSans'),
+//          overline: TextStyle(fontFamily: 'NotoSans'),
+//          button: TextStyle(
+//            fontFamily: 'OpenSans',
+//          ),
+//          caption: TextStyle(
+//            fontFamily: 'NotoSans',
+//            fontSize: 12.0,
+//            fontWeight: FontWeight.normal,
+//            color: Colors.deepPurple[300],
+//          ),
+//        ),
+//      ),
       home: LoginScreen(),
       navigatorObservers: [TransitionRouteObserver()],
       routes: {
-        LoginScreen.routeName: (context) => LoginScreen(),
+        LoginScreen.routeName: (context) => NavBarMain(),
       },
     );
   }
