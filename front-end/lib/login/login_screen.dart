@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:http/http.dart' as http;
+import 'package:khedni_maak/dashboard_screen/dashbaord_screen.dart';
 import 'package:khedni_maak/globals/constant.dart';
+import 'package:khedni_maak/google_map/map_main.dart';
 import 'package:khedni_maak/introduction_screen/introduction_screen.dart';
 import 'package:khedni_maak/login/utils/models/login_data.dart';
 import 'package:khedni_maak/login/utils/models/signUp_data.dart';
@@ -41,6 +43,10 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<String> _signUpUser(SignUpData data) async {
+    String firstName = data.firstName;
+    String lastName = data.lastName;
+    String name = "$firstName $lastName";
+
     final http.Response response = await http.post(
       '$baseUrl/auth/signup',
       headers: <String, String>{
@@ -51,7 +57,7 @@ class LoginScreen extends StatelessWidget {
         "password": data.password,
         "email": data.name,
         "age": 0,
-        "name": data.firstName + data.lastName,
+        "name": name,
         "phone": data.phoneNumber,
         "roles": [
           {
@@ -95,13 +101,10 @@ class LoginScreen extends StatelessWidget {
         confirmPasswordHint: 'Confirm',
         loginButton: 'LOG IN',
         signupButton: 'REGISTER',
-        forgotPasswordButton: 'Forgot huh?',
         recoverPasswordButton: 'HELP ME',
         goBackButton: 'GO BACK',
         confirmPasswordError: 'Not match!',
         recoverPasswordIntro: 'Don\'t feel bad. Happens all the time.',
-        recoverPasswordDescription:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
         recoverPasswordSuccess: 'Password rescued successfully',
       ),
       emailValidator: (value) {
@@ -144,8 +147,8 @@ class LoginScreen extends StatelessWidget {
       },
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(FadePageRoute(
-          // builder: (context) => DashboardScreen(),
-          builder: (context) => IntroductionView(),
+//          builder: (context) => MapMain(),
+          builder: (context) => DashboardScreen(),
         ));
       },
       onRecoverPassword: (name) {

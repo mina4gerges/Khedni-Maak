@@ -370,10 +370,16 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
 
   final _passwordFocusNode = FocusNode();
   final _confirmPasswordFocusNode = FocusNode();
+  final _lastNameFocusNode = FocusNode();
+  final _phoneNumberFocusNode = FocusNode();
+  final _nameFocusNode = FocusNode();
 
   TextEditingController _nameController;
   TextEditingController _passController;
   TextEditingController _confirmPassController;
+  TextEditingController _firstNameController;
+  TextEditingController _lastNameController;
+  TextEditingController _phoneNumberController;
 
   var _isLoading = false;
   var _isSubmitting = false;
@@ -400,6 +406,10 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     _nameController = TextEditingController(text: auth.email);
     _passController = TextEditingController(text: auth.password);
     _confirmPassController = TextEditingController(text: auth.confirmPassword);
+
+    _firstNameController = TextEditingController(text: auth.firstName);
+    _lastNameController = TextEditingController(text: auth.lastName);
+    _phoneNumberController = TextEditingController(text: auth.phoneNumber);
 
     _loadingController = widget.loadingController ??
         (AnimationController(
@@ -451,6 +461,10 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     _passwordFocusNode.dispose();
     _confirmPasswordFocusNode.dispose();
 
+    _lastNameFocusNode.dispose();
+    _phoneNumberFocusNode.dispose();
+    _nameFocusNode.dispose();
+
     _switchAuthController.dispose();
     _postSwitchAuthController.dispose();
     _submitController.dispose();
@@ -492,9 +506,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       error = await auth.onSignup(SignUpData(
         name: auth.email,
         password: auth.password,
-        phoneNumber: null,
-        lastName: null,
-        firstName: null,
+        phoneNumber: auth.phoneNumber,
+        lastName: auth.lastName,
+        firstName: auth.firstName,
       ));
     }
 
@@ -527,12 +541,13 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       loadingController: _loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
       labelText: messages.usernameHint,
-      prefixIcon: Icon(FontAwesomeIcons.solidUserCircle),
+      prefixIcon: Icon(FontAwesomeIcons.user),
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (value) {
         FocusScope.of(context).requestFocus(_passwordFocusNode);
       },
+      focusNode: _nameFocusNode,
       validator: widget.emailValidator,
       onSaved: (value) => auth.email = value,
     );
@@ -588,55 +603,57 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
 
   Widget _buildFirstNameField(width, LoginMessages messages, Auth auth) {
     return AnimatedTextFormField(
-      controller: _nameController,
+      controller: _firstNameController,
       width: width,
       loadingController: _loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
       labelText: messages.firstName,
       prefixIcon: Icon(FontAwesomeIcons.solidUserCircle),
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (value) {
-        FocusScope.of(context).requestFocus(_passwordFocusNode);
+        FocusScope.of(context).requestFocus(_lastNameFocusNode);
       },
       validator: widget.firstNameValidator,
-      onSaved: (value) => auth.email = value,
+      onSaved: (value) => auth.firstName = value,
     );
   }
 
   Widget _buildLastNameField(width, LoginMessages messages, Auth auth) {
     return AnimatedTextFormField(
-      controller: _nameController,
+      controller: _lastNameController,
       width: width,
       loadingController: _loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
       labelText: messages.lastName,
       prefixIcon: Icon(FontAwesomeIcons.solidUserCircle),
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (value) {
-        FocusScope.of(context).requestFocus(_passwordFocusNode);
+        FocusScope.of(context).requestFocus(_phoneNumberFocusNode);
       },
+      focusNode: _lastNameFocusNode,
       validator: widget.lastNameValidator,
-      onSaved: (value) => auth.email = value,
+      onSaved: (value) => auth.lastName = value,
     );
   }
 
   Widget _buildPhoneNumberField(width, LoginMessages messages, Auth auth) {
     return AnimatedTextFormField(
-      controller: _nameController,
+      controller: _phoneNumberController,
       width: width,
       loadingController: _loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
       labelText: messages.phoneNumber,
-      prefixIcon: Icon(FontAwesomeIcons.solidUserCircle),
-      keyboardType: TextInputType.emailAddress,
+      prefixIcon: Icon(FontAwesomeIcons.phone),
+      keyboardType: TextInputType.phone,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (value) {
-        FocusScope.of(context).requestFocus(_passwordFocusNode);
+        FocusScope.of(context).requestFocus(_nameFocusNode);
       },
+      focusNode: _phoneNumberFocusNode,
       validator: widget.phoneNumberValidator,
-      onSaved: (value) => auth.email = value,
+      onSaved: (value) => auth.phoneNumber = value,
     );
   }
 
