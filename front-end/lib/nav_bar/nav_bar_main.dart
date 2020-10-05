@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khedni_maak/google_map/main.dart';
 import 'package:khedni_maak/google_map/test_map/Secrets.dart';
+import 'package:khedni_maak/google_map/test_map/new/src/place_picker.dart';
 import 'package:khedni_maak/introduction_screen/introduction_screen.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
@@ -31,9 +32,9 @@ class _NavBarMainState extends State<NavBarMain> {
 
     //Create the views which will be mapped to the indices for our nav btns
     _viewsByIndex = <Widget>[
-      IntroductionView(),
-      MapMain(initialPosition:LatLng(0, 0)),
-      IntroductionView(),
+      Text('hi from home'),
+      MapMain(initialPosition:LatLng(-29.8567844, 101.213108)),
+      Text('hi from drivers list'),
     ];
     super.initState();
   }

@@ -7,10 +7,10 @@ import 'package:http/http.dart' as http;
 import 'package:khedni_maak/globals/constant.dart';
 import 'package:khedni_maak/globals/Validations.dart';
 import 'package:khedni_maak/google_map/main.dart';
-import 'package:khedni_maak/google_map/test_map/Secrets.dart';
 import 'package:khedni_maak/login/utils/models/login_data.dart';
 import 'package:khedni_maak/login/utils/models/signUp_data.dart';
 import 'package:khedni_maak/login/utils/providers/login_messages.dart';
+import 'package:khedni_maak/nav_bar/nav_bar_main.dart';
 
 import 'constants.dart';
 import 'custom_route.dart';
@@ -157,7 +157,8 @@ class LoginScreen extends StatelessWidget {
       },
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(FadePageRoute(
-          builder: (context) => MapMain(initialPosition:LatLng(0, 0))));
+          // builder: (context) => MapMain(initialPosition:LatLng(0, 0))));
+          builder: (context) => NavBarMain()));
       },
       onRecoverPassword: (name) {
         print('Recover password info');
