@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.khednimaak</groupId>
-	<artifactId>khednimaakusers</artifactId>
+	<artifactId>khednimaak-users</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>khednimaakusers</name>
+	<name>khednimaak-users</name>
 	<description>KhedniMaakUsers SpringBoot Microservice </description>
 
 	<properties>

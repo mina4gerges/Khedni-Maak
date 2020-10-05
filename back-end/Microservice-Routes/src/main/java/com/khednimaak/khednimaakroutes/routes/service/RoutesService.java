@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.khednimaak.khednimaakroutes.routes.entity.Routes;
 import com.khednimaak.khednimaakroutes.routes.repository.RoutesRepository;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 
 
@@ -33,6 +34,10 @@ public class RoutesService {
         return "route removed !! " + id;
     }
 
+	public String getRoutesByUsername(String username) {
+		return repository.findRoutebyUsername(username);
+	}
+    
 //    public Routes updateRoute(Routes route) {
 //        Routes existingRoute = repository.findById(route.getId()).orElse(null);
 //        existingRoute.setName(route.getName());
