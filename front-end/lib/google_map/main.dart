@@ -17,7 +17,7 @@ import 'test_map/new/src/controllers/autocomplete_search_controller.dart';
 import 'test_map/new/src/google_map_place_picker.dart';
 import 'test_map/new/src/models/pick_result.dart';
 import 'test_map/new/src/place_picker.dart';
-import 'dart:io' show Platform;
+//import 'dart:io' show Platform;
 
 import 'test_map/new/src/utils/uuid.dart';
 
@@ -529,17 +529,16 @@ class _MapMainState extends State<MapMain> {
             Row(
               children: <Widget>[
                 //TODO: check if we need back button
-                widget.automaticallyImplyAppBarLeading
-                    ? IconButton(
-                        onPressed: () => Navigator.maybePop(context),
-                        icon: Icon(
-                          Platform.isIOS
-                              ? Icons.arrow_back_ios
-                              : Icons.arrow_back,
-                        ),
-                        padding: EdgeInsets.zero)
-                    : SizedBox(width: 15),
-                // SizedBox(width: 15),
+//                widget.automaticallyImplyAppBarLeading
+//                    ? IconButton(
+//                        onPressed: () => Navigator.maybePop(context),
+//                        icon: Icon(
+//                          Platform.isIOS
+//                              ? Icons.arrow_back_ios
+//                              : Icons.arrow_back,
+//                        ),
+//                        padding: EdgeInsets.zero)
+//                    : SizedBox(width: 15),
                 Expanded(
                   child: AutoCompleteSearch(
                       appBarKey: appBarKey,
