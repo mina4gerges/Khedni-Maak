@@ -45,6 +45,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.enableMyLocationButton,
     this.onToggleMapType,
     this.onMyLocation,
+    this.createRoute,
     this.onPlacePicked,
     this.usePinPointingSearch,
     this.usePlaceDetailSearch,
@@ -66,6 +67,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
   final MapCreatedCallback onMapCreated;
   final VoidCallback onToggleMapType;
   final VoidCallback onMyLocation;
+  final VoidCallback createRoute;
   final ValueChanged<PickResult> onPlacePicked;
 
   final int debounceMilliseconds;
@@ -396,7 +398,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
         appBarKey.currentContext.findRenderObject();
 
     return Positioned(
-      top: appBarRenderBox.size.height,
+      top: appBarRenderBox.size.height + 5.0,
       right: 15,
       child: Column(
         children: <Widget>[
@@ -431,8 +433,24 @@ class GoogleMapPlacePicker extends StatelessWidget {
                   ),
                 )
               : Container(),
+          SizedBox(height: 10),
+          Container(
+            width: 35,
+            height: 35,
+            child: RawMaterialButton(
+              shape: CircleBorder(),
+              fillColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black54
+                  : Colors.white,
+              elevation: 8.0,
+              onPressed: createRoute,
+              child: Icon(Icons.near_me),
+            ),
+          )
         ],
       ),
     );
   }
+
+
 }

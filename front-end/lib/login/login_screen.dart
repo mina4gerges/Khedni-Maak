@@ -157,10 +157,7 @@ class LoginScreen extends StatelessWidget {
       },
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(FadePageRoute(
-          builder: (context) => MapMain(
-              apiKey: Secrets.API_KEY,
-              initialPosition: LatLng(-29.8567844, 101.213108)),
-        ));
+          builder: (context) => MapMain(initialPosition:LatLng(0, 0))));
       },
       onRecoverPassword: (name) {
         print('Recover password info');

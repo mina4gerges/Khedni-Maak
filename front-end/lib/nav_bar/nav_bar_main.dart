@@ -32,10 +32,7 @@ class _NavBarMainState extends State<NavBarMain> {
     //Create the views which will be mapped to the indices for our nav btns
     _viewsByIndex = <Widget>[
       IntroductionView(),
-      MapMain(
-        apiKey: Secrets.API_KEY,
-        initialPosition: LatLng(-29.8567844, 101.213108),
-      ),
+      MapMain(initialPosition:LatLng(0, 0)),
       IntroductionView(),
     ];
     super.initState();

@@ -9,6 +9,10 @@ class SearchBarController extends ChangeNotifier {
     _autoCompleteSearch = searchWidget;
   }
 
+  getSearchBarInfo() {
+   return _autoCompleteSearch.getSearchBarInfo();
+  }
+
   /// Just clears text.
   clear() {
     _autoCompleteSearch.clearText();

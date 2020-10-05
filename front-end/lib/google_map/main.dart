@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
@@ -24,9 +26,10 @@ import 'test_map/new/src/utils/uuid.dart';
 class MapMain extends StatefulWidget {
   MapMain(
       {Key key,
-      @required this.apiKey,
+      this.apiKey = Secrets.API_KEY,
       this.onPlacePicked,
       @required this.initialPosition,
+//  LatLng(-29.8567844, 101.213108)
       this.useCurrentLocation = true,
       this.desiredLocationAccuracy = LocationAccuracy.high,
       this.onMapCreated,
@@ -539,6 +542,7 @@ class _MapMainState extends State<MapMain> {
 //                        ),
 //                        padding: EdgeInsets.zero)
 //                    : SizedBox(width: 15),
+                SizedBox(width: 15),
                 Expanded(
                   child: AutoCompleteSearch(
                       appBarKey: appBarKey,
@@ -666,6 +670,12 @@ class _MapMainState extends State<MapMain> {
       onToggleMapType: () {
         provider.switchMapType();
       },
+      createRoute: () {
+        addLocation(searchBarController.getSearchBarInfo(),searchBarDestinationController.getSearchBarInfo());
+
+        print(searchBarController.getSearchBarInfo());
+        print(searchBarDestinationController.getSearchBarInfo());
+      },
       onMyLocation: () async {
         // Prevent to click many times in short period.
         if (provider.isOnUpdateLocationCooldown == false) {
@@ -684,6 +694,19 @@ class _MapMainState extends State<MapMain> {
       },
       onPlacePicked: widget.onPlacePicked,
     );
+  }
+
+  Future<void> addLocation(String startLocation,String endLocation) async {
+    await Firebase.initializeApp();
+    await FirebaseFirestore.instance
+        .collection("users")
+        .add({
+          'full_name': startLocation,
+          'company': endLocation,
+          'age': 12
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 
   // _moveToCurrentPosition() async {
