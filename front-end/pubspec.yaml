@@ -22,17 +22,22 @@ environment:
 
 dependencies:
   #  login dependency
-  flutter_login: ^1.0.14
+  # flutter_login: ^1.0.14
+  #  used for login
+  transformer_page_view: ^0.1.6
+  flushbar: ^1.9.1
   #  introduction screen dependency
   introduction_screen: ^1.0.9
   #  dependency user for map
-  location: ^3.0.0
-  geoflutterfire: ^2.2.1
   google_maps_flutter: ^0.5.30
+#  geolocator: ^6.0.0+4
+  geolocator: ^5.3.1
+  permission_handler: ^5.0.1+1
+  google_maps_webservice: ^0.0.16
+  tuple: ^1.0.3
+  flutter_polyline_points: ^0.2.1
   #  http requests dependency
   http: ^0.12.2
-  #RxDart adds additional capabilities to Dart Streams and StreamControllers.
-  rxdart: ^0.24.1
   #firebase_core
   firebase_core: ^0.5.0
   #firestore cloud

@@ -1,15 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:khedni_maak/google_map/map_main.dart';
-import 'package:khedni_maak/login/login_screen.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:khedni_maak/google_map/main.dart';
+import 'package:khedni_maak/google_map/test_map/Secrets.dart';
+import 'package:khedni_maak/introduction_screen/introduction_screen.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
-//import 'content/gallery_page.dart';
-//import 'content/home_page.dart';
-//import 'content/camera_page.dart';
-//import 'content/likes_page.dart';
-//import 'content/save_page.dart';
 import 'nav_bar.dart';
 
 class NavBarMain extends StatefulWidget {
@@ -28,14 +25,15 @@ class _NavBarMainState extends State<NavBarMain> {
     //Declare some buttons for our tab bar
     _navBarItems = [
       NavBarItemData("Home", OMIcons.home, 110, Color(0xff01b87d)),
-      NavBarItemData("Map", OMIcons.map, 110, Color(0xff594ccf)),
-      NavBarItemData("Likes", OMIcons.favoriteBorder, 100, Color(0xffcf4c7a)),
+      NavBarItemData("Map", OMIcons.directions, 100, Color(0xff594ccf)),
+      NavBarItemData("Drivers", OMIcons.list, 100, Color(0xffcf4c7a)),
     ];
 
     //Create the views which will be mapped to the indices for our nav btns
     _viewsByIndex = <Widget>[
-      LoginScreen(),
-      MapMain(),
+      IntroductionView(),
+      MapMain(initialPosition:LatLng(0, 0)),
+      IntroductionView(),
     ];
     super.initState();
   }
