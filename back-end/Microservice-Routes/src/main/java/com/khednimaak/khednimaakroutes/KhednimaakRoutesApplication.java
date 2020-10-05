@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @SpringBootApplication
-public class KhednimaakCarsApplication {
+public class KhednimaakRoutesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KhednimaakCarsApplication.class, args);
+		SpringApplication.run(KhednimaakRoutesApplication.class, args);
 	}
 
 }

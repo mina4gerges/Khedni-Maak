@@ -17,18 +17,15 @@ import javax.persistence.Table;
 
 public class Routes {
 	@Id
-    @GeneratedValue
+	@GeneratedValue
     private int id;
 	private String source;
     private String destination;
     private String estimation;
     private String time;
     private String username;
-    
-	public int getId() {
-		return id;
-	}
-    
+
+	
 	public String getSource() {
 		return source;
 	}

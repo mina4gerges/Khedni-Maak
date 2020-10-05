@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.khednimaak</groupId>
-	<artifactId>khednimaak-cars</artifactId>
+	<artifactId>khednimaak-routes</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>khednimaak-cars</name>
+	<name>khednimaak-routes</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

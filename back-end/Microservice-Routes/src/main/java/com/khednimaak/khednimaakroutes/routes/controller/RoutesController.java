@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import com.khednimaak.khednimaakroutes.routes.entity.Routes;
 import com.khednimaak.khednimaakroutes.routes.service.RoutesService;
 
+
 import reactor.core.publisher.Mono;
 
 
@@ -47,5 +48,6 @@ public class RoutesController {
 		return service.saveRoute(route);  
 	}
    
+//    @GetMapping("/routesUsername/{id}")
     
 }
