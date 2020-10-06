@@ -68,31 +68,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           title: "Khedni Maak 2",
           body: "Intro 2",
           image: _buildImage('introduction2'),
-          footer: RaisedButton(
-            onPressed: () {
-              introKey.currentState?.animateScroll(0);
-            },
-            child: const Text(
-              'FooButton',
-              style: TextStyle(color: Colors.white),
-            ),
-            color: Colors.deepPurple,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Khedni Maak 3",
-          bodyWidget: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text("Click on ", style: bodyStyle),
-              Icon(Icons.edit),
-              Text(" to edit a post", style: bodyStyle),
-            ],
-          ),
           image: _buildImage('introduction3'),
           decoration: pageDecoration,
         ),

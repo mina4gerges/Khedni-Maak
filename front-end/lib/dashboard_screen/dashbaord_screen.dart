@@ -22,37 +22,45 @@ class DashboardScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
+        clipBehavior: Clip.antiAlias,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
-              // leading: Icon(Icons.question_answer_outlined),
-              title: Text('I am a passenger'),
+          children: [
+            ListTile(
+              leading: Icon(Icons.arrow_drop_down_circle),
+              title: const Text('Card title 1'),
+              subtitle: Text(
+                'Secondary Text',
+                style: TextStyle(color: Colors.black.withOpacity(0.6)),
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                // TextButton(
-                //   child: const Text('Find routes'),
-                //   onPressed: () {/* ... */},
-                // ),
-                const SizedBox(width: 8),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
+                style: TextStyle(color: Colors.black.withOpacity(0.6)),
+              ),
+            ),
+            ButtonBar(
+              alignment: MainAxisAlignment.start,
+              children: [
+                FlatButton(
+                  textColor: const Color(0xFF6200EE),
+                  onPressed: () {
+                    // Perform some action
+                  },
+                  child: const Text('ACTION 1'),
+                ),
+                FlatButton(
+                  textColor: const Color(0xFF6200EE),
+                  onPressed: () {
+                    // Perform some action
+                  },
+                  child: const Text('ACTION 2'),
+                ),
               ],
             ),
-            const ListTile(
-              leading: Icon(Icons.album),
-              title: Text('I am a driver'),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                // TextButton(
-                //   child: const Text('Add Route'),
-                //   onPressed: () {/* ... */},
-                // ),
-                const SizedBox(width: 8),
-              ],
-            ),
+            Image.asset('assets/images/card-driver-image-1.jpg'),
+            Image.asset('assets/images/card-driver-image-2.jpg'),
           ],
         ),
       ),

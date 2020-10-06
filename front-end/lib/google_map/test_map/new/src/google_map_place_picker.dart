@@ -256,30 +256,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
   Widget _defaultPinBuilder(BuildContext context, PinState state) {
     if (state == PinState.Preparing) {
       return Container();
-    } else if (state == PinState.Idle) {
-      return Stack(
-        children: <Widget>[
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(Icons.place, size: 36, color: Colors.red),
-                SizedBox(height: 42),
-              ],
-            ),
-          ),
-          Center(
-            child: Container(
-              width: 5,
-              height: 5,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-        ],
-      );
     } else {
       return Stack(
         children: <Widget>[
