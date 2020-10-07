@@ -93,6 +93,12 @@ public class Routes {
 	public void setCar(String car) {
 		this.car = car;
 	}
+	public ArrayList<String> getPassengers() {
+		return passengers;
+	}
+	public void setPassengers(ArrayList<String> passengers) {
+		this.passengers = passengers;
+	}
 
     
 }

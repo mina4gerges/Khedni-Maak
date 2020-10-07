@@ -1,7 +1,9 @@
 package com.khednimaak.khednimaakroutes.routes.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.bouncycastle.math.ec.ECAlgorithms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,21 @@ public class RoutesService {
         repository.deleteById(id);
         return "route removed !! " + id;
     }
+
+	public Routes updateRoutePassenger(Routes route) {
+{
+	        Routes existingRoute = repository.findById(route.getId()).orElse(null);
+	        existingRoute.setSource(route.getSource());
+	        ArrayList<String> passenger = route.getPassengers();
+	        
+	         for (String pass : existingRoute.getPassengers()) {
+				passenger.add(pass);
+			}
+	        
+	        existingRoute.setPassengers(passenger);
+	        return repository.save(existingRoute);
+
+	}}
 
 //	public String getRoutesByUsername(String username) {
 //		return repository.findRoutebyUsername(username);

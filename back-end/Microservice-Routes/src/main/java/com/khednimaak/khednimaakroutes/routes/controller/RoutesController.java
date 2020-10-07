@@ -48,6 +48,11 @@ public class RoutesController {
 		return service.saveRoute(route);  
 	}
    
+    @PutMapping("/update")
+    public Routes updateRoutePassenger(@RequestBody Routes route) {
+        return service.updateRoutePassenger(route);
+    }
+    
 //    @GetMapping("/routesUsername/{id}"){
 //    	
 //    	final String uri = "http://localhost:80";
