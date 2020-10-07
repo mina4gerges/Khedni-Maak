@@ -34,7 +34,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     Key key,
     @required this.initialTarget,
     @required this.appBarKey,
-    this.polylines,
+    // this.polylines,
     this.selectedPlaceWidgetBuilder,
     this.pinBuilder,
     this.onSearchFailed,
@@ -57,7 +57,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   final LatLng initialTarget;
   final GlobalKey appBarKey;
-  final Map<PolylineId, Polyline> polylines;
+  // final Map<PolylineId, Polyline> polylines;
 
   final SelectedPlaceWidgetBuilder selectedPlaceWidgetBuilder;
   final PinBuilder pinBuilder;
@@ -173,7 +173,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
             // markers: markers != null ? Set<Marker>.from(markers) : null,
             zoomGesturesEnabled: true,
             zoomControlsEnabled: false,
-            polylines: Set<Polyline>.of(polylines.values),
+            // polylines: Set<Polyline>.of(polylines.values),
             onMapCreated: (GoogleMapController controller) {
               provider.mapController = controller;
               provider.setCameraPosition(null);

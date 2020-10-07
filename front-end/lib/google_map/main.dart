@@ -651,7 +651,7 @@ class _MapMainState extends State<MapMain> {
 
   Widget _buildMap(LatLng initialTarget) {
     return GoogleMapPlacePicker(
-      polylines: polylines,
+      // polylines: polylines,
       initialTarget: initialTarget,
       appBarKey: appBarKey,
       selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,

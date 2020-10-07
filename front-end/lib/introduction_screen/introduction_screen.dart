@@ -72,6 +72,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ),
         PageViewModel(
           title: "Khedni Maak 3",
+          body: "Intro 3",
           image: _buildImage('introduction3'),
           decoration: pageDecoration,
         ),
