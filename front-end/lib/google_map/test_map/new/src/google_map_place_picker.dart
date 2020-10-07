@@ -170,7 +170,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
             mapType: data,
             myLocationEnabled: true,
 
-            // markers: markers != null ? Set<Marker>.from(markers) : null,
+            markers: provider.markers != null ? Set<Marker>.from(provider.markers) : null,
+            polylines: provider.polylines != null ? Set<Polyline>.from(provider.polylines.values) : null,
             zoomGesturesEnabled: true,
             zoomControlsEnabled: false,
             // polylines: Set<Polyline>.of(polylines.values),

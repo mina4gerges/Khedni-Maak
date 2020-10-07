@@ -270,8 +270,6 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
             (p) => PredictionTile(
               prediction: p,
               onTap: (selectedPrediction) {
-                //TODO check type of the selected prediction
-                print('selectedPrediction $selectedPrediction');
                 resetSearchBar();
                 widget.onPicked(selectedPrediction);
               },

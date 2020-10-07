@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io' show Platform;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -24,7 +26,7 @@ class PlacePicker extends StatefulWidget {
       @required this.apiKey,
       this.onPlacePicked,
       @required this.initialPosition,
-      this.useCurrentLocation = false,
+      this.useCurrentLocation = true,
       this.desiredLocationAccuracy = LocationAccuracy.high,
       this.onMapCreated,
       this.hintText = 'Choose starting point',
@@ -250,7 +252,7 @@ class _PlacePickerState extends State<PlacePicker> {
               searchingText: widget.searchingText,
               debounceMilliseconds: widget.autoCompleteDebounceInMilliseconds,
               onPicked: (prediction) {
-                _pickPrediction(prediction);
+                _pickPrediction(prediction, 'startPoint');
               },
               onSearchFailed: (status) {
                 if (widget.onAutoCompleteFailed != null) {
@@ -293,7 +295,7 @@ class _PlacePickerState extends State<PlacePicker> {
                       debounceMilliseconds:
                           widget.autoCompleteDebounceInMilliseconds,
                       onPicked: (prediction) {
-                        _pickPrediction(prediction);
+                        _pickPrediction(prediction, 'startPoint');
                       },
                       onSearchFailed: (status) {
                         if (widget.onAutoCompleteFailed != null) {
@@ -328,7 +330,7 @@ class _PlacePickerState extends State<PlacePicker> {
                       debounceMilliseconds:
                           widget.autoCompleteDebounceInMilliseconds,
                       onPicked: (prediction) {
-                        _pickPrediction(prediction);
+                        _pickPrediction(prediction, 'endPoint');
                       },
                       onSearchFailed: (status) {
                         if (widget.onAutoCompleteFailed != null) {
@@ -355,7 +357,7 @@ class _PlacePickerState extends State<PlacePicker> {
     );
   }
 
-  _pickPrediction(Prediction prediction) async {
+  _pickPrediction(Prediction prediction, String source) async {
     provider.placeSearchingState = SearchingState.Searching;
 
     final PlacesDetailsResponse response =
@@ -384,6 +386,12 @@ class _PlacePickerState extends State<PlacePicker> {
     await _moveTo(provider.selectedPlace.geometry.location.lat,
         provider.selectedPlace.geometry.location.lng);
 
+    if (source == 'startPoint') {
+      provider.startLocation = provider.selectedPlace;
+    } else if (source == 'endPoint') {
+      provider.endLocation = provider.selectedPlace;
+    }
+
     provider.placeSearchingState = SearchingState.Idle;
   }
 
@@ -411,24 +419,23 @@ class _PlacePickerState extends State<PlacePicker> {
   // Method for calculating the distance between two places
   Future<bool> _createRoute() async {
     try {
+      String startLocationId = provider.startLocation?.placeId;
+      String endLocationId = provider.endLocation?.placeId;
 
-      // Retrieving placemarks from addresses
-      List<Placemark> startPlacemark =
-      await _geolocator.placemarkFromAddress(_startAddress);
+      if (startLocationId.isNotEmpty && endLocationId.isNotEmpty) {
+        String startLocationAddress = provider.startLocation.formattedAddress;
+        String endLocationAddress = provider.endLocation.formattedAddress;
 
-      List<Placemark> destinationPlacemark =
-      await _geolocator.placemarkFromAddress(_destinationAddress);
+        double startLocationLat = provider.startLocation.geometry.location.lat;
+        double startLocationLng = provider.startLocation.geometry.location.lng;
 
-      if (startPlacemark != null && destinationPlacemark != null) {
-        // Use the retrieved coordinates of the current position,
-        // instead of the address if the start position is user's
-        // current position, as it results in better accuracy.
-        Position startCoordinates = _startAddress == _currentAddress
-            ? Position(
-            latitude: _currentPosition.latitude,
-            longitude: _currentPosition.longitude)
-            : startPlacemark[0].position;
-        Position destinationCoordinates = destinationPlacemark[0].position;
+        double endLocationLat = provider.endLocation.geometry.location.lat;
+        double endLocationLng = provider.endLocation.geometry.location.lng;
+
+        Position startCoordinates =
+            Position(latitude: startLocationLat, longitude: startLocationLng);
+        Position destinationCoordinates =
+            Position(latitude: endLocationLat, longitude: endLocationLng);
 
         // Start Location Marker
         Marker startMarker = Marker(
@@ -439,7 +446,7 @@ class _PlacePickerState extends State<PlacePicker> {
           ),
           infoWindow: InfoWindow(
             title: 'Start',
-            snippet: _startAddress,
+            snippet: startLocationAddress,
           ),
           icon: BitmapDescriptor.defaultMarker,
         );
@@ -453,17 +460,21 @@ class _PlacePickerState extends State<PlacePicker> {
           ),
           infoWindow: InfoWindow(
             title: 'Destination',
-            snippet: _destinationAddress,
+            snippet: endLocationAddress,
           ),
           icon: BitmapDescriptor.defaultMarker,
         );
 
-        // Adding the markers to the list
-        markers.add(startMarker);
-        markers.add(destinationMarker);
+        //get old markers
+        Set<Marker> previousMarkers =
+            provider.markers != null ? provider.markers : new Set<Marker>();
 
-        print('START COORDINATES: $startCoordinates');
-        print('DESTINATION COORDINATES: $destinationCoordinates');
+        // Adding the markers to the list
+        previousMarkers.add(startMarker);
+        previousMarkers.add(destinationMarker);
+
+        //set new marker
+        provider.markers = previousMarkers;
 
         Position _northeastCoordinates;
         Position _southwestCoordinates;
@@ -480,21 +491,24 @@ class _PlacePickerState extends State<PlacePicker> {
 
         // Accommodate the two locations within the
         // camera view of the map
-        mapController.animateCamera(
-          CameraUpdate.newLatLngBounds(
-            LatLngBounds(
-              northeast: LatLng(
-                _northeastCoordinates.latitude,
-                _northeastCoordinates.longitude,
-              ),
-              southwest: LatLng(
-                _southwestCoordinates.latitude,
-                _southwestCoordinates.longitude,
-              ),
-            ),
-            100.0,
-          ),
-        );
+          GoogleMapController controller = provider.mapController;
+          if (controller == null) return null;
+
+          // await controller.animateCamera(
+          //   CameraUpdate.newLatLngBounds(
+          //     LatLngBounds(
+          //       northeast: LatLng(
+          //         _northeastCoordinates.latitude,
+          //         _northeastCoordinates.longitude,
+          //       ),
+          //       southwest: LatLng(
+          //         _southwestCoordinates.latitude,
+          //         _southwestCoordinates.longitude,
+          //       ),
+          //     ),
+          //     100.0,
+          //   ),
+          // );
 
         // Calculating the distance between the start and the end positions
         // with a straight path, without considering any route
@@ -505,7 +519,8 @@ class _PlacePickerState extends State<PlacePicker> {
         //   destinationCoordinates.longitude,
         // );
 
-        await _createPolylines(startCoordinates, destinationCoordinates);
+        List<LatLng> polylineCoordinates =
+            await _createPolyLines(startCoordinates, destinationCoordinates);
 
         double totalDistance = 0.0;
 
@@ -520,10 +535,9 @@ class _PlacePickerState extends State<PlacePicker> {
           );
         }
 
-        setState(() {
-          _placeDistance = totalDistance.toStringAsFixed(2);
-          print('DISTANCE: $_placeDistance km');
-        });
+        String _placeDistance = totalDistance.toStringAsFixed(2);
+
+        print('DISTANCE: $_placeDistance km');
 
         return true;
       }
@@ -533,6 +547,56 @@ class _PlacePickerState extends State<PlacePicker> {
     return false;
   }
 
+  _createPolyLines(Position start, Position destination) async {
+    List<LatLng> polylineCoordinates = [];
+    PolylinePoints polylinePoints = PolylinePoints();
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      widget.apiKey, // Google Maps API Key
+      PointLatLng(start.latitude, start.longitude),
+      PointLatLng(destination.latitude, destination.longitude),
+     // travelMode: TravelMode.transit,
+    );
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+
+    PolylineId id = PolylineId('poly');
+
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.red,
+      points: polylineCoordinates,
+      width: 3,
+    );
+
+    //get old polylines
+    Map<PolylineId, Polyline> newPolylines = new Map<PolylineId, Polyline>();
+    // Map<PolylineId, Polyline> a = new Map<PolylineId, Polyline>();
+
+    // Adding the new polyline
+    // a[id] = polyline;
+    newPolylines[id] = polyline;
+
+    //set new marker
+    provider.polylines = newPolylines;
+
+    return polylineCoordinates;
+  }
+
+  // Formula for calculating distance between two coordinates
+  // https://stackoverflow.com/a/54138876/11910277
+  double _coordinateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
 
   Widget _buildMapWithLocation() {
     if (widget.useCurrentLocation) {
@@ -585,11 +649,11 @@ class _PlacePickerState extends State<PlacePicker> {
       onToggleMapType: () {
         provider.switchMapType();
       },
-        createRoute:(){
-          _createRoute();
-          searchBarController.reset();
-          searchBarDestinationController.reset();
-        },
+      createRoute: () {
+        _createRoute();
+        searchBarController.reset();
+        searchBarDestinationController.reset();
+      },
       onMyLocation: () async {
         // Prevent to click many times in short period.
         if (provider.isOnUpdateLocationCooldown == false) {
