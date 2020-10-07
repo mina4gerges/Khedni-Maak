@@ -34,9 +34,9 @@ public class RoutesService {
         return "route removed !! " + id;
     }
 
-	public String getRoutesByUsername(String username) {
-		return repository.findRoutebyUsername(username);
-	}
+//	public String getRoutesByUsername(String username) {
+//		return repository.findRoutebyUsername(username);
+//	}
     
 //    public Routes updateRoute(Routes route) {
 //        Routes existingRoute = repository.findById(route.getId()).orElse(null);

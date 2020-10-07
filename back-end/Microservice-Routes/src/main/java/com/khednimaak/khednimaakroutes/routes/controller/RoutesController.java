@@ -48,6 +48,16 @@ public class RoutesController {
 		return service.saveRoute(route);  
 	}
    
-//    @GetMapping("/routesUsername/{id}")
+//    @GetMapping("/routesUsername/{id}"){
+//    	
+//    	final String uri = "http://localhost:80";
+//
+//    	    RestTemplate restTemplate = new RestTemplate();
+//    	    String result = restTemplate.getForObject(uri, String.class);
+//
+//    	    System.out.println(result);
+//    	
+//    }
+    
     
 }
