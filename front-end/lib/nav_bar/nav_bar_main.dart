@@ -27,13 +27,14 @@ class _NavBarMainState extends State<NavBarMain> {
     _navBarItems = [
       NavBarItemData("Home", OMIcons.home, 110, Color(0xff01b87d)),
       NavBarItemData("Map", OMIcons.directions, 100, Color(0xff594ccf)),
-      NavBarItemData("Drivers", OMIcons.list, 100, Color(0xffcf4c7a)),
+      NavBarItemData("", OMIcons.list, 100, Color(0xffcf4c7a)),
     ];
 
     //Create the views which will be mapped to the indices for our nav btns
     _viewsByIndex = <Widget>[
       Text('hi from home'),
-      MapMain(initialPosition:LatLng(-29.8567844, 101.213108)),
+      // MapMain(initialPosition:LatLng(-29.8567844, 101.213108)),
+      PlacePicker(apiKey: Secrets.API_KEY, initialPosition: LatLng(-29.8567844, 101.213108)),
       Text('hi from drivers list'),
     ];
     super.initState();

@@ -95,6 +95,34 @@ class PlaceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  PickResult _startLocation;
+  PickResult get startLocation => _startLocation;
+  set startLocation(PickResult newStartLocation) {
+    _startLocation = newStartLocation;
+    notifyListeners();
+  }
+
+  PickResult _endLocation;
+  PickResult get endLocation => _endLocation;
+  set endLocation(PickResult newStartLocation) {
+    _endLocation = newStartLocation;
+    notifyListeners();
+  }
+
+  Set<Marker> _markers;
+  Set<Marker> get markers => _markers;
+  set markers(Set<Marker> newMarkers) {
+    _markers = newMarkers;
+    notifyListeners();
+  }
+
+  Map<PolylineId, Polyline> _polylines;
+  Map<PolylineId, Polyline> get polylines => _polylines;
+  set polylines(Map<PolylineId, Polyline> newPolylines) {
+    _polylines = newPolylines;
+    notifyListeners();
+  }
+
   SearchingState _placeSearchingState = SearchingState.Idle;
   SearchingState get placeSearchingState => _placeSearchingState;
   set placeSearchingState(SearchingState newState) {
