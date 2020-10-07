@@ -39,7 +39,18 @@ public class UserHandler {
                 .body(BodyInserters.fromObject(user)))
                 .switchIfEmpty(notFound);
     }
-
+    
+    public Mono<ServerResponse> getUserByUsername(ServerRequest request) {
+        String username = request.pathVariable("username");
+        Mono<ServerResponse> notFound = ServerResponse.notFound().build();
+        Mono<User> userMono = userRepository.findByUsername(username);
+        return userMono.flatMap(user -> ServerResponse.ok()
+                .contentType(APPLICATION_JSON)
+                .body(BodyInserters.fromObject(user)))
+                .switchIfEmpty(notFound);
+    }
+    
+    
     public Mono<ServerResponse> deleteUser(ServerRequest request) {
         String userId = request.pathVariable("userId");
         userRepository.deleteById(userId);
