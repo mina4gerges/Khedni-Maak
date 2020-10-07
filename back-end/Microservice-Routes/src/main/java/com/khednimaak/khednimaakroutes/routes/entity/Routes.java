@@ -34,6 +34,7 @@ public class Routes {
     private int capacity; //maximum number of passengers
     private ArrayList<String> passengers = new ArrayList<String>();
     private String driverUsername; //name of the driver 
+    private String car;
 
 	
 	public String getSource() {
@@ -85,6 +86,12 @@ public class Routes {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getCar() {
+		return car;
+	}
+	public void setCar(String car) {
+		this.car = car;
 	}
 
     

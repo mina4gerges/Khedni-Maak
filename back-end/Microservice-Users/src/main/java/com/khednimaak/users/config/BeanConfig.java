@@ -30,6 +30,7 @@ public class BeanConfig {
                 .route(POST("/users").and(accept(APPLICATION_JSON)), userHandler::createUser)
                 .andRoute(GET("/users").and(accept(APPLICATION_JSON)), userHandler::listUser)
                 .andRoute(GET("/users/{userId}").and(accept(APPLICATION_JSON)), userHandler::getUserById)
+                .andRoute(GET("/usersId/{username}").and(accept(APPLICATION_JSON)), userHandler::getUserByUsername)
                 .andRoute(PUT("/users").and(accept(APPLICATION_JSON)), userHandler::createUser)
                 .andRoute(DELETE("/users/{userId}").and(accept(APPLICATION_JSON)), userHandler::deleteUser);
     }
