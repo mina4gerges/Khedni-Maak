@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
@@ -671,7 +671,7 @@ class _MapMainState extends State<MapMain> {
         provider.switchMapType();
       },
       createRoute: () {
-        addLocation(searchBarController.getSearchBarInfo(),searchBarDestinationController.getSearchBarInfo());
+        // addLocation(searchBarController.getSearchBarInfo(),searchBarDestinationController.getSearchBarInfo());
 
         print(searchBarController.getSearchBarInfo());
         print(searchBarDestinationController.getSearchBarInfo());
@@ -696,18 +696,18 @@ class _MapMainState extends State<MapMain> {
     );
   }
 
-  Future<void> addLocation(String startLocation,String endLocation) async {
-    await Firebase.initializeApp();
-    await FirebaseFirestore.instance
-        .collection("users")
-        .add({
-          'full_name': startLocation,
-          'company': endLocation,
-          'age': 12
-        })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
-  }
+  // Future<void> addLocation(String startLocation,String endLocation) async {
+  //   await Firebase.initializeApp();
+  //   await FirebaseFirestore.instance
+  //       .collection("users")
+  //       .add({
+  //         'full_name': startLocation,
+  //         'company': endLocation,
+  //         'age': 12
+  //       })
+  //       .then((value) => print("User Added"))
+  //       .catchError((error) => print("Failed to add user: $error"));
+  // }
 
   // _moveToCurrentPosition() async {
   // if (provider.currentPosition != null) {
