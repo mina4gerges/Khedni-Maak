@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -8,7 +9,6 @@ import 'package:http/http.dart';
 import 'package:khedni_maak/google_map/test_map/new/providers/place_provider.dart';
 import 'package:khedni_maak/google_map/test_map/new/src/utils/uuid.dart';
 import 'package:provider/provider.dart';
-import 'dart:io' show Platform;
 
 import 'autocomplete_search.dart';
 import 'controllers/autocomplete_search_controller.dart';
@@ -24,10 +24,11 @@ class PlacePicker extends StatefulWidget {
       @required this.apiKey,
       this.onPlacePicked,
       @required this.initialPosition,
-      this.useCurrentLocation=false,
+      this.useCurrentLocation = false,
       this.desiredLocationAccuracy = LocationAccuracy.high,
       this.onMapCreated,
       this.hintText = 'Choose starting point',
+      this.hintDirectionText = 'Choose ending point',
       this.searchingText,
       // this.searchBarHeight,
       // this.contentPadding,
@@ -72,6 +73,7 @@ class PlacePicker extends StatefulWidget {
   final MapCreatedCallback onMapCreated;
 
   final String hintText;
+  final String hintDirectionText;
   final String searchingText;
 
   // final double searchBarHeight;
@@ -175,6 +177,7 @@ class _PlacePickerState extends State<PlacePicker> {
   GlobalKey appBarKey = GlobalKey();
   PlaceProvider provider;
   SearchBarController searchBarController = SearchBarController();
+  SearchBarController searchBarDestinationController = SearchBarController();
 
   @override
   void initState() {
@@ -190,6 +193,7 @@ class _PlacePickerState extends State<PlacePicker> {
   @override
   void dispose() {
     searchBarController.dispose();
+    searchBarDestinationController.dispose();
 
     super.dispose();
   }
@@ -199,6 +203,7 @@ class _PlacePickerState extends State<PlacePicker> {
     return WillPopScope(
         onWillPop: () {
           searchBarController.clearOverlay();
+          searchBarDestinationController.clearOverlay();
           return Future.value(true);
         },
         child: ChangeNotifierProvider.value(
@@ -209,6 +214,7 @@ class _PlacePickerState extends State<PlacePicker> {
                 resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
                 extendBodyBehindAppBar: true,
                 appBar: AppBar(
+                  toolbarHeight: 90.0,
                   key: appBarKey,
                   automaticallyImplyLeading: false,
                   iconTheme: Theme.of(context).iconTheme,
@@ -224,8 +230,7 @@ class _PlacePickerState extends State<PlacePicker> {
         ));
   }
 
-
-  Widget _buildSearchBar() {
+  Widget _buildSearchBar1() {
     return Row(
       children: <Widget>[
         widget.automaticallyImplyAppBarLeading
@@ -269,6 +274,87 @@ class _PlacePickerState extends State<PlacePicker> {
     );
   }
 
+  Widget _buildSearchBar() {
+    return Stack(
+      children: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              children: <Widget>[
+                SizedBox(width: 15),
+                Expanded(
+                  child: AutoCompleteSearch(
+                      appBarKey: appBarKey,
+                      searchBarController: searchBarController,
+                      sessionToken: provider.sessionToken,
+                      hintText: widget.hintText,
+                      searchingText: widget.searchingText,
+                      debounceMilliseconds:
+                          widget.autoCompleteDebounceInMilliseconds,
+                      onPicked: (prediction) {
+                        _pickPrediction(prediction);
+                      },
+                      onSearchFailed: (status) {
+                        if (widget.onAutoCompleteFailed != null) {
+                          widget.onAutoCompleteFailed(status);
+                        }
+                      },
+                      autocompleteOffset: widget.autocompleteOffset,
+                      autocompleteRadius: widget.autocompleteRadius,
+                      autocompleteLanguage: widget.autocompleteLanguage,
+                      autocompleteComponents: widget.autocompleteComponents,
+                      autocompleteTypes: widget.autocompleteTypes,
+                      strictbounds: widget.strictbounds,
+                      region: widget.region,
+                      initialSearchString: widget.initialSearchString,
+                      searchForInitialValue: widget.searchForInitialValue,
+                      autocompleteOnTrailingWhitespace:
+                          widget.autocompleteOnTrailingWhitespace),
+                ),
+                // SizedBox(width: 5),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(width: 15),
+                Expanded(
+                  child: AutoCompleteSearch(
+                      appBarKey: appBarKey,
+                      searchBarController: searchBarDestinationController,
+                      sessionToken: provider.sessionToken,
+                      hintText: widget.hintDirectionText,
+                      searchingText: widget.searchingText,
+                      debounceMilliseconds:
+                          widget.autoCompleteDebounceInMilliseconds,
+                      onPicked: (prediction) {
+                        _pickPrediction(prediction);
+                      },
+                      onSearchFailed: (status) {
+                        if (widget.onAutoCompleteFailed != null) {
+                          widget.onAutoCompleteFailed(status);
+                        }
+                      },
+                      autocompleteOffset: widget.autocompleteOffset,
+                      autocompleteRadius: widget.autocompleteRadius,
+                      autocompleteLanguage: widget.autocompleteLanguage,
+                      autocompleteComponents: widget.autocompleteComponents,
+                      autocompleteTypes: widget.autocompleteTypes,
+                      strictbounds: widget.strictbounds,
+                      region: widget.region,
+                      initialSearchString: widget.initialSearchString,
+                      searchForInitialValue: widget.searchForInitialValue,
+                      autocompleteOnTrailingWhitespace:
+                          widget.autocompleteOnTrailingWhitespace),
+                ),
+              ],
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
   _pickPrediction(Prediction prediction) async {
     provider.placeSearchingState = SearchingState.Searching;
 
@@ -278,6 +364,8 @@ class _PlacePickerState extends State<PlacePicker> {
       sessionToken: provider.sessionToken,
       language: widget.autocompleteLanguage,
     );
+
+    //TODO check here if we can get the location
 
     if (response.errorMessage?.isNotEmpty == true ||
         response.status == "REQUEST_DENIED") {
@@ -319,6 +407,132 @@ class _PlacePickerState extends State<PlacePicker> {
           provider.currentPosition.longitude);
     }
   }
+
+  // Method for calculating the distance between two places
+  Future<bool> _createRoute() async {
+    try {
+
+      // Retrieving placemarks from addresses
+      List<Placemark> startPlacemark =
+      await _geolocator.placemarkFromAddress(_startAddress);
+
+      List<Placemark> destinationPlacemark =
+      await _geolocator.placemarkFromAddress(_destinationAddress);
+
+      if (startPlacemark != null && destinationPlacemark != null) {
+        // Use the retrieved coordinates of the current position,
+        // instead of the address if the start position is user's
+        // current position, as it results in better accuracy.
+        Position startCoordinates = _startAddress == _currentAddress
+            ? Position(
+            latitude: _currentPosition.latitude,
+            longitude: _currentPosition.longitude)
+            : startPlacemark[0].position;
+        Position destinationCoordinates = destinationPlacemark[0].position;
+
+        // Start Location Marker
+        Marker startMarker = Marker(
+          markerId: MarkerId('$startCoordinates'),
+          position: LatLng(
+            startCoordinates.latitude,
+            startCoordinates.longitude,
+          ),
+          infoWindow: InfoWindow(
+            title: 'Start',
+            snippet: _startAddress,
+          ),
+          icon: BitmapDescriptor.defaultMarker,
+        );
+
+        // Destination Location Marker
+        Marker destinationMarker = Marker(
+          markerId: MarkerId('$destinationCoordinates'),
+          position: LatLng(
+            destinationCoordinates.latitude,
+            destinationCoordinates.longitude,
+          ),
+          infoWindow: InfoWindow(
+            title: 'Destination',
+            snippet: _destinationAddress,
+          ),
+          icon: BitmapDescriptor.defaultMarker,
+        );
+
+        // Adding the markers to the list
+        markers.add(startMarker);
+        markers.add(destinationMarker);
+
+        print('START COORDINATES: $startCoordinates');
+        print('DESTINATION COORDINATES: $destinationCoordinates');
+
+        Position _northeastCoordinates;
+        Position _southwestCoordinates;
+
+        // Calculating to check that
+        // southwest coordinate <= northeast coordinate
+        if (startCoordinates.latitude <= destinationCoordinates.latitude) {
+          _southwestCoordinates = startCoordinates;
+          _northeastCoordinates = destinationCoordinates;
+        } else {
+          _southwestCoordinates = destinationCoordinates;
+          _northeastCoordinates = startCoordinates;
+        }
+
+        // Accommodate the two locations within the
+        // camera view of the map
+        mapController.animateCamera(
+          CameraUpdate.newLatLngBounds(
+            LatLngBounds(
+              northeast: LatLng(
+                _northeastCoordinates.latitude,
+                _northeastCoordinates.longitude,
+              ),
+              southwest: LatLng(
+                _southwestCoordinates.latitude,
+                _southwestCoordinates.longitude,
+              ),
+            ),
+            100.0,
+          ),
+        );
+
+        // Calculating the distance between the start and the end positions
+        // with a straight path, without considering any route
+        // double distanceInMeters = await Geolocator().bearingBetween(
+        //   startCoordinates.latitude,
+        //   startCoordinates.longitude,
+        //   destinationCoordinates.latitude,
+        //   destinationCoordinates.longitude,
+        // );
+
+        await _createPolylines(startCoordinates, destinationCoordinates);
+
+        double totalDistance = 0.0;
+
+        // Calculating the total distance by adding the distance
+        // between small segments
+        for (int i = 0; i < polylineCoordinates.length - 1; i++) {
+          totalDistance += _coordinateDistance(
+            polylineCoordinates[i].latitude,
+            polylineCoordinates[i].longitude,
+            polylineCoordinates[i + 1].latitude,
+            polylineCoordinates[i + 1].longitude,
+          );
+        }
+
+        setState(() {
+          _placeDistance = totalDistance.toStringAsFixed(2);
+          print('DISTANCE: $_placeDistance km');
+        });
+
+        return true;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return false;
+  }
+
 
   Widget _buildMapWithLocation() {
     if (widget.useCurrentLocation) {
@@ -371,6 +585,11 @@ class _PlacePickerState extends State<PlacePicker> {
       onToggleMapType: () {
         provider.switchMapType();
       },
+        createRoute:(){
+          _createRoute();
+          searchBarController.reset();
+          searchBarDestinationController.reset();
+        },
       onMyLocation: () async {
         // Prevent to click many times in short period.
         if (provider.isOnUpdateLocationCooldown == false) {
@@ -385,6 +604,7 @@ class _PlacePickerState extends State<PlacePicker> {
       },
       onMoveStart: () {
         searchBarController.reset();
+        searchBarDestinationController.reset();
       },
       onPlacePicked: widget.onPlacePicked,
     );
