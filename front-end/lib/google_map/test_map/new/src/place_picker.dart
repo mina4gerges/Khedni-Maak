@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:io' show Platform;
 import 'dart:math';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
+import 'package:khedni_maak/firebase_config/background_message_handler.dart';
 import 'package:khedni_maak/google_map/test_map/new/providers/place_provider.dart';
 import 'package:khedni_maak/google_map/test_map/new/src/utils/uuid.dart';
 import 'package:provider/provider.dart';
@@ -181,9 +183,40 @@ class _PlacePickerState extends State<PlacePicker> {
   SearchBarController searchBarController = SearchBarController();
   SearchBarController searchBarDestinationController = SearchBarController();
 
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   @override
   void initState() {
     super.initState();
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        // _showItemDialog(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        // _navigateToItemDetail(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        // _navigateToItemDetail(message);
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true, provisional: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      // setState(() {
+      //   _homeScreenText = "Push Messaging token: $token";
+      // });
+      print("Push Messaging token: $token");
+    });
 
     provider =
         PlaceProvider(widget.apiKey, widget.proxyBaseUrl, widget.httpClient);
@@ -538,6 +571,8 @@ class _PlacePickerState extends State<PlacePicker> {
         String _placeDistance = totalDistance.toStringAsFixed(2);
 
         print('DISTANCE: $_placeDistance km');
+
+        //TODO: to remove later firebase exemple from here
 
         return true;
       }

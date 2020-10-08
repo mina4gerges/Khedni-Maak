@@ -43,6 +43,7 @@ dependencies:
   firebase_core: ^0.5.0
   #firestore cloud
   cloud_firestore: ^0.14.0+2
+  firebase_messaging: ^7.0.3
   #  fonts dependency
   font_awesome_flutter: ^8.5.0
   intl: ^0.16.1
