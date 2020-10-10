@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:khedni_maak/dashboard_screen/dashbaord_screen.dart';
+import 'package:khedni_maak/firebase_config/model/message.dart';
 import 'package:khedni_maak/globals/constant.dart';
 import 'package:khedni_maak/globals/Validations.dart';
 import 'package:khedni_maak/google_map/main.dart';
@@ -17,9 +19,14 @@ import 'constants.dart';
 import 'custom_route.dart';
 import 'flutter_login.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const routeName = '/auth';
 
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   RegExp regexEmail = new RegExp(Validations.emailValidation["pattern"]);
 
   RegExp regexPhone = new RegExp(Validations.phoneValidation["pattern"]);
@@ -27,6 +34,50 @@ class LoginScreen extends StatelessWidget {
   RegExp regexPass = new RegExp(Validations.passValidation['pattern']);
 
   Duration get loginTime => Duration(milliseconds: timeDilation.ceil() * 2250);
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  void initState() {
+    super.initState();
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        // _showItemDialog(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        _showItemDialog(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+  }
+
+  void _showItemDialog(Map<String, dynamic> message) {
+    final notification = message['data'];
+
+    showDialog<bool>(
+      context: context,
+      builder: (_) => _buildDialog(context,
+          Message(title: notification['title'], body: notification['body'])),
+    );
+  }
+
+  Widget _buildDialog(BuildContext context, Message item) {
+    return AlertDialog(
+      content: Text(item.body),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text('CLOSE'),
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+        ),
+      ],
+    );
+  }
 
   Future<String> _loginUser(LoginData data) async {
     //sign in
@@ -157,9 +208,9 @@ class LoginScreen extends StatelessWidget {
         return _signUpUser(signUpData);
       },
       onSubmitAnimationCompleted: () {
-        Navigator.of(context).pushReplacement(FadePageRoute(
-          builder: (context) => NavBarMain()));
-          // builder: (context) => DashboardScreen()));
+        Navigator.of(context)
+            .pushReplacement(FadePageRoute(builder: (context) => NavBarMain()));
+        // builder: (context) => DashboardScreen()));
       },
       onRecoverPassword: (name) {
         print('Recover password info');
