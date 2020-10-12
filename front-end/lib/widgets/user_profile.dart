@@ -31,33 +31,19 @@ class _UserProfileState extends State<UserProfile> {
     return FutureBuilder<User>(
       future: user,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text('${Functions.getGreetings()}, ${snapshot.data.name}',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 25.0,
-                fontWeight: FontWeight.bold,
-              ));
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
+        String name = snapshot.hasData ? snapshot.data.name : '';
+        String capitalizedName =
+            name != '' ? ', ${name[0].toUpperCase() + name.substring(1)}' : '';
 
-        // By default, show a loading spinner.
-        return CircularProgressIndicator();
-      },
-    );
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Text(
-          'Hello, Mina',
+        return Text(
+          '${Functions.getGreetings()}$capitalizedName',
           style: const TextStyle(
             color: Colors.white,
             fontSize: 25.0,
             fontWeight: FontWeight.bold,
           ),
-        ),
-      ],
+        );
+      },
     );
   }
 }
