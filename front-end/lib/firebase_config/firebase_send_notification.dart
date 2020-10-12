@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
-import 'file:///C:/Users/mina.gerges/Desktop/Mobile%20Apps/Khedni-Maak/front-end/lib/config/Secrets.dart';
+import 'package:khedni_maak/config/Secrets.dart';
 
 final String serverToken = Secrets.FCMServer_Token;
 final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
