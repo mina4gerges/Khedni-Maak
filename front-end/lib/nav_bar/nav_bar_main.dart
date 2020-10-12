@@ -11,6 +11,8 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 import 'nav_bar.dart';
 
 class NavBarMain extends StatefulWidget {
+  static const routeName = '/navBar';
+
   @override
   _NavBarMainState createState() => _NavBarMainState();
 }

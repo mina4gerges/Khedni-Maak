@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khedni_maak/functions/functions.dart';
 import 'package:khedni_maak/widgets/model/user.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
 
 class UserProfile extends StatefulWidget {
   UserProfile({
@@ -15,14 +16,16 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   Future<User> user;
 
-  String token =
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5hQGdtYWlsLmNvbSIsInNjb3BlcyI6WyJST0xFX0FETUlOIl0sImlhdCI6MTYwMjUwMDIyOCwiZXhwIjoxNjAyNTE4MjI4fQ.sRIfrq7MLQ1xBhNenh3hUyKPKzM4-YzEMqKJCLRouZ4';
 
-  String username = 'mina@gmail.com';
 
   @override
   void initState() {
     super.initState();
+
+    String token = globals.loginToken;
+
+    String username = globals.loginUserName;
+
     user = Functions.getUserInfo(username, token);
   }
 
@@ -32,8 +35,9 @@ class _UserProfileState extends State<UserProfile> {
       future: user,
       builder: (context, snapshot) {
         String name = snapshot.hasData ? snapshot.data.name : '';
-        String capitalizedName =
-            name.isNotEmpty ? ', ${name[0].toUpperCase() + name.substring(1)}' : '';
+        String capitalizedName = name.isNotEmpty
+            ? ', ${name[0].toUpperCase() + name.substring(1)}'
+            : '';
 
         return Text(
           '${Functions.getGreetings()}$capitalizedName',

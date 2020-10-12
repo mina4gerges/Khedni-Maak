@@ -1,18 +1,20 @@
 import 'dart:convert';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:khedni_maak/config/Validations.dart';
 import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/firebase_config/model/message.dart';
-import 'package:khedni_maak/google_map/main.dart';
+// import 'package:khedni_maak/google_map/main.dart';
 import 'package:khedni_maak/login/utils/models/login_data.dart';
 import 'package:khedni_maak/login/utils/models/signUp_data.dart';
 import 'package:khedni_maak/login/utils/providers/login_messages.dart';
-import 'package:khedni_maak/nav_bar/nav_bar_main.dart';
+// import 'package:khedni_maak/nav_bar/nav_bar_main.dart';
+import 'package:khedni_maak/screens/dashbaord_screen.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
 
 import 'constants.dart';
 import 'custom_route.dart';
@@ -34,49 +36,49 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Duration get loginTime => Duration(milliseconds: timeDilation.ceil() * 2250);
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   void initState() {
     super.initState();
 
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-        // _showItemDialog(message);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-        _showItemDialog(message);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-      },
-    );
+    // _firebaseMessaging.configure(
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     print("onMessage: $message");
+    //     // _showItemDialog(message);
+    //   },
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     print("onLaunch: $message");
+    //     _showItemDialog(message);
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //     print("onResume: $message");
+    //   },
+    // );
   }
 
-  void _showItemDialog(Map<String, dynamic> message) {
-    final notification = message['data'];
+  // void _showItemDialog(Map<String, dynamic> message) {
+  //   final notification = message['data'];
+  //
+  //   showDialog<bool>(
+  //     context: context,
+  //     builder: (_) => _buildDialog(context,
+  //         Message(title: notification['title'], body: notification['body'])),
+  //   );
+  // }
 
-    showDialog<bool>(
-      context: context,
-      builder: (_) => _buildDialog(context,
-          Message(title: notification['title'], body: notification['body'])),
-    );
-  }
-
-  Widget _buildDialog(BuildContext context, Message item) {
-    return AlertDialog(
-      content: Text(item.body),
-      actions: <Widget>[
-        FlatButton(
-          child: const Text('CLOSE'),
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
-        ),
-      ],
-    );
-  }
+  // Widget _buildDialog(BuildContext context, Message item) {
+  //   return AlertDialog(
+  //     content: Text(item.body),
+  //     actions: <Widget>[
+  //       FlatButton(
+  //         child: const Text('CLOSE'),
+  //         onPressed: () {
+  //           Navigator.pop(context, false);
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Future<String> _loginUser(LoginData data) async {
     //sign in
@@ -91,6 +93,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (response.statusCode == 200) {
       String token = json.decode(response.body)['token'];
+
+      globals.loginToken = token;
+      globals.loginUserName = data.name;
 
       print(token);
       return null;
@@ -208,7 +213,9 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       onSubmitAnimationCompleted: () {
         Navigator.of(context)
-            .pushReplacement(FadePageRoute(builder: (context) => NavBarMain()));
+            // .pushReplacement(FadePageRoute(builder: (context) => NavBarMain()));
+            .pushReplacement(
+                FadePageRoute(builder: (context) => DashboardScreen()));
         // builder: (context) => DashboardScreen()));
       },
       onRecoverPassword: (name) {

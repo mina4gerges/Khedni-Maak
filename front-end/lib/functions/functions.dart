@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/widgets/model/user.dart';
@@ -23,11 +25,14 @@ class Functions {
 
     if (response.statusCode == 200) {
       print('success: patient info');
+
+      String fullName = json.decode(response.body)['name'];
+
       return User(
-        name: 'mina',
-        lastName: 'gerges',
-        email: 'mina@gmail.com',
-        userName: 'mina@gmail.com',
+        name: fullName.split(' ')[0],
+        lastName: fullName.split(' ')[1],
+        email: json.decode(response.body)['email'],
+        userName: json.decode(response.body)['username'],
       );
     } else {
       print('failed: patient info');
