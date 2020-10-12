@@ -38,11 +38,11 @@ class BuildPicCard extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(20.0),
           ),
-          height: screenHeight * 0.17,
+          height: screenHeight * 0.3,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Image.asset('assets/images/$pic'),
+              Image.asset('assets/images/$pic',width: 100,),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +52,7 @@ class BuildPicCard extends StatelessWidget {
                       title,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 18.0,
+                        fontSize: 25.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -61,7 +61,7 @@ class BuildPicCard extends StatelessWidget {
                       body,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 15.0,
+                        fontSize: 20.0,
                       ),
                     ),
                   ],

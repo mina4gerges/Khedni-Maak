@@ -33,10 +33,10 @@ class Functions {
       print('failed: patient info');
     }
     return User(
-      name: 'false',
-      lastName: 'false',
-      email: 'false',
-      userName: 'false',
+      name: '',
+      lastName: '',
+      email: '',
+      userName: '',
     );
   }
 }

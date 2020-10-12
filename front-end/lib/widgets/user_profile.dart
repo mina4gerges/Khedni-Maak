@@ -33,7 +33,7 @@ class _UserProfileState extends State<UserProfile> {
       builder: (context, snapshot) {
         String name = snapshot.hasData ? snapshot.data.name : '';
         String capitalizedName =
-            name != '' ? ', ${name[0].toUpperCase() + name.substring(1)}' : '';
+            name.isNotEmpty ? ', ${name[0].toUpperCase() + name.substring(1)}' : '';
 
         return Text(
           '${Functions.getGreetings()}$capitalizedName',
