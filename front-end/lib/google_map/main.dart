@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 import 'dart:math' show cos, sqrt, asin;
 
-import 'test_map/Secrets.dart';
+import '../config/Secrets.dart';
 import 'test_map/new/providers/place_provider.dart';
 import 'test_map/new/src/autocomplete_search.dart';
 import 'test_map/new/src/controllers/autocomplete_search_controller.dart';

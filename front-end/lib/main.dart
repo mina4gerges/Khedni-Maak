@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'file:///C:/Users/mina2/Desktop/Mobile%20Apps/Khedni-Maak/front-end/lib/screens/dashbaord_screen.dart';
 import 'package:khedni_maak/google_map/main.dart';
-import 'package:khedni_maak/google_map/test_map/Secrets.dart';
+import 'file:///C:/Users/mina.gerges/Desktop/Mobile%20Apps/Khedni-Maak/front-end/lib/config/Secrets.dart';
 import 'package:khedni_maak/google_map/test_map/new/google_maps_place_picker.dart';
 import 'package:khedni_maak/introduction_screen/introduction_screen.dart';
+import 'package:khedni_maak/screens/dashbaord_screen.dart';
 
 import 'firebase_config/firebase_main.dart';
 
