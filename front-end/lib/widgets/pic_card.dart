@@ -8,57 +8,69 @@ class BuildPicCard extends StatelessWidget {
     @required this.body,
     @required this.title,
     @required this.screenHeight,
+    @required this.onCardTap,
   }) : super(key: key);
 
   final String pic;
   final String body;
   final String title;
   final double screenHeight;
+  final VoidCallback onCardTap;
 
   @override
   Widget build(BuildContext context) {
-      return Container(
-        margin: const EdgeInsets.symmetric(
-          vertical: 10.0,
-          horizontal: 20.0,
-        ),
-        padding: const EdgeInsets.all(10.0),
-        height: screenHeight * 0.17,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Palette.gradientPrimaryColor, Palette.primaryColor],
+    return Card(
+      margin: const EdgeInsets.symmetric(
+        vertical: 10.0,
+        horizontal: 20.0,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: InkWell(
+        splashColor: Palette.primaryColor,
+        onTap: onCardTap,
+        child: Container(
+          padding: const EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Palette.gradientPrimaryColor, Palette.primaryColor],
+            ),
+            borderRadius: BorderRadius.circular(20.0),
           ),
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Image.asset('assets/images/$pic'),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+          height: screenHeight * 0.17,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Image.asset('assets/images/$pic'),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: screenHeight * 0.01),
+                    Text(
+                      body,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.0,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: screenHeight * 0.01),
-                Text(
-                  body,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12.0,
-                  ),
-                  maxLines: 2,
-                ),
-              ],
-            )
-          ],
+              ),
+            ],
+          ),
         ),
+      ),
     );
   }
 }
