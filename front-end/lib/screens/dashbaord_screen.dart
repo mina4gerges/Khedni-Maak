@@ -5,10 +5,11 @@ import 'package:khedni_maak/widgets/dashboard_header.dart';
 import 'package:khedni_maak/widgets/pic_card.dart';
 
 class DashboardScreen extends StatelessWidget {
-
+  static const routeName = '/auth/DashboardScreen';
 
   @override
   Widget build(BuildContext context) {
+
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -24,10 +25,9 @@ class DashboardScreen extends StatelessWidget {
                 body: 'You can share your car with someone',
                 pic: 'driver.png',
                 screenHeight: screenHeight,
-                onCardTap: (){
-                  Navigator.of(context)
-                      .pushReplacement(
-                      FadePageRoute(builder: (context) => NavBarMain()));
+                onCardTap: () {
+                  Navigator.of(context).push(
+                      FadePageRoute(builder: (_) => NavBarMain(source: 'driver')));
                 },
               ),
               BuildPicCard(
@@ -35,10 +35,9 @@ class DashboardScreen extends StatelessWidget {
                 body: 'You can find someone is sharing his car',
                 pic: 'truck.png',
                 screenHeight: screenHeight,
-                onCardTap: (){
-                  Navigator.of(context)
-                      .pushReplacement(
-                      FadePageRoute(builder: (context) => NavBarMain()));
+                onCardTap: () {
+                  Navigator.of(context).push(
+                      FadePageRoute(builder: (_) => NavBarMain(source: 'rider')));
                 },
               ),
               SizedBox(height: screenHeight * 0.05),

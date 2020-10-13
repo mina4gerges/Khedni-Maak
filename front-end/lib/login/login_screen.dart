@@ -217,11 +217,9 @@ class _LoginScreenState extends State<LoginScreen> {
         return _signUpUser(signUpData);
       },
       onSubmitAnimationCompleted: () {
-        Navigator.of(context)
-            // .pushReplacement(FadePageRoute(builder: (context) => NavBarMain()));
-            .pushReplacement(
-                FadePageRoute(builder: (context) => DashboardScreen()));
-        // builder: (context) => DashboardScreen()));
+        Navigator.of(context).push(
+          FadePageRoute(builder: (_) => DashboardScreen()),
+        );
       },
       onRecoverPassword: (name) {
         print('Recover password info');

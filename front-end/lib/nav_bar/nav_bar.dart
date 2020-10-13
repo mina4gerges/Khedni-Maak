@@ -1,3 +1,5 @@
+import 'package:khedni_maak/config/palette.dart';
+
 import 'nav_bar_button.dart';
 import 'package:flutter/material.dart';
 
