@@ -162,7 +162,9 @@ class _LoginScreenState extends State<LoginScreen> {
         //   filled: true,
         // ),
         // buttonTheme = const LoginButtonTheme(),
-        // titleStyle:Colors.red,
+        titleStyle:TextStyle(
+          color:Colors.white
+        ),
         // bodyStyle:Colors.red,
         // textFieldStyle:Colors.red,
         buttonTheme:  LoginButtonTheme(
