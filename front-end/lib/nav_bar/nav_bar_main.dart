@@ -1,13 +1,11 @@
 import 'dart:math';
-
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:khedni_maak/config/Secrets.dart';
-import 'package:khedni_maak/google_map/test_map/new/src/place_picker.dart';
-import 'package:khedni_maak/widgets/custom_app_bar.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
-
 import 'nav_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:khedni_maak/config/Secrets.dart';
+import 'package:khedni_maak/widgets/custom_app_bar.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:khedni_maak/google_map/test_map/new/src/place_picker.dart';
 
 class NavBarMain extends StatefulWidget {
   static const routeName = '/auth/DashboardScreen/navBar';
