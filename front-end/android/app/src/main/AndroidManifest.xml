@@ -12,8 +12,8 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="khedni_maak"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Khedni Maak"
+        android:icon="@mipmap/app_icon">
         <!-- google maps API-->
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value=''/>

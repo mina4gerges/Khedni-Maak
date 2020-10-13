@@ -22,7 +22,7 @@ class DashboardScreen extends StatelessWidget {
               BuildPicCard(
                 title: 'Offer a ride',
                 body: 'You can share your car with someone',
-                pic: 'own_test.png',
+                pic: 'driver.png',
                 screenHeight: screenHeight,
                 onCardTap: (){
                   Navigator.of(context)
@@ -33,7 +33,7 @@ class DashboardScreen extends StatelessWidget {
               BuildPicCard(
                 title: 'Find a ride',
                 body: 'You can find someone is sharing his car',
-                pic: 'own_test.png',
+                pic: 'truck.png',
                 screenHeight: screenHeight,
                 onCardTap: (){
                   Navigator.of(context)

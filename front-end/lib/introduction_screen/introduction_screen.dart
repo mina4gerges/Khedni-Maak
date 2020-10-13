@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/login/login_screen.dart';
 import 'package:khedni_maak/login/transition_route_observer.dart';
 import 'package:khedni_maak/nav_bar/nav_bar_main.dart';
@@ -33,7 +34,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   void _onIntroEnd(context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => LoginPage()),
+      MaterialPageRoute(builder: (_) => LoginScreen()),
     );
   }
 
@@ -105,47 +106,47 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   }
 }
 
-class LoginPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-//      title: 'Login Page',
-//      theme: ThemeData(
-//        primarySwatch: Colors.deepPurple,
-//        accentColor: Colors.orange,
-//        cursorColor: Colors.orange,
-//        textTheme: TextTheme(
-//          headline1: TextStyle(fontFamily: 'Quicksand'),
-//          headline2: TextStyle(fontFamily: 'Quicksand'),
-//          headline3: TextStyle(
-//            fontFamily: 'OpenSans',
-//            fontSize: 45.0,
-//            color: Colors.orange,
-//          ),
-//          headline4: TextStyle(fontFamily: 'Quicksand'),
-//          headline5: TextStyle(fontFamily: 'NotoSans'),
-//          headline6: TextStyle(fontFamily: 'NotoSans'),
-//          subtitle1: TextStyle(fontFamily: 'NotoSans'),
-//          bodyText1: TextStyle(fontFamily: 'NotoSans'),
-//          bodyText2: TextStyle(fontFamily: 'NotoSans'),
-//          subtitle2: TextStyle(fontFamily: 'NotoSans'),
-//          overline: TextStyle(fontFamily: 'NotoSans'),
-//          button: TextStyle(
-//            fontFamily: 'OpenSans',
-//          ),
-//          caption: TextStyle(
-//            fontFamily: 'NotoSans',
-//            fontSize: 12.0,
-//            fontWeight: FontWeight.normal,
-//            color: Colors.deepPurple[300],
-//          ),
-//        ),
-//      ),
-      home: LoginScreen(),
-      navigatorObservers: [TransitionRouteObserver()],
-      routes: {
-        LoginScreen.routeName: (context) => NavBarMain(),
-      },
-    );
-  }
-}
+// class LoginPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+// //      title: 'Login Page',
+// //      theme: ThemeData(
+// //        primarySwatch: Colors.deepPurple,
+// //        accentColor: Colors.orange,
+// //        cursorColor: Colors.orange,
+// //        textTheme: TextTheme(
+// //          headline1: TextStyle(fontFamily: 'Quicksand'),
+// //          headline2: TextStyle(fontFamily: 'Quicksand'),
+// //          headline3: TextStyle(
+// //            fontFamily: 'OpenSans',
+// //            fontSize: 45.0,
+// //            color: Colors.orange,
+// //          ),
+// //          headline4: TextStyle(fontFamily: 'Quicksand'),
+// //          headline5: TextStyle(fontFamily: 'NotoSans'),
+// //          headline6: TextStyle(fontFamily: 'NotoSans'),
+// //          subtitle1: TextStyle(fontFamily: 'NotoSans'),
+// //          bodyText1: TextStyle(fontFamily: 'NotoSans'),
+// //          bodyText2: TextStyle(fontFamily: 'NotoSans'),
+// //          subtitle2: TextStyle(fontFamily: 'NotoSans'),
+// //          overline: TextStyle(fontFamily: 'NotoSans'),
+// //          button: TextStyle(
+// //            fontFamily: 'OpenSans',
+// //          ),
+// //          caption: TextStyle(
+// //            fontFamily: 'NotoSans',
+// //            fontSize: 12.0,
+// //            fontWeight: FontWeight.normal,
+// //            color: Colors.deepPurple[300],
+// //          ),
+// //        ),
+// //      ),
+//       home: LoginScreen(),
+//       navigatorObservers: [TransitionRouteObserver()],
+//       routes: {
+//         LoginScreen.routeName: (context) => NavBarMain(),
+//       },
+//     );
+//   }
+// }

@@ -3,18 +3,22 @@ import 'dart:convert';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
+
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:khedni_maak/config/Validations.dart';
 import 'package:khedni_maak/config/constant.dart';
-import 'package:khedni_maak/firebase_config/model/message.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
+import 'package:khedni_maak/config/palette.dart';
+
 // import 'package:khedni_maak/google_map/main.dart';
 import 'package:khedni_maak/login/utils/models/login_data.dart';
 import 'package:khedni_maak/login/utils/models/signUp_data.dart';
 import 'package:khedni_maak/login/utils/providers/login_messages.dart';
+import 'package:khedni_maak/login/utils/providers/login_theme.dart';
+
 // import 'package:khedni_maak/nav_bar/nav_bar_main.dart';
 import 'package:khedni_maak/screens/dashbaord_screen.dart';
-import 'package:khedni_maak/config/globals.dart' as globals;
 
 import 'constants.dart';
 import 'custom_route.dart';
@@ -158,6 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
       logo: Constants.logoPath,
       logoTag: Constants.logoTag,
       titleTag: Constants.titleTag,
+      theme: LoginTheme(primaryColor: Palette.primaryColor),
       messages: LoginMessages(
         usernameHint: 'Email',
         passwordHint: 'Pass',
