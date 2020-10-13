@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:khedni_maak/screens/drivers_screen.dart';
+
 import 'nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:khedni_maak/config/Secrets.dart';
@@ -61,7 +63,7 @@ class _NavBarMainState extends State<NavBarMain> {
 
       //Create the views which will be mapped to the indices for our nav btns
       _viewsByIndex = <Widget>[
-        Text('hi from rider Rides'),
+        DriverScreen(),
         Text('hi from rider History'),
         Text('hi from rider notification'),
       ];

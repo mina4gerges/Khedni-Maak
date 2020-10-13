@@ -4,12 +4,12 @@ class BuildStatCard extends StatelessWidget {
   BuildStatCard({
     Key key,
     this.title,
-    this.count,
+    this.body,
     this.color,
   }) : super(key: key);
 
   final String title;
-  final String count;
+  final String body;
   final MaterialColor color;
 
   @override
@@ -34,7 +34,7 @@ class BuildStatCard extends StatelessWidget {
             ),
           ),
           Text(
-            count,
+            body,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 20.0,
