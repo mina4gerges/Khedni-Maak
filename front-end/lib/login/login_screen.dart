@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
         buttonTheme:  LoginButtonTheme(
           // this.backgroundColor,
           // this.highlightColor,
-          splashColor:Palette.primaryColor,
+          splashColor:Palette.gradientPrimaryColor,
           // this.elevation,
           // this.highlightElevation,
           // this.shape,

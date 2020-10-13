@@ -39,9 +39,8 @@ class _NavBarMainState extends State<NavBarMain> {
       //Declare some buttons for our tab bar
       _navBarItems = [
         NavBarItemData("Map", OMIcons.directions, 100, Color(0xff264653)),
-        // NavBarItemData("Map", OMIcons.directions, 100, Color(0xff01b87d)),
         NavBarItemData("Rides", OMIcons.list, 100, Color(0xffe9c46a)),
-        // NavBarItemData("Rides", OMIcons.list, 100, Color(0xff594ccf)),
+        NavBarItemData("Notification", OMIcons.notifications, 135, Color(0xfff4a261)),
       ];
 
       //Create the views which will be mapped to the indices for our nav btns
@@ -50,20 +49,21 @@ class _NavBarMainState extends State<NavBarMain> {
             apiKey: Secrets.API_KEY,
             initialPosition: LatLng(-29.8567844, 101.213108)),
         Text('hi from driver Rides'),
+        Text('hi from driver notification'),
       ];
     } else {
       //Declare some buttons for our tab bar
       _navBarItems = [
-        // NavBarItemData("Rides", OMIcons.list, 110, Color(0xff01b87d)),
-        NavBarItemData("Rides", OMIcons.list, 110, Color(0xff264653)),
-        // NavBarItemData("History", OMIcons.history, 100, Color(0xff594ccf)),
-        NavBarItemData("History", OMIcons.history, 100, Color(0xffe9c46a)),
+        NavBarItemData("Rides", OMIcons.list, 100, Color(0xff264653)),
+        NavBarItemData("History", OMIcons.history, 110, Color(0xffe9c46a)),
+        NavBarItemData("Notification", OMIcons.notifications, 135, Color(0xfff4a261)),
       ];
 
       //Create the views which will be mapped to the indices for our nav btns
       _viewsByIndex = <Widget>[
         Text('hi from rider Rides'),
         Text('hi from rider History'),
+        Text('hi from rider notification'),
       ];
     }
   }
