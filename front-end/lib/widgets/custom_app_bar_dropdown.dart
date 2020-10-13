@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class CustomAppBarDropDown extends StatefulWidget {
   CustomAppBarDropDown({
@@ -14,33 +15,25 @@ class CustomAppBarDropDown extends StatefulWidget {
   _CustomAppBarDropDownState createState() => _CustomAppBarDropDownState();
 }
 
-enum TopBarOptions { harder, smarter }
+enum TopBarOptions { profile, logout }
 
 class _CustomAppBarDropDownState extends State<CustomAppBarDropDown> {
-  TopBarOptions _selection;
-
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<TopBarOptions>(
-      icon: widget.icon,
-      color: widget.color,
-      onSelected: (TopBarOptions result) {
-        setState(() {
-          _selection = result;
-        });
-      },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<TopBarOptions>>[
         const PopupMenuItem<TopBarOptions>(
-          value: TopBarOptions.harder,
-            child: Text('Profile'),
+          value: TopBarOptions.profile,
+          child: ListTile(
+              leading: Icon(Icons.person), title: Text('Profile')),
         ),
+        const PopupMenuDivider(),
         const PopupMenuItem<TopBarOptions>(
-          value: TopBarOptions.smarter,
-          child: Text('Log Out'),
+          value: TopBarOptions.logout,
+          child: ListTile(
+              leading: Icon(Icons.logout), title: Text('Logout')),
         ),
       ],
     );
   }
-
-
 }
