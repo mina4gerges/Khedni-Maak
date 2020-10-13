@@ -154,7 +154,26 @@ class _LoginScreenState extends State<LoginScreen> {
       logo: Constants.logoPath,
       logoTag: Constants.logoTag,
       titleTag: Constants.titleTag,
-      theme: LoginTheme(primaryColor: Palette.primaryColor),
+      theme: LoginTheme(
+        primaryColor: Palette.primaryColor,
+        accentColor:Palette.primaryColor,
+        // cardTheme = const CardTheme(),
+        // inputTheme = const InputDecorationTheme(
+        //   filled: true,
+        // ),
+        // buttonTheme = const LoginButtonTheme(),
+        // titleStyle:Colors.red,
+        // bodyStyle:Colors.red,
+        // textFieldStyle:Colors.red,
+        buttonTheme:  LoginButtonTheme(
+          // this.backgroundColor,
+          // this.highlightColor,
+          splashColor:Palette.primaryColor,
+          // this.elevation,
+          // this.highlightElevation,
+          // this.shape,
+        ),
+      ),
       messages: LoginMessages(
         usernameHint: 'Email',
         passwordHint: 'Pass',
