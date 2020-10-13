@@ -3,9 +3,18 @@ import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/widgets/custom_app_bar_dropdown.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
+
+  CustomAppBar({
+    Key key,
+    this.title = '',
+  }) : super(key: key);
+
+  final String title;
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      title: Text(title),
       backgroundColor: Palette.primaryColor,
       elevation: 0.0,
       leading: IconButton(

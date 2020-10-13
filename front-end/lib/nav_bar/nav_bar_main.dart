@@ -26,6 +26,7 @@ class NavBarMain extends StatefulWidget {
 class _NavBarMainState extends State<NavBarMain> {
   List<NavBarItemData> _navBarItems;
   int _selectedNavIndex = 0;
+  String _appBarTitle;
 
   List<Widget> _viewsByIndex;
 
@@ -38,6 +39,7 @@ class _NavBarMainState extends State<NavBarMain> {
     //f4a261
     //e76f51
     if (widget.source == 'driver') {
+      _appBarTitle='Dirver';
       //Declare some buttons for our tab bar
       _navBarItems = [
         NavBarItemData("Map", OMIcons.directions, 100, Color(0xff264653)),
@@ -54,6 +56,8 @@ class _NavBarMainState extends State<NavBarMain> {
         Text('hi from driver notification'),
       ];
     } else {
+      _appBarTitle='Rider';
+
       //Declare some buttons for our tab bar
       _navBarItems = [
         NavBarItemData("Rides", OMIcons.list, 100, Color(0xff264653)),
@@ -85,7 +89,7 @@ class _NavBarMainState extends State<NavBarMain> {
 
     //Wrap our custom navbar + contentView with the app Scaffold
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(title:_appBarTitle),
       backgroundColor: Color(0xffE6E6E6),
       body: SafeArea(
         child: Container(
