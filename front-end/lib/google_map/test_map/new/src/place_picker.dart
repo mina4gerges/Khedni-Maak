@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -190,6 +189,14 @@ class _PlacePickerState extends State<PlacePicker> {
     provider.sessionToken = Uuid().generateV4();
     provider.desiredAccuracy = widget.desiredLocationAccuracy;
     provider.setMapType(widget.initialMapType);
+
+test();
+  }
+
+  void test ()async{
+    await provider
+        .updateCurrentLocation(widget.forceAndroidLocationManager);
+    await _moveToCurrentPosition();
   }
 
   @override
@@ -202,6 +209,7 @@ class _PlacePickerState extends State<PlacePicker> {
 
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(
         onWillPop: () {
           searchBarController.clearOverlay();
@@ -230,50 +238,6 @@ class _PlacePickerState extends State<PlacePicker> {
             },
           ),
         ));
-  }
-
-  Widget _buildSearchBar1() {
-    return Row(
-      children: <Widget>[
-        widget.automaticallyImplyAppBarLeading
-            ? IconButton(
-                onPressed: () => Navigator.maybePop(context),
-                icon: Icon(
-                  Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-                ),
-                padding: EdgeInsets.zero)
-            : SizedBox(width: 15),
-        Expanded(
-          child: AutoCompleteSearch(
-              appBarKey: appBarKey,
-              searchBarController: searchBarController,
-              sessionToken: provider.sessionToken,
-              hintText: widget.hintText,
-              searchingText: widget.searchingText,
-              debounceMilliseconds: widget.autoCompleteDebounceInMilliseconds,
-              onPicked: (prediction) {
-                _pickPrediction(prediction, 'startPoint');
-              },
-              onSearchFailed: (status) {
-                if (widget.onAutoCompleteFailed != null) {
-                  widget.onAutoCompleteFailed(status);
-                }
-              },
-              autocompleteOffset: widget.autocompleteOffset,
-              autocompleteRadius: widget.autocompleteRadius,
-              autocompleteLanguage: widget.autocompleteLanguage,
-              autocompleteComponents: widget.autocompleteComponents,
-              autocompleteTypes: widget.autocompleteTypes,
-              strictbounds: widget.strictbounds,
-              region: widget.region,
-              initialSearchString: widget.initialSearchString,
-              searchForInitialValue: widget.searchForInitialValue,
-              autocompleteOnTrailingWhitespace:
-                  widget.autocompleteOnTrailingWhitespace),
-        ),
-        SizedBox(width: 5),
-      ],
-    );
   }
 
   Widget _buildSearchBar() {
@@ -491,24 +455,24 @@ class _PlacePickerState extends State<PlacePicker> {
 
         // Accommodate the two locations within the
         // camera view of the map
-          GoogleMapController controller = provider.mapController;
-          if (controller == null) return null;
+        GoogleMapController controller = provider.mapController;
+        if (controller == null) return null;
 
-          // await controller.animateCamera(
-          //   CameraUpdate.newLatLngBounds(
-          //     LatLngBounds(
-          //       northeast: LatLng(
-          //         _northeastCoordinates.latitude,
-          //         _northeastCoordinates.longitude,
-          //       ),
-          //       southwest: LatLng(
-          //         _southwestCoordinates.latitude,
-          //         _southwestCoordinates.longitude,
-          //       ),
-          //     ),
-          //     100.0,
-          //   ),
-          // );
+        // await controller.animateCamera(
+        //   CameraUpdate.newLatLngBounds(
+        //     LatLngBounds(
+        //       northeast: LatLng(
+        //         _northeastCoordinates.latitude,
+        //         _northeastCoordinates.longitude,
+        //       ),
+        //       southwest: LatLng(
+        //         _southwestCoordinates.latitude,
+        //         _southwestCoordinates.longitude,
+        //       ),
+        //     ),
+        //     100.0,
+        //   ),
+        // );
 
         // Calculating the distance between the start and the end positions
         // with a straight path, without considering any route
@@ -557,7 +521,7 @@ class _PlacePickerState extends State<PlacePicker> {
       widget.apiKey, // Google Maps API Key
       PointLatLng(start.latitude, start.longitude),
       PointLatLng(destination.latitude, destination.longitude),
-     // travelMode: TravelMode.transit,
+      // travelMode: TravelMode.transit,
     );
 
     if (result.points.isNotEmpty) {
@@ -658,15 +622,15 @@ class _PlacePickerState extends State<PlacePicker> {
       },
       onMyLocation: () async {
         // Prevent to click many times in short period.
-        if (provider.isOnUpdateLocationCooldown == false) {
-          provider.isOnUpdateLocationCooldown = true;
-          Timer(Duration(seconds: widget.myLocationButtonCooldown), () {
-            provider.isOnUpdateLocationCooldown = false;
-          });
-          await provider
-              .updateCurrentLocation(widget.forceAndroidLocationManager);
-          await _moveToCurrentPosition();
-        }
+        // if (provider.isOnUpdateLocationCooldown == false) {
+        //   provider.isOnUpdateLocationCooldown = true;
+        //   Timer(Duration(seconds: widget.myLocationButtonCooldown), () {
+        //     provider.isOnUpdateLocationCooldown = false;
+        //   });
+        await provider
+            .updateCurrentLocation(widget.forceAndroidLocationManager);
+        await _moveToCurrentPosition();
+        // }
       },
       onMoveStart: () {
         searchBarController.reset();

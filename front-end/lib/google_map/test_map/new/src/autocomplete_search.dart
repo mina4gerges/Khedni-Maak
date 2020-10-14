@@ -102,7 +102,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       child: RoundedFrame(
         height: widget.height,
         padding: const EdgeInsets.only(right: 10),
-        margin:const EdgeInsets.only(top: 5),
+        margin: const EdgeInsets.only(top: 5),
         color: Theme.of(context).brightness == Brightness.dark
             ? Colors.black54
             : Colors.white,
@@ -228,7 +228,8 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: appBarRenderBox.size.height+5.0,
+        // top: appBarRenderBox.size.height+5.0,
+        top: appBarRenderBox.size.height + widget.height * 2 + 5.0,
         left: screenWidth * 0.025,
         right: screenWidth * 0.025,
         child: Material(
@@ -329,7 +330,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
     _clearOverlay();
   }
 
-  getSearchBarInfo(){
+  getSearchBarInfo() {
     return provider.searchTerm;
   }
 }
