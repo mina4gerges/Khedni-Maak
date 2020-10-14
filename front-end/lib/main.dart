@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Start screen',
+      title: 'Khedni Maak',
       home: IntroductionView(),
       debugShowCheckedModeBanner: false,
       navigatorObservers: [TransitionRouteObserver()],
