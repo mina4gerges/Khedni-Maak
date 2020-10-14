@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:khedni_maak/screens/drivers_screen.dart';
 
-import 'nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:khedni_maak/config/Secrets.dart';
+import 'package:khedni_maak/utils/nav_bar/nav_bar.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';

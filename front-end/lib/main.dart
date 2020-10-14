@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login/login_screen.dart';
-import 'nav_bar/nav_bar_main.dart';
+import 'widgets/nav_bar_main.dart';
 import 'login/transition_route_observer.dart';
 import 'package:khedni_maak/screens/dashbaord_screen.dart';
 import 'package:khedni_maak/screens/introduction_screen.dart';

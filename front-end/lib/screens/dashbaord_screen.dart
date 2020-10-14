@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:khedni_maak/widgets/pic_card.dart';
 import 'package:khedni_maak/login/custom_route.dart';
-import 'package:khedni_maak/nav_bar/nav_bar_main.dart';
+import 'file:///C:/Users/mina.gerges/Desktop/Mobile%20Apps/Khedni-Maak/front-end/lib/widgets/nav_bar_main.dart';
 import 'package:khedni_maak/widgets/dashboard_header.dart';
 
 class DashboardScreen extends StatelessWidget {
