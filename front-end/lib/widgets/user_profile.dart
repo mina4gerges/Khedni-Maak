@@ -7,7 +7,10 @@ import 'package:khedni_maak/config/globals.dart' as globals;
 class UserProfile extends StatefulWidget {
   UserProfile({
     Key key,
+    @required this.screenHeight,
   }) : super(key: key);
+
+  final double screenHeight;
 
   @override
   _UserProfileState createState() => _UserProfileState();
@@ -15,8 +18,6 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   Future<User> user;
-
-
 
   @override
   void initState() {
@@ -39,12 +40,14 @@ class _UserProfileState extends State<UserProfile> {
             ? ', ${name[0].toUpperCase() + name.substring(1)}'
             : '';
 
-        return Text(
-          '${Functions.getGreetings()}$capitalizedName',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
+        return Expanded(
+          child: Text(
+            '${Functions.getGreetings()}$capitalizedName',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: widget.screenHeight * 0.05,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         );
       },

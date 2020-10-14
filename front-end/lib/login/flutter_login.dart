@@ -94,10 +94,10 @@ class __HeaderState extends State<_Header> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     const gap = 5.0;
-    // final logoHeight = min(widget.height - _titleHeight - gap, kMaxLogoHeight);
-    final logoHeight = 70.0;
-    // final displayLogo = widget.logoPath != null && logoHeight >= kMinLogoHeight;
-    final displayLogo = true;
+    final logoHeight = min(widget.height - _titleHeight - gap, kMaxLogoHeight);
+    // final logoHeight = 70.0;
+    final displayLogo = widget.logoPath != null && logoHeight >= kMinLogoHeight;
+    // final displayLogo = true;
 
     Widget logo = displayLogo
         ? Image.asset(

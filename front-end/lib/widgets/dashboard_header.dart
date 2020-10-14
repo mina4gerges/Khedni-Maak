@@ -6,7 +6,6 @@ import 'package:khedni_maak/widgets/model/user.dart';
 import 'package:khedni_maak/widgets/user_profile.dart';
 import 'package:khedni_maak/config/globals.dart' as globals;
 
-
 class DashboardHeader extends StatefulWidget {
   DashboardHeader({
     Key key,
@@ -22,7 +21,7 @@ class DashboardHeader extends StatefulWidget {
 class _DashboardHeaderState extends State<DashboardHeader> {
   Future<User> user;
 
-  String token =globals.loginToken;
+  String token = globals.loginToken;
 
   String username = globals.loginUserName;
 
@@ -49,7 +48,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
           SizedBox(height: widget.screenHeight * 0.02),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[UserProfile()],
+            children: <Widget>[UserProfile(screenHeight: widget.screenHeight)],
           ),
           SizedBox(height: widget.screenHeight * 0.02),
           Column(
@@ -57,18 +56,18 @@ class _DashboardHeaderState extends State<DashboardHeader> {
             children: <Widget>[
               Text(
                 'Are you ready for a new ride ?',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 22.0,
+                  fontSize: widget.screenHeight * 0.04,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               SizedBox(height: widget.screenHeight * 0.02),
               Text(
                 'What do you want to do do today ?',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white70,
-                  fontSize: 15.0,
+                  fontSize: widget.screenHeight * 0.02,
                 ),
               ),
               SizedBox(height: widget.screenHeight * 0.01),

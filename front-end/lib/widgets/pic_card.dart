@@ -42,7 +42,10 @@ class BuildPicCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Image.asset('assets/images/$pic',width: 100,),
+              Image.asset(
+                'assets/images/$pic',
+                width: screenHeight * 0.17,
+              ),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -50,18 +53,18 @@ class BuildPicCard extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20.0,
+                        fontSize: screenHeight * 0.04,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(height: screenHeight * 0.01),
                     Text(
                       body,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15.0,
+                        fontSize: screenHeight * 0.02,
                       ),
                     ),
                   ],
