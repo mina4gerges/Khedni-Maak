@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khedni_maak/config/palette.dart';
-import 'file:///C:/Users/mina.gerges/Desktop/Mobile%20Apps/Khedni-Maak/front-end/lib/utils/custom_app/custom_app_bar_dropdown.dart';
+import 'package:khedni_maak/utils/custom_app/custom_app_bar_dropdown.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
 
