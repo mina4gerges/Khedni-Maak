@@ -1,13 +1,13 @@
 import 'dart:math';
-import 'package:khedni_maak/screens/drivers_screen.dart';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khedni_maak/config/Secrets.dart';
+import 'package:khedni_maak/google_map/test_map/new/src/place_picker.dart';
+import 'package:khedni_maak/screens/drivers_screen.dart';
 import 'package:khedni_maak/utils/nav_bar/nav_bar.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
-import 'package:khedni_maak/google_map/test_map/new/src/place_picker.dart';
 
 class NavBarMain extends StatefulWidget {
   static const routeName = '/auth/DashboardScreen/navBar';
@@ -25,10 +25,11 @@ class NavBarMain extends StatefulWidget {
 
 class _NavBarMainState extends State<NavBarMain> {
   List<NavBarItemData> _navBarItems;
-  int _selectedNavIndex = 0;
-  String _appBarTitle;
-
   List<Widget> _viewsByIndex;
+  List<String> _appBarTitles;
+
+  int _selectedNavIndex = 0;
+
 
   @override
   void initState() {
@@ -38,31 +39,41 @@ class _NavBarMainState extends State<NavBarMain> {
     //e9c46a
     //f4a261
     //e76f51
+
+    //user is driver
     if (widget.source == 'driver') {
-      _appBarTitle='Dirver';
+
       //Declare some buttons for our tab bar
-      _navBarItems = [
+      _navBarItems = <NavBarItemData>[
         NavBarItemData("Map", OMIcons.directions, 100, Color(0xff264653)),
         NavBarItemData("Rides", OMIcons.list, 100, Color(0xffe9c46a)),
-        NavBarItemData("Notification", OMIcons.notifications, 135, Color(0xfff4a261)),
+        NavBarItemData(
+            "Notification", OMIcons.notifications, 135, Color(0xfff4a261)),
       ];
 
       //Create the views which will be mapped to the indices for our nav btns
-      _viewsByIndex = <Widget>[
+      _viewsByIndex =<Widget> [
         PlacePicker(
             apiKey: Secrets.API_KEY,
             initialPosition: LatLng(-29.8567844, 101.213108)),
         Text('hi from driver Rides'),
         Text('hi from driver notification'),
       ];
-    } else {
-      _appBarTitle='Rider';
+
+      //Declare app bar titles
+      _appBarTitles=<String>[
+        "Map","Rides","Notification"
+      ];
+    }
+    //user is rider
+    else {
 
       //Declare some buttons for our tab bar
-      _navBarItems = [
+      _navBarItems = <NavBarItemData>[
         NavBarItemData("Rides", OMIcons.list, 100, Color(0xff264653)),
         NavBarItemData("History", OMIcons.history, 110, Color(0xffe9c46a)),
-        NavBarItemData("Notification", OMIcons.notifications, 135, Color(0xfff4a261)),
+        NavBarItemData(
+            "Notification", OMIcons.notifications, 135, Color(0xfff4a261)),
       ];
 
       //Create the views which will be mapped to the indices for our nav btns
@@ -70,6 +81,11 @@ class _NavBarMainState extends State<NavBarMain> {
         DriverScreen(),
         Text('hi from rider History'),
         Text('hi from rider notification'),
+      ];
+
+      //Declare app bar titles
+      _appBarTitles=<String>[
+        "Rides","History","Notification"
       ];
     }
   }
@@ -89,7 +105,7 @@ class _NavBarMainState extends State<NavBarMain> {
 
     //Wrap our custom navbar + contentView with the app Scaffold
     return Scaffold(
-      appBar: CustomAppBar(title:_appBarTitle),
+      appBar: CustomAppBar(title: _appBarTitles[_selectedNavIndex]),
       backgroundColor: Color(0xffE6E6E6),
       body: SafeArea(
         child: Container(
