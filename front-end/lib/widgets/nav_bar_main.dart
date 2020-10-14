@@ -55,7 +55,7 @@ class _NavBarMainState extends State<NavBarMain> {
       _viewsByIndex =<Widget> [
         PlacePicker(
             apiKey: Secrets.API_KEY,
-            initialPosition: LatLng(-29.8567844, 101.213108)),
+            initialPosition: LatLng(0, 0)),
         Text('hi from driver Rides'),
         Text('hi from driver notification'),
       ];
