@@ -4,6 +4,8 @@ import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/functions/functions.dart';
 import 'package:khedni_maak/widgets/model/user.dart';
 import 'package:khedni_maak/widgets/user_profile.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
+
 
 class DashboardHeader extends StatefulWidget {
   DashboardHeader({
@@ -20,10 +22,9 @@ class DashboardHeader extends StatefulWidget {
 class _DashboardHeaderState extends State<DashboardHeader> {
   Future<User> user;
 
-  String token =
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5hQGdtYWlsLmNvbSIsInNjb3BlcyI6WyJST0xFX0FETUlOIl0sImlhdCI6MTYwMjUwMDIyOCwiZXhwIjoxNjAyNTE4MjI4fQ.sRIfrq7MLQ1xBhNenh3hUyKPKzM4-YzEMqKJCLRouZ4';
+  String token =globals.loginToken;
 
-  String username = 'mina@gmail.com';
+  String username = globals.loginUserName;
 
   @override
   void initState() {
@@ -45,12 +46,12 @@ class _DashboardHeaderState extends State<DashboardHeader> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: widget.screenHeight * 0.03),
+          SizedBox(height: widget.screenHeight * 0.02),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[UserProfile()],
           ),
-          SizedBox(height: widget.screenHeight * 0.03),
+          SizedBox(height: widget.screenHeight * 0.02),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -62,7 +63,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: widget.screenHeight * 0.01),
+              SizedBox(height: widget.screenHeight * 0.02),
               Text(
                 'What do you want to do do today ?',
                 style: const TextStyle(
@@ -70,7 +71,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
                   fontSize: 15.0,
                 ),
               ),
-              SizedBox(height: widget.screenHeight * 0.03),
+              SizedBox(height: widget.screenHeight * 0.01),
             ],
           )
         ],

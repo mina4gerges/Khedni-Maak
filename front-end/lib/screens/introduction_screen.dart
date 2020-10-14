@@ -4,6 +4,8 @@ import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/login/login_screen.dart';
 
 class IntroductionView extends StatelessWidget {
+  static const routeName = '/';
+
   @override
   Widget build(BuildContext context) {
     return OnBoardingPage();

@@ -1,4 +1,4 @@
-library my_prj.globals;
+// library my_prj.globals;
 
 // Map<String,String> loginData;
 String loginToken = '';

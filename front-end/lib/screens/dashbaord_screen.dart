@@ -15,9 +15,10 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       // appBar: CustomAppBar(),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           DashboardHeader(screenHeight: screenHeight),
+          SizedBox(height: screenHeight * 0.03),
           Column(
             children: <Widget>[
               BuildPicCard(

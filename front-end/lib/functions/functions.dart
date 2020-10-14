@@ -24,7 +24,7 @@ class Functions {
     );
 
     if (response.statusCode == 200) {
-      print('success: patient info');
+      print('success: user info');
 
       String fullName = json.decode(response.body)['name'];
 
@@ -35,7 +35,7 @@ class Functions {
         userName: json.decode(response.body)['username'],
       );
     } else {
-      print('failed: patient info');
+      print('failed: user info');
     }
     return User(
       name: '',
