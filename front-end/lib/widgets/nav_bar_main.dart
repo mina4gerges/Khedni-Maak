@@ -8,6 +8,7 @@ import 'package:khedni_maak/screens/drivers_screen.dart';
 import 'package:khedni_maak/utils/nav_bar/nav_bar.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:fleva_icons/fleva_icons.dart';
 
 class NavBarMain extends StatefulWidget {
   static const routeName = '/auth/DashboardScreen/navBar';
@@ -30,7 +31,6 @@ class _NavBarMainState extends State<NavBarMain> {
 
   int _selectedNavIndex = 0;
 
-
   @override
   void initState() {
     super.initState();
@@ -42,32 +42,26 @@ class _NavBarMainState extends State<NavBarMain> {
 
     //user is driver
     if (widget.source == 'driver') {
-
       //Declare some buttons for our tab bar
       _navBarItems = <NavBarItemData>[
-        NavBarItemData("Map", OMIcons.directions, 100, Color(0xff264653)),
+        NavBarItemData("Map", FlevaIcons.map_outline, 100, Color(0xff264653)),
         NavBarItemData("Rides", OMIcons.list, 100, Color(0xffe9c46a)),
         NavBarItemData(
             "Notification", OMIcons.notifications, 135, Color(0xfff4a261)),
       ];
 
       //Create the views which will be mapped to the indices for our nav btns
-      _viewsByIndex =<Widget> [
-        PlacePicker(
-            apiKey: Secrets.API_KEY,
-            initialPosition: LatLng(0, 0)),
+      _viewsByIndex = <Widget>[
+        PlacePicker(apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0)),
         Text('hi from driver Rides'),
         Text('hi from driver notification'),
       ];
 
       //Declare app bar titles
-      _appBarTitles=<String>[
-        "Map","Rides","Notification"
-      ];
+      _appBarTitles = <String>["Map", "Rides", "Notification"];
     }
     //user is rider
     else {
-
       //Declare some buttons for our tab bar
       _navBarItems = <NavBarItemData>[
         NavBarItemData("Rides", OMIcons.list, 100, Color(0xff264653)),
@@ -84,9 +78,7 @@ class _NavBarMainState extends State<NavBarMain> {
       ];
 
       //Declare app bar titles
-      _appBarTitles=<String>[
-        "Rides","History","Notification"
-      ];
+      _appBarTitles = <String>["Rides", "History", "Notification"];
     }
   }
 

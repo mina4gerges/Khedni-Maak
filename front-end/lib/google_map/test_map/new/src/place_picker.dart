@@ -190,12 +190,11 @@ class _PlacePickerState extends State<PlacePicker> {
     provider.desiredAccuracy = widget.desiredLocationAccuracy;
     provider.setMapType(widget.initialMapType);
 
-test();
+    test();
   }
 
-  void test ()async{
-    await provider
-        .updateCurrentLocation(widget.forceAndroidLocationManager);
+  void test() async {
+    await provider.updateCurrentLocation(widget.forceAndroidLocationManager);
     await _moveToCurrentPosition();
   }
 
@@ -209,7 +208,6 @@ test();
 
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
         onWillPop: () {
           searchBarController.clearOverlay();
