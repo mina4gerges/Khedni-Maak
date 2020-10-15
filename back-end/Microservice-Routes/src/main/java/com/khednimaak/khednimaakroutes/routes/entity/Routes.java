@@ -30,6 +30,8 @@ public class Routes {
     private String destination;
     private String estimationTime;
     private String startingTime; 
+    private double lat; // coordinates: latitude
+    private double lng; // coordinates: longitude
     private int status=1; // 1 for active, 0 for inactive 
     private int capacity; //maximum number of passengers
     private ArrayList<String> passengers = new ArrayList<String>();
@@ -98,6 +100,18 @@ public class Routes {
 	}
 	public void setPassengers(ArrayList<String> passengers) {
 		this.passengers = passengers;
+	}
+	public double getLat() {
+		return lat;
+	}
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+	public double getLng() {
+		return lng;
+	}
+	public void setLng(double lng) {
+		this.lng = lng;
 	}
 
     
