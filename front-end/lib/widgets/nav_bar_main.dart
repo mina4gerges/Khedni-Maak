@@ -1,14 +1,15 @@
 import 'dart:math';
 
+import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khedni_maak/config/Secrets.dart';
-import 'package:khedni_maak/google_map/test_map/new/src/place_picker.dart';
+import 'package:khedni_maak/config/palette.dart';
+import 'file:///C:/Users/mina.gerges/Desktop/Mobile%20Apps/Khedni-Maak/front-end/lib/screens/map_screen.dart';
 import 'package:khedni_maak/screens/drivers_screen.dart';
 import 'package:khedni_maak/utils/nav_bar/nav_bar.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
-import 'package:fleva_icons/fleva_icons.dart';
 
 class NavBarMain extends StatefulWidget {
   static const routeName = '/auth/DashboardScreen/navBar';
@@ -44,15 +45,15 @@ class _NavBarMainState extends State<NavBarMain> {
     if (widget.source == 'driver') {
       //Declare some buttons for our tab bar
       _navBarItems = <NavBarItemData>[
-        NavBarItemData("Map", FlevaIcons.map_outline, 100, Color(0xff264653)),
-        NavBarItemData("Rides", OMIcons.list, 100, Color(0xffe9c46a)),
+        NavBarItemData("Map", FlevaIcons.map_outline, 100, Palette.secondColor),
+        NavBarItemData("Rides", OMIcons.list, 100, Palette.thirdColor),
         NavBarItemData(
-            "Notification", OMIcons.notifications, 135, Color(0xfff4a261)),
+            "Notification", OMIcons.notifications, 135, Palette.fourthColor),
       ];
 
       //Create the views which will be mapped to the indices for our nav btns
       _viewsByIndex = <Widget>[
-        PlacePicker(apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0)),
+        MapScreen(apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0)),
         Text('hi from driver Rides'),
         Text('hi from driver notification'),
       ];
@@ -64,10 +65,10 @@ class _NavBarMainState extends State<NavBarMain> {
     else {
       //Declare some buttons for our tab bar
       _navBarItems = <NavBarItemData>[
-        NavBarItemData("Rides", OMIcons.list, 100, Color(0xff264653)),
-        NavBarItemData("History", OMIcons.history, 110, Color(0xffe9c46a)),
+        NavBarItemData("Rides", OMIcons.list, 100, Palette.secondColor),
+        NavBarItemData("History", OMIcons.history, 110, Palette.thirdColor),
         NavBarItemData(
-            "Notification", OMIcons.notifications, 135, Color(0xfff4a261)),
+            "Notification", OMIcons.notifications, 135, Palette.fourthColor),
       ];
 
       //Create the views which will be mapped to the indices for our nav btns
