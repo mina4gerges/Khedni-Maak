@@ -26,12 +26,18 @@ public class Routes {
 	@Id
 	@GeneratedValue
     private int id;
-	private String source;
-    private String destination;
+//	private String source;
+//  private String destination;
+	
+    private double latStart; // coordinates: latitude start
+    private double lngStart; // coordinates: longitude start
+    
+    private double latEnd; // coordinates: latitude end 
+    private double lngEnd; // coordinates: longitude end 
+	
     private String estimationTime;
     private String startingTime; 
-    private double lat; // coordinates: latitude
-    private double lng; // coordinates: longitude
+
     private int status=1; // 1 for active, 0 for inactive 
     private int capacity; //maximum number of passengers
     private ArrayList<String> passengers = new ArrayList<String>();
@@ -39,18 +45,7 @@ public class Routes {
     private String car;
 
 	
-	public String getSource() {
-		return source;
-	}
-	public void setSource(String source) {
-		this.source = source;
-	}
-	public String getDestination() {
-		return destination;
-	}
-	public void setDestination(String destination) {
-		this.destination = destination;
-	}
+
 
 
 	public String getDriverUsername() {
@@ -101,18 +96,31 @@ public class Routes {
 	public void setPassengers(ArrayList<String> passengers) {
 		this.passengers = passengers;
 	}
-	public double getLat() {
-		return lat;
+	public double getLatStart() {
+		return latStart;
 	}
-	public void setLat(double lat) {
-		this.lat = lat;
+	public void setLatStart(double latStart) {
+		this.latStart = latStart;
 	}
-	public double getLng() {
-		return lng;
+	public double getLngStart() {
+		return lngStart;
 	}
-	public void setLng(double lng) {
-		this.lng = lng;
+	public void setLngStart(double lngStart) {
+		this.lngStart = lngStart;
 	}
+	public double getLatEnd() {
+		return latEnd;
+	}
+	public void setLatEnd(double latEnd) {
+		this.latEnd = latEnd;
+	}
+	public double getLngEnd() {
+		return lngEnd;
+	}
+	public void setLngEnd(double lngEnd) {
+		this.lngEnd = lngEnd;
+	}
+
 
     
 }
