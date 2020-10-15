@@ -64,7 +64,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
               ),
               SizedBox(height: widget.screenHeight * 0.02),
               Text(
-                'What do you want to do do today ?',
+                'What do you want to do today ?',
                 style: TextStyle(
                   color: Colors.white70,
                   fontSize: widget.screenHeight * 0.02,

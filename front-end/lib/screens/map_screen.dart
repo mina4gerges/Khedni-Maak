@@ -28,8 +28,8 @@ class MapScreen extends StatefulWidget {
       this.useCurrentLocation = true,
       this.desiredLocationAccuracy = LocationAccuracy.high,
       this.onMapCreated,
-      this.hintText = 'Choose starting point',
-      this.hintDirectionText = 'Choose ending point',
+      this.hintText = 'From',
+      this.hintDirectionText = 'To',
       this.searchingText,
       // this.searchBarHeight,
       // this.contentPadding,
@@ -238,18 +238,54 @@ class _MapScreenState extends State<MapScreen> {
         ));
   }
 
-  Widget _buildSearchBar() {
-    return Stack(
-      children: <Widget>[
-        TextField(
-          decoration: InputDecoration(
-              border: InputBorder.none, hintText: 'Enter a search term'),
+  Widget _buildSearchBar1() {
+    return Container(
+      // width: width,
+      // height: 40,
+      margin: const EdgeInsets.all(5),
+      // padding: const EdgeInsets.all(10),
+      child: Material(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
-      ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                // SizedBox(width: 10),
+                // Icon(Icons.search),
+                // SizedBox(width: 10),
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'From',
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(width: 10),
+                Icon(Icons.room),
+                SizedBox(width: 10),
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'To',
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _buildSearchBar1() {
+  Widget _buildSearchBar() {
     return Stack(
       children: <Widget>[
         Column(
