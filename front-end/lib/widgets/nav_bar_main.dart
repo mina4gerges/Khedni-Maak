@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khedni_maak/config/Secrets.dart';
 import 'package:khedni_maak/config/palette.dart';
-import 'file:///C:/Users/mina.gerges/Desktop/Mobile%20Apps/Khedni-Maak/front-end/lib/screens/map_screen.dart';
 import 'package:khedni_maak/screens/drivers_screen.dart';
+import 'package:khedni_maak/screens/map_screen.dart';
 import 'package:khedni_maak/utils/nav_bar/nav_bar.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -35,11 +35,6 @@ class _NavBarMainState extends State<NavBarMain> {
   @override
   void initState() {
     super.initState();
-    //264653
-    //2a9d8f
-    //e9c46a
-    //f4a261
-    //e76f51
 
     //user is driver
     if (widget.source == 'driver') {
