@@ -37,7 +37,7 @@ public class RoutesService {
     }
 
 	public Routes updateRoutePassenger(Routes route) {
-{
+
 	        Routes existingRoute = repository.findById(route.getId()).orElse(null);
 	        ArrayList<String> passenger = route.getPassengers();
 	        
@@ -48,7 +48,16 @@ public class RoutesService {
 	        existingRoute.setPassengers(passenger);
 	        return repository.save(existingRoute);
 
-	}}
+	}
+	
+	
+	public Routes updateRouteStatus(Routes route) {
+	Routes existingRoute = repository.findById(route.getId()).orElse(null);
+	existingRoute.setStatus(0);
+	return repository.save(existingRoute);
+	}
+	
+	
 
 //	public String getRoutesByUsername(String username) {
 //		return repository.findRoutebyUsername(username);

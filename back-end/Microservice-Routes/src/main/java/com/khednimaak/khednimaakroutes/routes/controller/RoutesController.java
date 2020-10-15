@@ -53,6 +53,11 @@ public class RoutesController {
         return service.updateRoutePassenger(route);
     }
     
+    @PutMapping("/updateStatus") //1 is default, set to 0 to mark this route as finished 
+    public Routes updateRouteStatus(@RequestBody Routes route) {
+        return service.updateRouteStatus(route);
+    }
+    
 //    @GetMapping("/routesUsername/{id}"){
 //    	
 //    	final String uri = "http://localhost:80";
