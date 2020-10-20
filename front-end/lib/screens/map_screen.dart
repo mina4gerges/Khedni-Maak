@@ -7,9 +7,15 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
+import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/google_map/providers/place_provider.dart';
+import 'package:khedni_maak/google_map/src/components/floating_card.dart';
 import 'package:khedni_maak/google_map/src/utils/uuid.dart';
+import 'package:khedni_maak/login/custom_route.dart';
+import 'package:khedni_maak/screens/second_screen.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 import '../google_map/src/autocomplete_search.dart';
 import '../google_map/src/controllers/autocomplete_search_controller.dart';
@@ -209,77 +215,57 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () {
-          searchBarController.clearOverlay();
-          searchBarDestinationController.clearOverlay();
-          return Future.value(true);
-        },
-        child: ChangeNotifierProvider.value(
-          value: provider,
-          child: Builder(
-            builder: (context) {
-              return Scaffold(
-                resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-                extendBodyBehindAppBar: true,
-                appBar: AppBar(
-                  toolbarHeight: 90.0,
-                  key: appBarKey,
-                  automaticallyImplyLeading: false,
-                  iconTheme: Theme.of(context).iconTheme,
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  titleSpacing: 0.0,
-                  title: _buildSearchBar(),
-                ),
-                body: _buildMapWithLocation(),
-              );
-            },
-          ),
-        ));
+      onWillPop: () {
+        searchBarController.clearOverlay();
+        searchBarDestinationController.clearOverlay();
+        return Future.value(true);
+      },
+      child: ChangeNotifierProvider.value(
+        value: provider,
+        child: Builder(
+          builder: (context) {
+            return Scaffold(
+              resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+              extendBodyBehindAppBar: true,
+              appBar: AppBar(
+                toolbarHeight: 90.0,
+                key: appBarKey,
+                automaticallyImplyLeading: false,
+                iconTheme: Theme.of(context).iconTheme,
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                titleSpacing: 0.0,
+                title: _buildSearchBar(),
+              ),
+              body: Stack(children: <Widget>[
+                _buildMapWithLocation(),
+                _buildFloatingCard(),
+                _buildMapAddRoute(context),
+              ]),
+            );
+          },
+        ),
+      ),
+    );
   }
 
-  Widget _buildSearchBar1() {
-    return Container(
-      // width: width,
-      // height: 40,
-      margin: const EdgeInsets.all(5),
-      // padding: const EdgeInsets.all(10),
-      child: Material(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                // SizedBox(width: 10),
-                // Icon(Icons.search),
-                // SizedBox(width: 10),
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'From',
-                    contentPadding: EdgeInsets.zero,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                SizedBox(width: 10),
-                Icon(Icons.room),
-                SizedBox(width: 10),
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'To',
-                    contentPadding: EdgeInsets.zero,
-                  ),
-                ),
-              ],
-            ),
-          ],
+  Widget _buildMapAddRoute(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Align(
+        alignment: Alignment.bottomRight,
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              FadePageRoute(
+                builder: (context) => SecondScreen(sessionToken:provider.sessionToken,appBarKey:appBarKey),
+              ),
+            );
+          },
+          elevation: 8.0,
+          child: Icon(OMIcons.directions),
+          backgroundColor: Palette.secondColor,
         ),
       ),
     );
@@ -392,8 +378,8 @@ class _MapScreenState extends State<MapScreen> {
     // Prevents searching again by camera movement.
     provider.isAutoCompleteSearching = true;
 
-    await _moveTo(provider.selectedPlace.geometry.location.lat,
-        provider.selectedPlace.geometry.location.lng);
+    // await _moveTo(provider.selectedPlace.geometry.location.lat,
+    //     provider.selectedPlace.geometry.location.lng);
 
     if (source == 'startPoint') {
       provider.startLocation = provider.selectedPlace;
@@ -427,6 +413,8 @@ class _MapScreenState extends State<MapScreen> {
 
   // Method for calculating the distance between two places
   Future<bool> _createRoute() async {
+    searchBarController.reset();
+    searchBarDestinationController.reset();
     try {
       String startLocationId = provider.startLocation?.placeId;
       String endLocationId = provider.endLocation?.placeId;
@@ -662,8 +650,6 @@ class _MapScreenState extends State<MapScreen> {
       },
       createRoute: () {
         _createRoute();
-        searchBarController.reset();
-        searchBarDestinationController.reset();
       },
       onMyLocation: () async {
         // Prevent to click many times in short period.
@@ -682,6 +668,85 @@ class _MapScreenState extends State<MapScreen> {
         searchBarDestinationController.reset();
       },
       onPlacePicked: widget.onPlacePicked,
+    );
+  }
+
+  Widget _buildFloatingCard() {
+    return Selector<PlaceProvider,
+        Tuple4<PickResult, SearchingState, bool, PinState>>(
+      selector: (_, provider) => Tuple4(
+          provider.selectedPlace,
+          provider.placeSearchingState,
+          provider.isSearchBarFocused,
+          provider.pinState),
+      builder: (context, data, __) {
+        if ((data.item1 == null && data.item2 == SearchingState.Idle) ||
+            data.item3 == true ||
+            data.item4 == PinState.Dragging) {
+          return Container();
+        } else {
+          return FloatingCard(
+            bottomPosition: MediaQuery.of(context).size.height * 0.05,
+            leftPosition: MediaQuery.of(context).size.width * 0.025,
+            rightPosition: MediaQuery.of(context).size.width * 0.025,
+            width: MediaQuery.of(context).size.width * 0.9,
+            borderRadius: BorderRadius.circular(12.0),
+            elevation: 4.0,
+            color: Theme.of(context).cardColor,
+            child: provider.placeSearchingState == SearchingState.Searching
+                ? _buildLoadingIndicator()
+                : _buildSelectionDetails(context),
+          );
+        }
+      },
+    );
+  }
+
+  Widget _buildLoadingIndicator() {
+    return Container(
+      height: 48,
+      child: const Center(
+        child: SizedBox(
+          width: 24,
+          height: 24,
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSelectionDetails(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Column(
+        children: <Widget>[
+          Text(
+            provider?.startLocation?.formattedAddress ?? "",
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 10),
+          Text(
+            provider?.endLocation?.formattedAddress ?? "",
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 10),
+          RaisedButton(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Text(
+              "Confirm ride",
+              style: TextStyle(fontSize: 16),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            onPressed: () {
+              print("confirmed");
+            },
+          ),
+        ],
+      ),
     );
   }
 }

@@ -148,7 +148,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
         _buildPin(),
         // _buildFloatingCard(),
         _buildMapIcons(context),
-        _buildMapAddRoute(context),
       ],
     );
   }
@@ -374,11 +373,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
   // }
 
   Widget _buildMapIcons(BuildContext context) {
-    final RenderBox appBarRenderBox =
-        appBarKey.currentContext.findRenderObject();
-
     return Positioned(
-      top: appBarRenderBox.size.height + 5.0,
+      top: 10,
       right: 15,
       child: Column(
         children: <Widget>[
@@ -416,22 +412,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
           SizedBox(height: 10),
         ],
       ),
-    );
-  }
-
-  Widget _buildMapAddRoute(BuildContext context) {
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Align(
-      alignment: Alignment.bottomRight,
-      child: FloatingActionButton(
-        onPressed: createRoute,
-        elevation: 8.0,
-        child: Icon(OMIcons.directions),
-        backgroundColor: Palette.secondColor,
-      ),
-    ),
     );
   }
 }
