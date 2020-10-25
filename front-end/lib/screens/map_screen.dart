@@ -260,7 +260,7 @@ class _MapScreenState extends State<MapScreen> {
               context,
               FadePageRoute(
                 builder: (context) => SecondScreen(
-                    sessionToken: provider.sessionToken, appBarKey: appBarKey),
+                    sessionToken: provider.sessionToken,appBarKey: appBarKey),
               ),
             );
           },

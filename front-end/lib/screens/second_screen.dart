@@ -21,7 +21,8 @@ class SecondScreen extends StatefulWidget {
   final String sessionToken;
   final GlobalKey appBarKey;
 
-  SecondScreen({Key key, @required this.sessionToken, @required this.appBarKey})
+  SecondScreen({Key key, @required this.sessionToken     , @required this.appBarKey,
+  })
       : super(key: key);
 
   @override
@@ -50,16 +51,19 @@ class _SecondScreenState extends State<SecondScreen> {
 
   @override
   void initState() {
-    super.initState();
 
     _fromController.addListener(_onSearchInputChange);
     // focus.addListener(_onFocusChanged);
+
+    // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
 
     places = GoogleMapsPlaces(
       apiKey: Secrets.API_KEY,
       baseUrl: null,
       httpClient: httpClient,
     );
+    super.initState();
+
   }
 
   @override
@@ -75,6 +79,23 @@ class _SecondScreenState extends State<SecondScreen> {
 
     super.dispose();
   }
+
+  // _afterLayout(_) {
+  //   _getSizes();
+  //   _getPositions();
+  // }
+  //
+  // _getSizes() {
+  //   final RenderBox renderBoxRed = widget.appBarKey.currentContext.findRenderObject();
+  //   final sizeRed = renderBoxRed.size;
+  //   print("SIZE of Red: $sizeRed");
+  // }
+  //
+  // _getPositions() {
+  //   final RenderBox renderBoxRed = widget.appBarKey.currentContext.findRenderObject();
+  //   final positionRed = renderBoxRed.localToGlobal(Offset.zero);
+  //   print("POSITION of Red: $positionRed ");
+  // }
 
   _onSearchInputChange() {
     if (!mounted) return;
@@ -105,7 +126,6 @@ class _SecondScreenState extends State<SecondScreen> {
   }
 
   _searchPlace(String searchTerm) {
-    setState(() => {searchTerm = _fromController.text});
 
     if (context == null) return;
 
@@ -129,7 +149,7 @@ class _SecondScreenState extends State<SecondScreen> {
     _clearOverlay();
 
     final RenderBox appBarRenderBox =
-        widget.appBarKey.currentContext.findRenderObject();
+    widget.appBarKey.currentContext.findRenderObject();
 
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -237,7 +257,7 @@ class _SecondScreenState extends State<SecondScreen> {
             // loadingController: _loadingController,
             interval: const Interval(0, .85),
             labelText: 'From',
-            prefixIcon: Icon(FontAwesomeIcons.dotCircle,color:Colors.green),
+            prefixIcon: Icon(FontAwesomeIcons.dotCircle, color: Colors.green),
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
             // onFieldSubmitted: (value) {
@@ -255,7 +275,7 @@ class _SecondScreenState extends State<SecondScreen> {
             // loadingController: _loadingController,
             interval: const Interval(0, .85),
             labelText: 'To',
-            prefixIcon: Icon(FontAwesomeIcons.dotCircle,color:Colors.blue),
+            prefixIcon: Icon(FontAwesomeIcons.dotCircle, color: Colors.blue),
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.done,
             // onFieldSubmitted: (value) {
@@ -269,38 +289,38 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 
-    Widget _buildDatePicker() {
+  Widget _buildDatePicker() {
     final deviceSize = MediaQuery.of(context).size;
     final width = min(deviceSize.width * 0.75, 360.0);
-    final textFieldWidth = width - 16.0 * 2;
-final format = DateFormat("yyyy-MM-dd HH:mm");
-  final initialValue = DateTime.now();
+    // final textFieldWidth = width - 16.0 * 2;
+    final format = DateFormat("yyyy-MM-dd HH:mm");
+    final initialValue = DateTime.now();
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children:    <Widget>[
-
-      DateTimeField(
-        format: format,
-        initialValue: initialValue,
-        onShowPicker: (context, currentValue) async {
-          final date = await showDatePicker(
-              context: context,
-              firstDate: DateTime(2020),
-              initialDate: currentValue ?? DateTime.now(),
-              lastDate: DateTime(2100));
-          if (date != null) {
-            final time = await showTimePicker(
-              context: context,
-              initialTime:
-                  TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
-            );
-            return DateTimeField.combine(date, time);
-          } else {
-            return currentValue;
-          }
-        },
-      ),
-    ],
+      children: <Widget>[
+        DateTimeField(
+          format: format,
+          initialValue: initialValue,
+          onShowPicker: (context, currentValue) async {
+            final date = await showDatePicker(
+                context: context,
+                firstDate: DateTime(2020),
+                initialDate: currentValue ?? DateTime.now(),
+                lastDate: DateTime(2100));
+            if (date != null) {
+              final time = await showTimePicker(
+                context: context,
+                initialTime:
+                    TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+              );
+              return DateTimeField.combine(date, time);
+            } else {
+              return currentValue;
+            }
+          },
+        ),
+      ],
     );
   }
 
@@ -349,7 +369,7 @@ final format = DateFormat("yyyy-MM-dd HH:mm");
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Create a new route"),
+      appBar: CustomAppBar(title: "Create a new route",key:widget.appBarKey),
       backgroundColor: Palette.primaryColor,
       body: CustomScrollView(
         center: centerKey,
@@ -373,14 +393,15 @@ final format = DateFormat("yyyy-MM-dd HH:mm");
                         height: screenHeight * 0.2,
                         child: _buildSearchBar(),
                       ),
-                                            Container(
+                      Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         ),
                         padding:
                             const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        margin: const EdgeInsets.only(right: 20.0, left: 20.0,top:10.0),
+                        margin: const EdgeInsets.only(
+                            right: 20.0, left: 20.0, top: 10.0),
                         height: screenHeight * 0.2,
                         child: _buildDatePicker(),
                       ),
