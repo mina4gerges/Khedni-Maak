@@ -227,16 +227,16 @@ class _MapScreenState extends State<MapScreen> {
             return Scaffold(
               resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
               extendBodyBehindAppBar: true,
-              appBar: AppBar(
-                toolbarHeight: 90.0,
-                key: appBarKey,
-                automaticallyImplyLeading: false,
-                iconTheme: Theme.of(context).iconTheme,
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                titleSpacing: 0.0,
-                title: _buildSearchBar(),
-              ),
+              // appBar: AppBar(
+              //   toolbarHeight: 90.0,
+              //   key: appBarKey,
+              //   automaticallyImplyLeading: false,
+              //   iconTheme: Theme.of(context).iconTheme,
+              //   elevation: 0,
+              //   backgroundColor: Colors.transparent,
+              //   titleSpacing: 0.0,
+              //   title: _buildSearchBar(),
+              // ),
               body: Stack(children: <Widget>[
                 _buildMapWithLocation(),
                 _buildFloatingCard(),
@@ -259,7 +259,8 @@ class _MapScreenState extends State<MapScreen> {
             Navigator.push(
               context,
               FadePageRoute(
-                builder: (context) => SecondScreen(sessionToken:provider.sessionToken,appBarKey:appBarKey),
+                builder: (context) => SecondScreen(
+                    sessionToken: provider.sessionToken, appBarKey: appBarKey),
               ),
             );
           },

@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
@@ -9,8 +11,11 @@ import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/google_map/src/components/prediction_tile.dart';
 import 'package:khedni_maak/google_map/src/controllers/autocomplete_search_controller.dart';
 import 'package:khedni_maak/google_map/src/models/pick_result.dart';
+import 'package:khedni_maak/login/utils/widgets/animated_text_form_field.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:khedni_maak/widgets/user_profile.dart';
+import 'package:intl/intl.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 class SecondScreen extends StatefulWidget {
   final String sessionToken;
@@ -32,7 +37,9 @@ class _SecondScreenState extends State<SecondScreen> {
   SearchBarController searchBarController = SearchBarController();
   SearchBarController searchBarDestinationController = SearchBarController();
 
-  TextEditingController controller = TextEditingController();
+  TextEditingController _fromController = TextEditingController();
+  TextEditingController _toController = TextEditingController();
+
   Timer debounceTimer;
   String searchTerm;
   OverlayEntry overlayEntry;
@@ -45,7 +52,7 @@ class _SecondScreenState extends State<SecondScreen> {
   void initState() {
     super.initState();
 
-    controller.addListener(_onSearchInputChange);
+    _fromController.addListener(_onSearchInputChange);
     // focus.addListener(_onFocusChanged);
 
     places = GoogleMapsPlaces(
@@ -60,8 +67,8 @@ class _SecondScreenState extends State<SecondScreen> {
     searchBarController.dispose();
     searchBarDestinationController.dispose();
 
-    controller.removeListener(_onSearchInputChange);
-    controller.dispose();
+    _fromController.removeListener(_onSearchInputChange);
+    _fromController.dispose();
 
     // focus.removeListener(_onFocusChanged);
     // focus.dispose();
@@ -72,15 +79,16 @@ class _SecondScreenState extends State<SecondScreen> {
   _onSearchInputChange() {
     if (!mounted) return;
 
-    setState(() => {searchTerm = controller.text});
+    setState(() => {searchTerm = _fromController.text});
 
-    if (controller.text.isEmpty) {
+    if (_fromController.text.isEmpty) {
       debounceTimer?.cancel();
-      _searchPlace(controller.text);
+      _searchPlace(_fromController.text);
       return;
     }
 
-    if (controller.text.substring(controller.text.length - 1) == " ") {
+    if (_fromController.text.substring(_fromController.text.length - 1) ==
+        " ") {
       debounceTimer?.cancel();
       return;
     }
@@ -91,13 +99,13 @@ class _SecondScreenState extends State<SecondScreen> {
 
     setState(() => {
           debounceTimer = Timer(Duration(milliseconds: 500), () {
-            _searchPlace(controller.text.trim());
+            _searchPlace(_fromController.text.trim());
           })
         });
   }
 
   _searchPlace(String searchTerm) {
-    setState(() => {searchTerm = controller.text});
+    setState(() => {searchTerm = _fromController.text});
 
     if (context == null) return;
 
@@ -214,93 +222,86 @@ class _SecondScreenState extends State<SecondScreen> {
   }
 
   Widget _buildSearchBar() {
-    return Material(
-      child: Container(
-        margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                SizedBox(width: 15),
-                Icon(Icons.map),
-                Expanded(
-                  child: TextField(
-                    controller: controller,
-                    // focusNode: focus,
-                    decoration: InputDecoration(
-                      hintText: "From",
-                      // border: InputBorder.none,
-                      isDense: true,
-                      contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(width: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                SizedBox(width: 15),
-                Icon(Icons.map),
-                Expanded(
-                  child: TextField(
-                    controller: controller,
-                    // focusNode: focus,
-                    decoration: InputDecoration(
-                      hintText: "To",
-                      // border: InputBorder.none,
-                      isDense: true,
-                      contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+    final deviceSize = MediaQuery.of(context).size;
+    final width = min(deviceSize.width * 0.75, 360.0);
+    final textFieldWidth = width - 16.0 * 2;
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: AnimatedTextFormField(
+            enabled: true,
+            controller: _fromController,
+            width: textFieldWidth,
+            // loadingController: _loadingController,
+            interval: const Interval(0, .85),
+            labelText: 'From',
+            prefixIcon: Icon(FontAwesomeIcons.dotCircle,color:Colors.green),
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.next,
+            // onFieldSubmitted: (value) {
+            //   FocusScope.of(context).requestFocus(_lastNameFocusNode);
+            // },
+            validator: null,
+            // onSaved: (value) => auth.firstName = value,
+          ),
         ),
-        // SizedBox(width: 5),
-      ),
+        Expanded(
+          child: AnimatedTextFormField(
+            enabled: true,
+            controller: _toController,
+            width: textFieldWidth,
+            // loadingController: _loadingController,
+            interval: const Interval(0, .85),
+            labelText: 'To',
+            prefixIcon: Icon(FontAwesomeIcons.dotCircle,color:Colors.blue),
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.done,
+            // onFieldSubmitted: (value) {
+            //   FocusScope.of(context).requestFocus(_lastNameFocusNode);
+            // },
+            validator: null,
+            // onSaved: (value) => auth.firstName = value,
+          ),
+        ),
+      ],
     );
-    // return Stack(
-    //   children: <Widget>[
-    //     Column(
-    //       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //       children: [
-    //         Row(
-    //           children: <Widget>[
-    //             Expanded(
-    //               child: Container(
-    //                 padding: const EdgeInsets.only(right: 10),
-    //                 margin: const EdgeInsets.only(top: 5),
-    //                 child: Material(
-    //                   child: Row(
-    //                     children: <Widget>[
-    //                       SizedBox(width: 10),
-    //                       TextField(
-    //                         controller: controller,
-    //                         // focusNode: focus,
-    //                         decoration: InputDecoration(
-    //                           hintText: "From",
-    //                           border: InputBorder.none,
-    //                           isDense: true,
-    //                           contentPadding: EdgeInsets.zero,
-    //                         ),
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ),
-    //               ),
-    //               // SizedBox(width: 5),
-    //             ),
-    //           ],
-    //         ),
-    //       ],
-    // ),
-    // ],
-    // );
+  }
+
+    Widget _buildDatePicker() {
+    final deviceSize = MediaQuery.of(context).size;
+    final width = min(deviceSize.width * 0.75, 360.0);
+    final textFieldWidth = width - 16.0 * 2;
+final format = DateFormat("yyyy-MM-dd HH:mm");
+  final initialValue = DateTime.now();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children:    <Widget>[
+
+      DateTimeField(
+        format: format,
+        initialValue: initialValue,
+        onShowPicker: (context, currentValue) async {
+          final date = await showDatePicker(
+              context: context,
+              firstDate: DateTime(2020),
+              initialDate: currentValue ?? DateTime.now(),
+              lastDate: DateTime(2100));
+          if (date != null) {
+            final time = await showTimePicker(
+              context: context,
+              initialTime:
+                  TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+            );
+            return DateTimeField.combine(date, time);
+          } else {
+            return currentValue;
+          }
+        },
+      ),
+    ],
+    );
   }
 
   _pickPrediction(Prediction prediction, String source) async {
@@ -362,10 +363,26 @@ class _SecondScreenState extends State<SecondScreen> {
                   child: Column(
                     children: <Widget>[
                       Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
                         padding:
-                            const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                        margin: const EdgeInsets.only(right: 20.0, left: 20.0),
                         height: screenHeight * 0.2,
                         child: _buildSearchBar(),
+                      ),
+                                            Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                        margin: const EdgeInsets.only(right: 20.0, left: 20.0,top:10.0),
+                        height: screenHeight * 0.2,
+                        child: _buildDatePicker(),
                       ),
                       // Container(
                       //   padding: const EdgeInsets.all(20.0),
