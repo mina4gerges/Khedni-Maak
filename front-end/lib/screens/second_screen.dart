@@ -1,29 +1,28 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'package:khedni_maak/config/Secrets.dart';
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/google_map/src/components/prediction_tile.dart';
-import 'package:khedni_maak/google_map/src/controllers/autocomplete_search_controller.dart';
 import 'package:khedni_maak/google_map/src/models/pick_result.dart';
-import 'package:khedni_maak/login/utils/widgets/animated_text_form_field.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
-import 'package:khedni_maak/widgets/user_profile.dart';
-import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 class SecondScreen extends StatefulWidget {
   final String sessionToken;
   final GlobalKey appBarKey;
 
-  SecondScreen({Key key, @required this.sessionToken     , @required this.appBarKey,
-  })
-      : super(key: key);
+  SecondScreen({
+    Key key,
+    @required this.sessionToken,
+    @required this.appBarKey,
+  }) : super(key: key);
 
   @override
   _SecondScreenState createState() => _SecondScreenState();
@@ -35,72 +34,44 @@ class _SecondScreenState extends State<SecondScreen> {
   Position currentPosition;
 
   GoogleMapsPlaces places;
-  SearchBarController searchBarController = SearchBarController();
-  SearchBarController searchBarDestinationController = SearchBarController();
 
   TextEditingController _fromController = TextEditingController();
   TextEditingController _toController = TextEditingController();
 
   Timer debounceTimer;
-  String searchTerm;
   OverlayEntry overlayEntry;
 
   BaseClient httpClient;
 
-  // FocusNode focus = FocusNode();
-
   @override
   void initState() {
+    super.initState();
 
-    _fromController.addListener(_onSearchInputChange);
-    // focus.addListener(_onFocusChanged);
-
-    // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    _fromController.addListener(_onSearchInputFromChange);
+    _toController.addListener(_onSearchToInputChange);
 
     places = GoogleMapsPlaces(
       apiKey: Secrets.API_KEY,
       baseUrl: null,
       httpClient: httpClient,
     );
-    super.initState();
-
   }
 
   @override
   void dispose() {
-    searchBarController.dispose();
-    searchBarDestinationController.dispose();
+    super.dispose();
 
-    _fromController.removeListener(_onSearchInputChange);
+    _fromController.removeListener(_onSearchInputFromChange);
     _fromController.dispose();
 
-    // focus.removeListener(_onFocusChanged);
-    // focus.dispose();
+    _toController.removeListener(_onSearchToInputChange);
+    _toController.dispose();
 
-    super.dispose();
+    _clearOverlay();
   }
 
-  // _afterLayout(_) {
-  //   _getSizes();
-  //   _getPositions();
-  // }
-  //
-  // _getSizes() {
-  //   final RenderBox renderBoxRed = widget.appBarKey.currentContext.findRenderObject();
-  //   final sizeRed = renderBoxRed.size;
-  //   print("SIZE of Red: $sizeRed");
-  // }
-  //
-  // _getPositions() {
-  //   final RenderBox renderBoxRed = widget.appBarKey.currentContext.findRenderObject();
-  //   final positionRed = renderBoxRed.localToGlobal(Offset.zero);
-  //   print("POSITION of Red: $positionRed ");
-  // }
-
-  _onSearchInputChange() {
+  _onSearchInputFromChange() {
     if (!mounted) return;
-
-    setState(() => {searchTerm = _fromController.text});
 
     if (_fromController.text.isEmpty) {
       debounceTimer?.cancel();
@@ -125,8 +96,32 @@ class _SecondScreenState extends State<SecondScreen> {
         });
   }
 
-  _searchPlace(String searchTerm) {
+  _onSearchToInputChange() {
+    if (!mounted) return;
 
+    if (_toController.text.isEmpty) {
+      debounceTimer?.cancel();
+      _searchPlace(_toController.text);
+      return;
+    }
+
+    if (_toController.text.substring(_toController.text.length - 1) == " ") {
+      debounceTimer?.cancel();
+      return;
+    }
+
+    if (debounceTimer?.isActive ?? false) {
+      debounceTimer.cancel();
+    }
+
+    setState(() => {
+          debounceTimer = Timer(Duration(milliseconds: 500), () {
+            _searchPlace(_toController.text.trim());
+          })
+        });
+  }
+
+  _searchPlace(String searchTerm) {
     if (context == null) return;
 
     _clearOverlay();
@@ -143,23 +138,25 @@ class _SecondScreenState extends State<SecondScreen> {
       overlayEntry.remove();
       overlayEntry = null;
     }
+
+    // _fromController.clear();
+    // _toController.clear();
   }
 
   _displayOverlay(Widget overlayChild) {
     _clearOverlay();
 
-    final RenderBox appBarRenderBox =
-    widget.appBarKey.currentContext.findRenderObject();
+    // final RenderBox appBarRenderBox =
+    //       widget.appBarKey.currentContext.findRenderObject();
 
     final screenWidth = MediaQuery.of(context).size.width;
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        // top: appBarRenderBox.size.height+5.0,
-        top: appBarRenderBox.size.height + 40 * 2 + 5.0,
-        // top: 100,
-        left: screenWidth * 0.025,
-        right: screenWidth * 0.025,
+        // top: appBarRenderBox.size.height+5.0,s
+        top: 210.0,
+        left: screenWidth * 0.048,
+        right: screenWidth * 0.048,
         child: Material(
           elevation: 4.0,
           child: overlayChild,
@@ -228,7 +225,7 @@ class _SecondScreenState extends State<SecondScreen> {
               prediction: p,
               onTap: (selectedPrediction) {
                 resetSearchBar();
-                print("onPicked $selectedPrediction");
+                _pickPrediction(selectedPrediction, 'startPoint');
               },
             ),
           )
@@ -239,54 +236,6 @@ class _SecondScreenState extends State<SecondScreen> {
   resetSearchBar() {
 //    clearText();
     _clearOverlay();
-  }
-
-  Widget _buildSearchBar() {
-    final deviceSize = MediaQuery.of(context).size;
-    final width = min(deviceSize.width * 0.75, 360.0);
-    final textFieldWidth = width - 16.0 * 2;
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: AnimatedTextFormField(
-            enabled: true,
-            controller: _fromController,
-            width: textFieldWidth,
-            // loadingController: _loadingController,
-            interval: const Interval(0, .85),
-            labelText: 'From',
-            prefixIcon: Icon(FontAwesomeIcons.dotCircle, color: Colors.green),
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            // onFieldSubmitted: (value) {
-            //   FocusScope.of(context).requestFocus(_lastNameFocusNode);
-            // },
-            validator: null,
-            // onSaved: (value) => auth.firstName = value,
-          ),
-        ),
-        Expanded(
-          child: AnimatedTextFormField(
-            enabled: true,
-            controller: _toController,
-            width: textFieldWidth,
-            // loadingController: _loadingController,
-            interval: const Interval(0, .85),
-            labelText: 'To',
-            prefixIcon: Icon(FontAwesomeIcons.dotCircle, color: Colors.blue),
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.done,
-            // onFieldSubmitted: (value) {
-            //   FocusScope.of(context).requestFocus(_lastNameFocusNode);
-            // },
-            validator: null,
-            // onSaved: (value) => auth.firstName = value,
-          ),
-        ),
-      ],
-    );
   }
 
   Widget _buildDatePicker() {
@@ -353,6 +302,8 @@ class _SecondScreenState extends State<SecondScreen> {
     // await _moveTo(provider.selectedPlace.geometry.location.lat,
     //     provider.selectedPlace.geometry.location.lng);
 
+    print("hhhhh");
+    print(selectedPlace);
     if (source == 'startPoint') {
       setState(() => startLocation = selectedPlace);
     } else if (source == 'endPoint') {
@@ -362,14 +313,176 @@ class _SecondScreenState extends State<SecondScreen> {
     // provider.placeSearchingState = SearchingState.Idle;
   }
 
+  InputDecoration _getInputDecoration(
+      ThemeData theme, String labelText, Icon icon) {
+    return InputDecoration(
+      labelText: labelText,
+      prefixIcon: icon,
+    );
+  }
+
+  Widget _buildSearchBar() {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final theme = Theme.of(context);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+      margin: const EdgeInsets.only(right: 20.0, left: 20.0),
+      height: screenHeight * 0.2,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: TextFormField(
+              controller: _fromController,
+              decoration: _getInputDecoration(
+                theme,
+                'From',
+                Icon(FontAwesomeIcons.dotCircle, color: Colors.green),
+              ),
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              // focusNode: widget.focusNode,
+              // obscureText: widget.obscureText,
+              // onFieldSubmitted: widget.onFieldSubmitted,
+              // onSaved: widget.onSaved,
+              // validator: widget.validator,
+              // enabled: widget.enabled,
+            ),
+          ),
+          Expanded(
+            child: TextFormField(
+              controller: _toController,
+              decoration: _getInputDecoration(
+                theme,
+                'To',
+                Icon(FontAwesomeIcons.dotCircle, color: Colors.blue),
+              ),
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              // focusNode: widget.focusNode,
+              // obscureText: widget.obscureText,
+              // onFieldSubmitted: widget.onFieldSubmitted,
+              // onSaved: widget.onSaved,
+              // validator: widget.validator,
+              // enabled: widget.enabled,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConfirmationCard() {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final deviceSize = MediaQuery.of(context).size;
+    final width = deviceSize.width;
+
+    return Container(
+      height: screenHeight - 30.0 - 210.0,
+      width: width,
+      margin: const EdgeInsets.only(top: 30.0),
+      decoration: BoxDecoration(
+        color: Palette.thirdColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(40.0),
+          topRight: Radius.circular(40.0),
+        ),
+      ),
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 50.0),
+        padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Column(children: <Widget>[
+                  Text('Departure On :'),
+                  Text('Departure On :'),
+                ]),
+                Text('Departure On :'),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  'Phone Number :',
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  'Duration :',
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  'Capacity :',
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.dotCircle, color: Colors.green),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.dotCircle, color: Colors.blue),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                  onPressed: () {
+                    print("Confirmed");
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  color: Palette.primaryColor,
+                  textColor: Colors.white,
+                  child: const Text(
+                    'CONFIRM',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     const Key centerKey = ValueKey('bottom-sliver-list');
 
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      appBar: CustomAppBar(title: "Create a new route",key:widget.appBarKey),
+      appBar: CustomAppBar(title: "Create a new route"),
       backgroundColor: Palette.primaryColor,
       body: CustomScrollView(
         center: centerKey,
@@ -382,75 +495,8 @@ class _SecondScreenState extends State<SecondScreen> {
                   alignment: Alignment.center,
                   child: Column(
                     children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        ),
-                        padding:
-                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        margin: const EdgeInsets.only(right: 20.0, left: 20.0),
-                        height: screenHeight * 0.2,
-                        child: _buildSearchBar(),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        ),
-                        padding:
-                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        margin: const EdgeInsets.only(
-                            right: 20.0, left: 20.0, top: 10.0),
-                        height: screenHeight * 0.2,
-                        child: _buildDatePicker(),
-                      ),
-                      // Container(
-                      //   padding: const EdgeInsets.all(20.0),
-                      //   height: screenHeight,
-                      //   decoration: BoxDecoration(
-                      //     color: Palette.thirdColor,
-                      //     borderRadius: BorderRadius.only(
-                      //       topLeft: Radius.circular(40.0),
-                      //       topRight: Radius.circular(40.0),
-                      //     ),
-                      //   ),
-                      //   child: Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: <Widget>[
-                      //       SizedBox(height: screenHeight * 0.02),
-                      //       Row(
-                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //         children: <Widget>[
-                      //           UserProfile(screenHeight: screenHeight)
-                      //         ],
-                      //       ),
-                      //       SizedBox(height: screenHeight * 0.02),
-                      //       Column(
-                      //         crossAxisAlignment: CrossAxisAlignment.start,
-                      //         children: <Widget>[
-                      //           Text(
-                      //             'Are you ready for a new ride ?',
-                      //             style: TextStyle(
-                      //               color: Colors.white,
-                      //               fontSize: screenHeight * 0.04,
-                      //               fontWeight: FontWeight.w600,
-                      //             ),
-                      //           ),
-                      //           SizedBox(height: screenHeight * 0.02),
-                      //           Text(
-                      //             'What do you want to do today ?',
-                      //             style: TextStyle(
-                      //               color: Colors.white70,
-                      //               fontSize: screenHeight * 0.02,
-                      //             ),
-                      //           ),
-                      //           SizedBox(height: screenHeight * 0.01),
-                      //         ],
-                      //       )
-                      //     ],
-                      //   ),
-                      // ),
+                      _buildSearchBar(),
+                      _buildConfirmationCard()
                     ],
                   ),
                 );
