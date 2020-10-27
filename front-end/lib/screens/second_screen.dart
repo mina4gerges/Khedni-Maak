@@ -313,63 +313,89 @@ class _SecondScreenState extends State<SecondScreen> {
     // provider.placeSearchingState = SearchingState.Idle;
   }
 
-  InputDecoration _getInputDecoration(
-      ThemeData theme, String labelText, Icon icon) {
-    return InputDecoration(
-      labelText: labelText,
-      prefixIcon: icon,
+  Widget _threeDots() {
+    return Column(
+      children: <Widget>[
+        SizedBox(height: 12),
+        Icon(FontAwesomeIcons.dotCircle, color: Colors.green),
+        SizedBox(height: 5),
+        Container(
+          width: 5.0,
+          height: 5.0,
+          decoration: new BoxDecoration(
+            color: Colors.grey[400],
+            shape: BoxShape.circle,
+          ),
+        ),
+        SizedBox(height: 5),
+        Container(
+          width: 5.0,
+          height: 5.0,
+          decoration: new BoxDecoration(
+            color: Colors.grey[400],
+            shape: BoxShape.circle,
+          ),
+        ),
+        SizedBox(height: 5),
+        Container(
+          width: 5.0,
+          height: 5.0,
+          decoration: new BoxDecoration(
+            color: Colors.grey[400],
+            shape: BoxShape.circle,
+          ),
+        ),
+        SizedBox(height: 5),
+        Icon(FontAwesomeIcons.dotCircle, color: Colors.blue),
+      ],
     );
   }
 
   Widget _buildSearchBar() {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final theme = Theme.of(context);
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
       ),
-      padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
       margin: const EdgeInsets.only(right: 20.0, left: 20.0),
-      height: screenHeight * 0.2,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+      height: 110.0,
+      child: Row(
+        children: <Widget>[
+          _threeDots(),
+          SizedBox(width: 10),
           Expanded(
-            child: TextFormField(
-              controller: _fromController,
-              decoration: _getInputDecoration(
-                theme,
-                'From',
-                Icon(FontAwesomeIcons.dotCircle, color: Colors.green),
-              ),
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.next,
-              // focusNode: widget.focusNode,
-              // obscureText: widget.obscureText,
-              // onFieldSubmitted: widget.onFieldSubmitted,
-              // onSaved: widget.onSaved,
-              // validator: widget.validator,
-              // enabled: widget.enabled,
-            ),
-          ),
-          Expanded(
-            child: TextFormField(
-              controller: _toController,
-              decoration: _getInputDecoration(
-                theme,
-                'To',
-                Icon(FontAwesomeIcons.dotCircle, color: Colors.blue),
-              ),
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.next,
-              // focusNode: widget.focusNode,
-              // obscureText: widget.obscureText,
-              // onFieldSubmitted: widget.onFieldSubmitted,
-              // onSaved: widget.onSaved,
-              // validator: widget.validator,
-              // enabled: widget.enabled,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                TextField(
+                  controller: _fromController,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    labelText: 'From',
+                    border: InputBorder.none,
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  indent: 0,
+                  endIndent: 0,
+                  thickness: 1.5,
+                ),
+                SizedBox(height: 6),
+                TextFormField(
+                  controller: _toController,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    labelText: 'To',
+                    border: InputBorder.none,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -383,7 +409,7 @@ class _SecondScreenState extends State<SecondScreen> {
     final width = deviceSize.width;
 
     return Container(
-      height: screenHeight - 30.0 - 210.0,
+      height: screenHeight - 30.0 - 190.0,
       width: width,
       margin: const EdgeInsets.only(top: 30.0),
       decoration: BoxDecoration(
@@ -403,15 +429,9 @@ class _SecondScreenState extends State<SecondScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Column(children: <Widget>[
-                  Text('Departure On :'),
-                  Text('Departure On :'),
-                ]),
-                Text('Departure On :'),
-              ],
-            ),
+            Row(children: <Widget>[
+              Text('Departure On :'),
+            ]),
             Row(
               children: <Widget>[
                 Text(
@@ -435,21 +455,7 @@ class _SecondScreenState extends State<SecondScreen> {
             ),
             Row(
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Icon(FontAwesomeIcons.dotCircle, color: Colors.green),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      children: <Widget>[
-                        Icon(FontAwesomeIcons.dotCircle, color: Colors.blue),
-                      ],
-                    )
-                  ],
-                ),
+                _threeDots(),
               ],
             ),
             Row(
