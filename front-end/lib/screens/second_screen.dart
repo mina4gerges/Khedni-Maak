@@ -3,8 +3,10 @@ import 'dart:math';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
@@ -29,8 +31,9 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _SecondScreenState extends State<SecondScreen> {
-  PickResult startLocation;
-  PickResult endLocation;
+  PickResult fromSelectedPlace = new PickResult();
+  PickResult toSelectedPlace;
+
   Position currentPosition;
 
   GoogleMapsPlaces places;
@@ -41,14 +44,14 @@ class _SecondScreenState extends State<SecondScreen> {
   Timer debounceTimer;
   OverlayEntry overlayEntry;
 
+  FocusNode _fromFocusNode = FocusNode();
+  FocusNode _toFocusNode = FocusNode();
+
   BaseClient httpClient;
 
   @override
   void initState() {
     super.initState();
-
-    _fromController.addListener(_onSearchInputFromChange);
-    _toController.addListener(_onSearchToInputChange);
 
     places = GoogleMapsPlaces(
       apiKey: Secrets.API_KEY,
@@ -61,26 +64,26 @@ class _SecondScreenState extends State<SecondScreen> {
   void dispose() {
     super.dispose();
 
-    _fromController.removeListener(_onSearchInputFromChange);
     _fromController.dispose();
-
-    _toController.removeListener(_onSearchToInputChange);
     _toController.dispose();
+
+    _fromFocusNode.dispose();
+    _toFocusNode.dispose();
 
     _clearOverlay();
   }
 
-  _onSearchInputFromChange() {
+  _onSearchFromInputChange(text) {
     if (!mounted) return;
 
-    if (_fromController.text.isEmpty) {
+    if (text.isEmpty) {
+      _clearOverlay();
       debounceTimer?.cancel();
-      _searchPlace(_fromController.text);
       return;
     }
 
-    if (_fromController.text.substring(_fromController.text.length - 1) ==
-        " ") {
+    if (text.substring(text.length - 1) == " ") {
+      _clearOverlay();
       debounceTimer?.cancel();
       return;
     }
@@ -91,21 +94,22 @@ class _SecondScreenState extends State<SecondScreen> {
 
     setState(() => {
           debounceTimer = Timer(Duration(milliseconds: 500), () {
-            _searchPlace(_fromController.text.trim());
+            _searchPlace(text.trim(), 'fromInput');
           })
         });
   }
 
-  _onSearchToInputChange() {
+  _onSearchToInputChange(text) {
     if (!mounted) return;
 
-    if (_toController.text.isEmpty) {
+    if (text.isEmpty) {
+      _clearOverlay();
       debounceTimer?.cancel();
-      _searchPlace(_toController.text);
       return;
     }
 
-    if (_toController.text.substring(_toController.text.length - 1) == " ") {
+    if (text.substring(text.length - 1) == " ") {
+      _clearOverlay();
       debounceTimer?.cancel();
       return;
     }
@@ -116,12 +120,12 @@ class _SecondScreenState extends State<SecondScreen> {
 
     setState(() => {
           debounceTimer = Timer(Duration(milliseconds: 500), () {
-            _searchPlace(_toController.text.trim());
+            _searchPlace(text.trim(), 'toInput');
           })
         });
   }
 
-  _searchPlace(String searchTerm) {
+  _searchPlace(String searchTerm, String source) {
     if (context == null) return;
 
     _clearOverlay();
@@ -130,7 +134,7 @@ class _SecondScreenState extends State<SecondScreen> {
 
     _displayOverlay(_buildSearchingOverlay());
 
-    _performAutoCompleteSearch(searchTerm);
+    _performAutoCompleteSearch(searchTerm, source);
   }
 
   _clearOverlay() {
@@ -154,7 +158,7 @@ class _SecondScreenState extends State<SecondScreen> {
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
         // top: appBarRenderBox.size.height+5.0,s
-        top: 210.0,
+        top: 190.0,
         left: screenWidth * 0.048,
         right: screenWidth * 0.048,
         child: Material(
@@ -167,7 +171,7 @@ class _SecondScreenState extends State<SecondScreen> {
     Overlay.of(context).insert(overlayEntry);
   }
 
-  _performAutoCompleteSearch(String searchTerm) async {
+  _performAutoCompleteSearch(String searchTerm, String source) async {
     if (searchTerm.isNotEmpty) {
       //get searched place
       final PlacesAutocompleteResponse response = await places.autocomplete(
@@ -191,7 +195,7 @@ class _SecondScreenState extends State<SecondScreen> {
         return;
       }
 
-      _displayOverlay(_buildPredictionOverlay(response.predictions));
+      _displayOverlay(_buildPredictionOverlay(response.predictions, source));
     }
   }
 
@@ -217,7 +221,7 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 
-  Widget _buildPredictionOverlay(List<Prediction> predictions) {
+  Widget _buildPredictionOverlay(List<Prediction> predictions, String source) {
     return ListBody(
       children: predictions
           .map(
@@ -225,7 +229,7 @@ class _SecondScreenState extends State<SecondScreen> {
               prediction: p,
               onTap: (selectedPrediction) {
                 resetSearchBar();
-                _pickPrediction(selectedPrediction, 'startPoint');
+                _pickPrediction(selectedPrediction, source);
               },
             ),
           )
@@ -275,6 +279,18 @@ class _SecondScreenState extends State<SecondScreen> {
 
   _pickPrediction(Prediction prediction, String source) async {
     // provider.placeSearchingState = SearchingState.Searching;
+    _clearOverlay();
+
+    if (source == 'fromInput') {
+      _fromController.text = prediction.description;
+      _fromFocusNode.unfocus();
+      if (_toController.text.isEmpty) {
+        FocusScope.of(context).requestFocus(_toFocusNode);
+      }
+    } else if (source == 'toInput') {
+      _toController.text = prediction.description;
+      _toFocusNode.unfocus();
+    }
 
     final PlacesDetailsResponse response = await places.getDetailsByPlaceId(
       prediction.placeId,
@@ -296,19 +312,20 @@ class _SecondScreenState extends State<SecondScreen> {
     PickResult selectedPlace =
         PickResult.fromPlaceDetailResult(response.result);
 
+    if (source == 'fromInput') {
+      setState(() {
+        fromSelectedPlace = selectedPlace;
+      });
+    } else if (source == 'toInput') {
+      setState(() {
+        toSelectedPlace = selectedPlace;
+      });
+    }
     // Prevents searching again by camera movement.
     // provider.isAutoCompleteSearching = true;
 
     // await _moveTo(provider.selectedPlace.geometry.location.lat,
     //     provider.selectedPlace.geometry.location.lng);
-
-    print("hhhhh");
-    print(selectedPlace);
-    if (source == 'startPoint') {
-      setState(() => startLocation = selectedPlace);
-    } else if (source == 'endPoint') {
-      setState(() => endLocation = selectedPlace);
-    }
 
     // provider.placeSearchingState = SearchingState.Idle;
   }
@@ -368,10 +385,17 @@ class _SecondScreenState extends State<SecondScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                TextField(
+                TextFormField(
                   controller: _fromController,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
+                  focusNode: _fromFocusNode,
+                  onChanged: (text) {
+                    _onSearchFromInputChange(text);
+                  },
+                  // onFieldSubmitted: (term) {
+                  //   _fieldFocusChange(context, _fromFocusNode, _toFocusNode);
+                  // },
                   decoration: InputDecoration(
                     isDense: true,
                     labelText: 'From',
@@ -387,6 +411,10 @@ class _SecondScreenState extends State<SecondScreen> {
                 SizedBox(height: 6),
                 TextFormField(
                   controller: _toController,
+                  focusNode: _toFocusNode,
+                  onChanged: (text) {
+                    _onSearchToInputChange(text);
+                  },
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
@@ -400,6 +428,111 @@ class _SecondScreenState extends State<SecondScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  _createPolyLines(Position start, Position destination) async {
+    List<LatLng> polylineCoordinates = [];
+    PolylinePoints polylinePoints = PolylinePoints();
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      Secrets.API_KEY, // Google Maps API Key
+      PointLatLng(start.latitude, start.longitude),
+      PointLatLng(destination.latitude, destination.longitude),
+      // travelMode: TravelMode.transit,
+    );
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+
+    PolylineId id = PolylineId('poly');
+
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.red,
+      points: polylineCoordinates,
+      width: 3,
+    );
+
+    //get old polylines
+    Map<PolylineId, Polyline> newPolylines = new Map<PolylineId, Polyline>();
+    // Map<PolylineId, Polyline> a = new Map<PolylineId, Polyline>();
+
+    // Adding the new polyline
+    // a[id] = polyline;
+    newPolylines[id] = polyline;
+
+    //set new marker
+    // provider.polylines = newPolylines;
+
+    return polylineCoordinates;
+  }
+
+  // Formula for calculating distance between two coordinates
+  // https://stackoverflow.com/a/54138876/11910277
+  double _coordinateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
+  Future<String> _getDistance(
+      PickResult fromSelectedPlace, PickResult toSelectedPlace) async {
+    double startLocationLat = fromSelectedPlace.geometry.location.lat;
+    double startLocationLng = fromSelectedPlace.geometry.location.lng;
+    double endLocationLat = toSelectedPlace.geometry.location.lat;
+    double endLocationLng = toSelectedPlace.geometry.location.lng;
+
+    Position startCoordinates =
+        Position(latitude: startLocationLat, longitude: startLocationLng);
+
+    Position destinationCoordinates =
+        Position(latitude: endLocationLat, longitude: endLocationLng);
+
+    List<LatLng> polylineCoordinates =
+        await _createPolyLines(startCoordinates, destinationCoordinates);
+
+    double totalDistance = 0.0;
+
+    // Calculating the total distance by adding the distance
+    // between small segments
+    for (int i = 0; i < polylineCoordinates.length - 1; i++) {
+      totalDistance += _coordinateDistance(
+        polylineCoordinates[i].latitude,
+        polylineCoordinates[i].longitude,
+        polylineCoordinates[i + 1].latitude,
+        polylineCoordinates[i + 1].longitude,
+      );
+    }
+
+    return totalDistance.toStringAsFixed(2);
+  }
+
+  FutureBuilder<String> _displayDistance() {
+    Future _future = _getDistance(fromSelectedPlace, toSelectedPlace);
+
+    return FutureBuilder(
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Text(
+            "${snapshot.data} km",
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+            ),
+          );
+        }
+        if (snapshot.hasError) {
+          return Text(snapshot.error.toString());
+        }
+        return Text("");
+      },
     );
   }
 
@@ -429,33 +562,78 @@ class _SecondScreenState extends State<SecondScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Row(children: <Widget>[
-              Text('Departure On :'),
-            ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Route Summary',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ],
+            ),
+            Divider(
+              height: 1,
+              indent: 15,
+              endIndent: 15,
+              thickness: 1.5,
+            ),
+            Row(
+              children: <Widget>[
+                Text('Departure On: '),
+              ],
+            ),
             Row(
               children: <Widget>[
                 Text(
-                  'Phone Number :',
+                  'Estimated Duration: ',
                 ),
               ],
             ),
             Row(
               children: <Widget>[
                 Text(
-                  'Duration :',
+                  'Distance: ',
                 ),
+                _displayDistance(),
               ],
             ),
             Row(
               children: <Widget>[
                 Text(
-                  'Capacity :',
+                  'Capacity: ',
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 _threeDots(),
+                SizedBox(width: 10.0),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SizedBox(height: 13.0),
+                    Text(
+                      _fromController?.text,
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(height: 45.0),
+                    Text(
+                      _toController?.text,
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
             Row(
