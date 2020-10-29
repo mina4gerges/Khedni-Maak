@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,28 +8,32 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
-import 'package:intl/intl.dart';
 import 'package:khedni_maak/config/Secrets.dart';
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/google_map/src/components/prediction_tile.dart';
 import 'package:khedni_maak/google_map/src/models/pick_result.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class SecondScreen extends StatefulWidget {
+class AddRouteScreen extends StatefulWidget {
   final String sessionToken;
   final GlobalKey appBarKey;
 
-  SecondScreen({
+  AddRouteScreen({
     Key key,
     @required this.sessionToken,
     @required this.appBarKey,
   }) : super(key: key);
 
   @override
-  _SecondScreenState createState() => _SecondScreenState();
+  _AddRouteScreenState createState() => _AddRouteScreenState();
 }
 
-class _SecondScreenState extends State<SecondScreen> {
+class _AddRouteScreenState extends State<AddRouteScreen> {
+  String passengerCapacity;
+  TimeOfDay time;
+
   PickResult fromSelectedPlace = new PickResult();
   PickResult toSelectedPlace;
 
@@ -52,6 +55,11 @@ class _SecondScreenState extends State<SecondScreen> {
   @override
   void initState() {
     super.initState();
+
+    passengerCapacity = 'One';
+    // time = TimeOfDay.now();
+    time =
+        TimeOfDay(hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute);
 
     places = GoogleMapsPlaces(
       apiKey: Secrets.API_KEY,
@@ -242,41 +250,6 @@ class _SecondScreenState extends State<SecondScreen> {
     _clearOverlay();
   }
 
-  Widget _buildDatePicker() {
-    final deviceSize = MediaQuery.of(context).size;
-    final width = min(deviceSize.width * 0.75, 360.0);
-    // final textFieldWidth = width - 16.0 * 2;
-    final format = DateFormat("yyyy-MM-dd HH:mm");
-    final initialValue = DateTime.now();
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        DateTimeField(
-          format: format,
-          initialValue: initialValue,
-          onShowPicker: (context, currentValue) async {
-            final date = await showDatePicker(
-                context: context,
-                firstDate: DateTime(2020),
-                initialDate: currentValue ?? DateTime.now(),
-                lastDate: DateTime(2100));
-            if (date != null) {
-              final time = await showTimePicker(
-                context: context,
-                initialTime:
-                    TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
-              );
-              return DateTimeField.combine(date, time);
-            } else {
-              return currentValue;
-            }
-          },
-        ),
-      ],
-    );
-  }
-
   _pickPrediction(Prediction prediction, String source) async {
     // provider.placeSearchingState = SearchingState.Searching;
     _clearOverlay();
@@ -375,8 +348,8 @@ class _SecondScreenState extends State<SecondScreen> {
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
       ),
       margin: const EdgeInsets.only(right: 20.0, left: 20.0),
-      padding: const EdgeInsets.only(right: 20.0, left: 20.0),
-      height: 110.0,
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 5),
+      // height: 115.0,
       child: Row(
         children: <Widget>[
           _threeDots(),
@@ -436,7 +409,8 @@ class _SecondScreenState extends State<SecondScreen> {
     PolylinePoints polylinePoints = PolylinePoints();
 
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      Secrets.API_KEY, // Google Maps API Key
+      // Secrets.API_KEY, // Google Maps API Key
+      "123", // Google Maps API Key
       PointLatLng(start.latitude, start.longitude),
       PointLatLng(destination.latitude, destination.longitude),
       // travelMode: TravelMode.transit,
@@ -514,6 +488,142 @@ class _SecondScreenState extends State<SecondScreen> {
     return totalDistance.toStringAsFixed(2);
   }
 
+  Future<String> _getEstimatedTime(
+      PickResult fromSelectedPlace, PickResult toSelectedPlace) async {
+    double startLocationLat = fromSelectedPlace.geometry.location.lat;
+    double startLocationLng = fromSelectedPlace.geometry.location.lng;
+    double endLocationLat = toSelectedPlace.geometry.location.lat;
+    double endLocationLng = toSelectedPlace.geometry.location.lng;
+
+    String result = "";
+
+    var params = {
+      "origins": "$startLocationLat,$startLocationLng",
+      "destinations": "$endLocationLat,$endLocationLng",
+      // "key": Secrets.API_KEY
+    };
+
+    //TODO:fix URL
+    Uri uri = Uri.https(
+        "maps.googleapis.com", "maps/api/distancematrix/json", params);
+
+    String url = uri.toString();
+    // print('GOOGLE MAPS URL: ' + url);
+    var response = await http.get(url);
+    if (response?.statusCode == 200) {
+      var parsedJson = json.decode(response.body);
+      if (parsedJson["status"]?.toLowerCase() == "ok" &&
+          parsedJson["rows"] != null &&
+          parsedJson["rows"].isNotEmpty) {
+        result = parsedJson["rows"][0]["elements"][0]["duration"]["text"];
+      } else {
+        // result = parsedJson["error_message"];
+      }
+    }
+    return result;
+  }
+
+  Widget _displaySummaryHeader() {
+    return Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Route Summary',
+              style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.w500,
+                fontSize: 18.0,
+              ),
+            ),
+          ],
+        ),
+        Divider(
+          height: 5,
+          indent: 15,
+          endIndent: 15,
+          thickness: 1.5,
+        ),
+      ],
+    );
+  }
+
+  _addRoute() {
+    print("route added");
+  }
+
+  _pickTime() async {
+    TimeOfDay t = await showTimePicker(context: context, initialTime: time);
+    if (t != null)
+      setState(() {
+        time = t;
+      });
+  }
+
+  Widget _displayDepartureOn() {
+    return Row(
+      children: <Widget>[
+        Text("Departure on:"),
+        SizedBox(
+          width: 90,
+          child: ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(
+              "${time.hour}:${time.minute}",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            trailing: Icon(Icons.keyboard_arrow_down),
+            onTap: _pickTime,
+          ),
+        ),
+      ],
+    );
+  }
+
+  FutureBuilder<String> _displayEstimatedTime() {
+    Future _future = _getEstimatedTime(fromSelectedPlace, toSelectedPlace);
+
+    return FutureBuilder(
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Row(
+            children: <Widget>[
+              Text(
+                'Estimated Duration: ',
+              ),
+              Text(
+                "${snapshot.data}",
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          );
+        }
+        // if (snapshot.hasError) {
+        //   return Text(snapshot.error.toString());
+        // }
+        return Row(
+          children: <Widget>[
+            Text(
+              'Estimated Duration: ',
+            ),
+            Text(
+              "${0} min",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   FutureBuilder<String> _displayDistance() {
     Future _future = _getDistance(fromSelectedPlace, toSelectedPlace);
 
@@ -521,18 +631,124 @@ class _SecondScreenState extends State<SecondScreen> {
       future: _future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text(
-            "${snapshot.data} km",
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-            ),
+          return Row(
+            children: <Widget>[
+              Text("Distance: "),
+              Text(
+                "${snapshot.data} km",
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           );
         }
-        if (snapshot.hasError) {
-          return Text(snapshot.error.toString());
-        }
-        return Text("");
+        // if (snapshot.hasError) {
+        //   return Text(snapshot.error.toString());
+        // }
+        return (Row(
+          children: <Widget>[
+            Text("Distance: "),
+            Text(
+              "${0.00} km",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ));
       },
+    );
+  }
+
+  Widget _displayCapacityInput() {
+    return Row(
+      children: <Widget>[
+        Text(
+          'Passenger capacity: ',
+        ),
+        DropdownButton<String>(
+          value: passengerCapacity,
+          icon: Icon(Icons.keyboard_arrow_down),
+          iconSize: 20,
+          elevation: 16,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+          ),
+          // underline: Container(
+          //   height: 2,
+          //   color: Colors.deepPurpleAccent,
+          // ),
+          onChanged: (String newValue) {
+            setState(() {
+              passengerCapacity = newValue;
+            });
+          },
+          items: <String>['One', 'Two', 'Three', 'Four']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _displayFinalDepartureDestinationValues() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            _threeDots(),
+            SizedBox(width: 10.0),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                SizedBox(height: 13.0),
+                Text(
+                  _fromController?.text,
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: 45.0),
+                Text(
+                  _toController?.text,
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAddRouteButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        RaisedButton(
+          onPressed: _addRoute,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          color: Palette.primaryColor,
+          textColor: Colors.white,
+          child: const Text(
+            'ADD ROUTE',
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
+      ],
     );
   }
 
@@ -562,99 +778,14 @@ class _SecondScreenState extends State<SecondScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Route Summary',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18.0,
-                  ),
-                ),
-              ],
-            ),
-            Divider(
-              height: 1,
-              indent: 15,
-              endIndent: 15,
-              thickness: 1.5,
-            ),
-            Row(
-              children: <Widget>[
-                Text('Departure On: '),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  'Estimated Duration: ',
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  'Distance: ',
-                ),
-                _displayDistance(),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  'Capacity: ',
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                _threeDots(),
-                SizedBox(width: 10.0),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SizedBox(height: 13.0),
-                    Text(
-                      _fromController?.text,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(height: 45.0),
-                    Text(
-                      _toController?.text,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  onPressed: () {
-                    print("Confirmed");
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: Palette.primaryColor,
-                  textColor: Colors.white,
-                  child: const Text(
-                    'CONFIRM',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-              ],
-            ),
+            _displaySummaryHeader(),
+            _displayDepartureOn(),
+            _displayEstimatedTime(),
+            SizedBox(height: 5.0),
+            _displayDistance(),
+            _displayCapacityInput(),
+            _displayFinalDepartureDestinationValues(),
+            _buildAddRouteButton(),
           ],
         ),
       ),

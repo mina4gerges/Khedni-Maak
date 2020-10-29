@@ -12,7 +12,7 @@ import 'package:khedni_maak/google_map/providers/place_provider.dart';
 import 'package:khedni_maak/google_map/src/components/floating_card.dart';
 import 'package:khedni_maak/google_map/src/utils/uuid.dart';
 import 'package:khedni_maak/login/custom_route.dart';
-import 'package:khedni_maak/screens/second_screen.dart';
+import 'package:khedni_maak/screens/add_route_screen.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -259,7 +259,7 @@ class _MapScreenState extends State<MapScreen> {
             Navigator.push(
               context,
               FadePageRoute(
-                builder: (context) => SecondScreen(
+                builder: (context) => AddRouteScreen(
                     sessionToken: provider.sessionToken,appBarKey: appBarKey),
               ),
             );
