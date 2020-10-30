@@ -9,12 +9,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:khedni_maak/config/Secrets.dart';
+import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/google_map/src/components/prediction_tile.dart';
 import 'package:khedni_maak/google_map/src/models/pick_result.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:khedni_maak/config/globals.dart' as globals;
 
 class AddRouteScreen extends StatefulWidget {
   final String sessionToken;
@@ -31,24 +33,28 @@ class AddRouteScreen extends StatefulWidget {
 }
 
 class _AddRouteScreenState extends State<AddRouteScreen> {
+  Future _distanceFuture;
+  Future _estimatedTimeFuture;
+  String estimatedTime;
+  String distance;
   String passengerCapacity;
-  TimeOfDay time;
+  TimeOfDay departureOnTime;
 
-  PickResult fromSelectedPlace = new PickResult();
   PickResult toSelectedPlace;
+  PickResult fromSelectedPlace;
 
   Position currentPosition;
 
   GoogleMapsPlaces places;
 
-  TextEditingController _fromController = TextEditingController();
-  TextEditingController _toController = TextEditingController();
+  TextEditingController _fromController;
+  TextEditingController _toController;
 
   Timer debounceTimer;
   OverlayEntry overlayEntry;
 
-  FocusNode _fromFocusNode = FocusNode();
-  FocusNode _toFocusNode = FocusNode();
+  FocusNode _fromFocusNode;
+  FocusNode _toFocusNode;
 
   BaseClient httpClient;
 
@@ -56,9 +62,14 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   void initState() {
     super.initState();
 
-    passengerCapacity = 'One';
-    // time = TimeOfDay.now();
-    time =
+    _fromController = TextEditingController();
+    _toController = TextEditingController();
+
+    _fromFocusNode = FocusNode();
+    _toFocusNode = FocusNode();
+
+    passengerCapacity = '1';
+    departureOnTime =
         TimeOfDay(hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute);
 
     places = GoogleMapsPlaces(
@@ -285,14 +296,47 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     PickResult selectedPlace =
         PickResult.fromPlaceDetailResult(response.result);
 
+    bool isInputChanged = true;
+
     if (source == 'fromInput') {
+      if (fromSelectedPlace != null &&
+          (selectedPlace.placeId == fromSelectedPlace.placeId)) {
+        isInputChanged = false;
+      }
+
       setState(() {
         fromSelectedPlace = selectedPlace;
       });
     } else if (source == 'toInput') {
+      if (toSelectedPlace != null &&
+          (selectedPlace.placeId == toSelectedPlace.placeId)) {
+        isInputChanged = false;
+      }
+
       setState(() {
         toSelectedPlace = selectedPlace;
       });
+
+      if (isInputChanged) {
+        Future tempDistanceFuture =
+            _getDistance(fromSelectedPlace, toSelectedPlace);
+
+        Future tempEstimatedTimeFuture =
+            _getEstimatedTime(fromSelectedPlace, toSelectedPlace);
+
+        tempDistanceFuture.then((value) => setState(() => {
+              distance: value,
+            }));
+
+        tempEstimatedTimeFuture.then((value) => setState(() => {
+              estimatedTime: value,
+            }));
+
+        setState(() => {
+              _distanceFuture: tempDistanceFuture,
+              _estimatedTimeFuture: tempEstimatedTimeFuture
+            });
+      }
     }
     // Prevents searching again by camera movement.
     // provider.isAutoCompleteSearching = true;
@@ -409,8 +453,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     PolylinePoints polylinePoints = PolylinePoints();
 
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      // Secrets.API_KEY, // Google Maps API Key
-      "123", // Google Maps API Key
+      Secrets.API_KEY, // Google Maps API Key
       PointLatLng(start.latitude, start.longitude),
       PointLatLng(destination.latitude, destination.longitude),
       // travelMode: TravelMode.transit,
@@ -500,7 +543,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     var params = {
       "origins": "$startLocationLat,$startLocationLng",
       "destinations": "$endLocationLat,$endLocationLng",
-      // "key": Secrets.API_KEY
+      "key": Secrets.API_KEY
     };
 
     //TODO:fix URL
@@ -549,15 +592,42 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     );
   }
 
-  _addRoute() {
-    print("route added");
+  _addRoute() async {
+    final http.Response response = await http.post(
+      '$baseUrlRoutes/addRoute',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, Object>{
+        "estimationTime": estimatedTime,
+        "startingTime": departureOnTime.toString(),
+        "capacity": "$passengerCapacity",
+        "driverUserName": globals.loginUserName,
+        "car": "-",
+        "latStart": fromSelectedPlace.geometry.location.lat,
+        "lngStart": fromSelectedPlace.geometry.location.lng,
+        "latEnd": toSelectedPlace.geometry.location.lat,
+        "lngEnd": toSelectedPlace.geometry.location.lng,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      String body = json.decode(response.body);
+      print("route added");
+    } else if (response.statusCode == 400) {
+      // return json.decode(response.body)["message"];
+      print("route error 400");
+    } else {
+      print("route error unknown");
+    }
   }
 
   _pickTime() async {
-    TimeOfDay t = await showTimePicker(context: context, initialTime: time);
+    TimeOfDay t =
+        await showTimePicker(context: context, initialTime: departureOnTime);
     if (t != null)
       setState(() {
-        time = t;
+        departureOnTime = t;
       });
   }
 
@@ -570,7 +640,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
           child: ListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(
-              "${time.hour}:${time.minute}",
+              "${departureOnTime.hour}:${departureOnTime.minute}",
               style: TextStyle(
                 fontWeight: FontWeight.w500,
               ),
@@ -584,10 +654,8 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   }
 
   FutureBuilder<String> _displayEstimatedTime() {
-    Future _future = _getEstimatedTime(fromSelectedPlace, toSelectedPlace);
-
     return FutureBuilder(
-      future: _future,
+      future: _estimatedTimeFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Row(
@@ -625,10 +693,8 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   }
 
   FutureBuilder<String> _displayDistance() {
-    Future _future = _getDistance(fromSelectedPlace, toSelectedPlace);
-
     return FutureBuilder(
-      future: _future,
+      future: _distanceFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Row(
@@ -685,7 +751,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
               passengerCapacity = newValue;
             });
           },
-          items: <String>['One', 'Two', 'Three', 'Four']
+          items: <String>['1', '2', '3', '4']
               .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
@@ -797,7 +863,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     const Key centerKey = ValueKey('bottom-sliver-list');
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Create a new route"),
+      appBar: CustomAppBar(title: "Create route"),
       backgroundColor: Palette.primaryColor,
       body: CustomScrollView(
         center: centerKey,
