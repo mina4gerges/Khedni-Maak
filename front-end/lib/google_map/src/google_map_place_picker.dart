@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/google_map/providers/place_provider.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/map_screen.dart';
@@ -31,7 +29,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     Key key,
     @required this.initialTarget,
     @required this.appBarKey,
-    // this.polylines,
+    this.polyLines,
     this.selectedPlaceWidgetBuilder,
     this.pinBuilder,
     this.onSearchFailed,
@@ -42,7 +40,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.enableMyLocationButton,
     this.onToggleMapType,
     this.onMyLocation,
-    this.createRoute,
     this.onPlacePicked,
     this.usePinPointingSearch,
     this.usePlaceDetailSearch,
@@ -55,7 +52,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
   final LatLng initialTarget;
   final GlobalKey appBarKey;
 
-  // final Map<PolylineId, Polyline> polylines;
+  final Map<PolylineId, Polyline> polyLines;
 
   final SelectedPlaceWidgetBuilder selectedPlaceWidgetBuilder;
   final PinBuilder pinBuilder;
@@ -65,7 +62,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
   final MapCreatedCallback onMapCreated;
   final VoidCallback onToggleMapType;
   final VoidCallback onMyLocation;
-  final VoidCallback createRoute;
   final ValueChanged<PickResult> onPlacePicked;
 
   final int debounceMilliseconds;
@@ -146,8 +142,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
       children: <Widget>[
         _buildGoogleMap(context),
         _buildPin(),
-        // _buildFloatingCard(),
-        _buildMapIcons(context),
       ],
     );
   }
@@ -171,12 +165,10 @@ class GoogleMapPlacePicker extends StatelessWidget {
             markers: provider.markers != null
                 ? Set<Marker>.from(provider.markers)
                 : null,
-            polylines: provider.polylines != null
-                ? Set<Polyline>.from(provider.polylines.values)
-                : null,
+            polylines:
+                polyLines != null ? Set<Polyline>.from(polyLines.values) : null,
             zoomGesturesEnabled: true,
             zoomControlsEnabled: false,
-            // polylines: Set<Polyline>.of(polylines.values),
             onMapCreated: (GoogleMapController controller) {
               provider.mapController = controller;
               provider.setCameraPosition(null);
@@ -266,7 +258,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-//                AnimatedPin(child: Icon(Icons.place, size: 36, color: Colors.red)),
                 Icon(Icons.place, size: 36, color: Colors.red),
                 SizedBox(height: 42),
               ],
@@ -285,133 +276,5 @@ class GoogleMapPlacePicker extends StatelessWidget {
         ],
       );
     }
-  }
-
-  // Widget _buildFloatingCard() {
-  //   return Selector<PlaceProvider,
-  //       Tuple4<PickResult, SearchingState, bool, PinState>>(
-  //     selector: (_, provider) => Tuple4(
-  //         provider.selectedPlace,
-  //         provider.placeSearchingState,
-  //         provider.isSearchBarFocused,
-  //         provider.pinState),
-  //     builder: (context, data, __) {
-  //       if ((data.item1 == null && data.item2 == SearchingState.Idle) ||
-  //           data.item3 == true ||
-  //           data.item4 == PinState.Dragging &&
-  //               this.hidePlaceDetailsWhenDraggingPin) {
-  //         return Container();
-  //       } else {
-  //         if (selectedPlaceWidgetBuilder == null) {
-  //           return _defaultPlaceWidgetBuilder(context, data.item1, data.item2);
-  //         } else {
-  //           return Builder(
-  //               builder: (builderContext) => selectedPlaceWidgetBuilder(
-  //                   builderContext, data.item1, data.item2, data.item3));
-  //         }
-  //       }
-  //     },
-  //   );
-  // }
-
-  // Widget _defaultPlaceWidgetBuilder(
-  //     BuildContext context, PickResult data, SearchingState state) {
-  //   return FloatingCard(
-  //     bottomPosition: MediaQuery.of(context).size.height * 0.05,
-  //     leftPosition: MediaQuery.of(context).size.width * 0.025,
-  //     rightPosition: MediaQuery.of(context).size.width * 0.025,
-  //     width: MediaQuery.of(context).size.width * 0.9,
-  //     borderRadius: BorderRadius.circular(12.0),
-  //     elevation: 4.0,
-  //     color: Theme.of(context).cardColor,
-  //     child: state == SearchingState.Searching
-  //         ? _buildLoadingIndicator()
-  //         : _buildSelectionDetails(context, data),
-  //   );
-  // }
-
-  // Widget _buildLoadingIndicator() {
-  //   return Container(
-  //     height: 48,
-  //     child: const Center(
-  //       child: SizedBox(
-  //         width: 24,
-  //         height: 24,
-  //         child: CircularProgressIndicator(),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildSelectionDetails(BuildContext context, PickResult result) {
-  //   return Container(
-  //     margin: EdgeInsets.all(10),
-  //     child: Column(
-  //       children: <Widget>[
-  //         Text(
-  //           result.formattedAddress,
-  //           style: TextStyle(fontSize: 18),
-  //           textAlign: TextAlign.center,
-  //         ),
-  //         SizedBox(height: 10),
-  //         RaisedButton(
-  //           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-  //           child: Text(
-  //             "Select here",
-  //             style: TextStyle(fontSize: 16),
-  //           ),
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(4.0),
-  //           ),
-  //           onPressed: () {
-  //             onPlacePicked(result);
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  Widget _buildMapIcons(BuildContext context) {
-    return Positioned(
-      top: 10,
-      right: 15,
-      child: Column(
-        children: <Widget>[
-          enableMapTypeButton
-              ? Container(
-                  width: 35,
-                  height: 35,
-                  child: RawMaterialButton(
-                    shape: CircleBorder(),
-                    fillColor: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.black54
-                        : Colors.white,
-                    elevation: 8.0,
-                    onPressed: onToggleMapType,
-                    child: Icon(Icons.layers),
-                  ),
-                )
-              : Container(),
-          SizedBox(height: 10),
-          enableMyLocationButton
-              ? Container(
-                  width: 35,
-                  height: 35,
-                  child: RawMaterialButton(
-                    shape: CircleBorder(),
-                    fillColor: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.black54
-                        : Colors.white,
-                    elevation: 8.0,
-                    onPressed: onMyLocation,
-                    child: Icon(Icons.my_location),
-                  ),
-                )
-              : Container(),
-          SizedBox(height: 10),
-        ],
-      ),
-    );
   }
 }

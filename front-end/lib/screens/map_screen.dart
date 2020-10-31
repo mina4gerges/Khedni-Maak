@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -10,16 +9,11 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/google_map/providers/place_provider.dart';
-import 'package:khedni_maak/google_map/src/components/floating_card.dart';
 import 'package:khedni_maak/google_map/src/utils/uuid.dart';
 import 'package:khedni_maak/login/custom_route.dart';
 import 'package:khedni_maak/screens/add_route_screen.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
-
-import '../google_map/src/autocomplete_search.dart';
-import '../google_map/src/controllers/autocomplete_search_controller.dart';
 import '../google_map/src/google_map_place_picker.dart';
 import '../google_map/src/models/pick_result.dart';
 
@@ -182,11 +176,9 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  String addRouteStatus;
   GlobalKey appBarKey = GlobalKey();
   PlaceProvider provider;
-  SearchBarController searchBarController = SearchBarController();
-  SearchBarController searchBarDestinationController = SearchBarController();
+  Map<PolylineId, Polyline> polylines;
 
   @override
   void initState() {
@@ -208,12 +200,6 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void dispose() {
-    setState(() {
-      addRouteStatus = null;
-    });
-    searchBarController.dispose();
-    searchBarDestinationController.dispose();
-
     super.dispose();
   }
 
@@ -221,8 +207,6 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        searchBarController.clearOverlay();
-        searchBarDestinationController.clearOverlay();
         return Future.value(true);
       },
       child: ChangeNotifierProvider.value(
@@ -232,21 +216,8 @@ class _MapScreenState extends State<MapScreen> {
             return Scaffold(
               resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
               extendBodyBehindAppBar: true,
-              // appBar: AppBar(
-              //   toolbarHeight: 90.0,
-              //   key: appBarKey,
-              //   automaticallyImplyLeading: false,
-              //   iconTheme: Theme.of(context).iconTheme,
-              //   elevation: 0,
-              //   backgroundColor: Colors.transparent,
-              //   titleSpacing: 0.0,
-              //   title: _buildSearchBar(),
-              // ),
-              body: Stack(children: <Widget>[
-                _buildMapWithLocation(),
-                // _buildFloatingCard(),
-                _buildMapAddRoute(context),
-              ]),
+              body: _buildMapWithLocation(),
+              floatingActionButton: _buildMapAddRoute(context),
             );
           },
         ),
@@ -254,10 +225,88 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  _displaySnackBar(String status, String text, LinearGradient linearGradient) {
+  Widget _buildMapAddRoute(BuildContext context) {
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Column(
+        children: [
+          SizedBox(height: 20.0),
+          Container(
+            height: 40.0,
+            width: 40.0,
+            child: FittedBox(
+              child: FloatingActionButton(
+                heroTag: "btn1",
+                onPressed: _onToggleMapType,
+                elevation: 8.0,
+                child: Icon(OMIcons.layers),
+                backgroundColor: Palette.secondColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+      Column(
+        children: [
+          Container(
+            height: 40.0,
+            width: 40.0,
+            child: FittedBox(
+              child: FloatingActionButton(
+                heroTag: "btn2",
+                onPressed: _getMyLocation,
+                elevation: 8.0,
+                child: Icon(OMIcons.myLocation),
+                backgroundColor: Palette.secondColor,
+              ),
+            ),
+          ),
+          SizedBox(height: 5.0),
+          Container(
+            height: 40.0,
+            width: 40.0,
+            child: FittedBox(
+              child: FloatingActionButton(
+                heroTag: "btn3",
+                onPressed: _navigateToAddRouteScreen,
+                elevation: 8.0,
+                child: Icon(OMIcons.directions),
+                backgroundColor: Palette.secondColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ]);
+  }
+
+  _getMyLocation() {
+    provider.updateCurrentLocation(widget.forceAndroidLocationManager);
+    _moveToCurrentPosition();
+  }
+
+  _onToggleMapType() {
+    provider.switchMapType();
+  }
+
+  _navigateToAddRouteScreen() {
+    Navigator.push(
+      context,
+      FadePageRoute(
+        builder: (context) => AddRouteScreen(
+            sessionToken: provider.sessionToken, appBarKey: appBarKey),
+      ),
+    ).then(
+      (addRouteResponse) => {
+        if (addRouteResponse != null) _handleAddRouteResponse(addRouteResponse)
+      },
+    );
+  }
+
+  _displaySnackBar(String status, String text) {
     Flushbar(
-      backgroundGradient: linearGradient,
-      // title: text,
+      backgroundGradient:
+          status == 'success' ? Palette.successGradient : Palette.errorGradient,
+      title: status == 'success' ? 'Success' : 'Error',
       message: text,
       icon: Icon(
         status == 'success' ? Icons.check : Icons.error,
@@ -269,170 +318,16 @@ class _MapScreenState extends State<MapScreen> {
     )..show(context);
   }
 
-  _navigateToAddRoute() {
-    Navigator.push(
-      context,
-      FadePageRoute(
-        builder: (context) => AddRouteScreen(
-            sessionToken: provider.sessionToken, appBarKey: appBarKey),
-      ),
-    ).then(
-      (addRouteStatus) => {
-        if (addRouteStatus != null)
-          {
-            setState(() {
-              addRouteStatus = addRouteStatus;
-            }),
-            _displaySnackBar(
-              addRouteStatus,
-              addRouteStatus == 'success'
-                  ? "Route added"
-                  : 'Failed to add a new route',
-              addRouteStatus == 'success'
-                  ? LinearGradient(
-                      colors: [Colors.green[600], Colors.green[400]],
-                    )
-                  : LinearGradient(
-                      colors: [Colors.red[600], Colors.red[400]],
-                    ),
-            ),
-          }
-      },
+  _handleAddRouteResponse(addRouteResponse) {
+    _createPolyLines(addRouteResponse['fromSelectedPlace'],
+        addRouteResponse['toSelectedPlace']);
+
+    _displaySnackBar(
+      addRouteResponse['status'],
+      addRouteResponse['status'] == 'success'
+          ? "Route added"
+          : 'Failed to add a new route',
     );
-  }
-
-  Widget _buildMapAddRoute(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Align(
-        alignment: Alignment.bottomRight,
-        child: FloatingActionButton(
-          onPressed: _navigateToAddRoute,
-          elevation: 8.0,
-          child: Icon(OMIcons.directions),
-          backgroundColor: Palette.secondColor,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSearchBar() {
-    return Stack(
-      children: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Row(
-              children: <Widget>[
-                SizedBox(width: 15),
-                Expanded(
-                  child: AutoCompleteSearch(
-                      appBarKey: appBarKey,
-                      searchBarController: searchBarController,
-                      sessionToken: provider.sessionToken,
-                      hintText: widget.hintText,
-                      searchingText: widget.searchingText,
-                      debounceMilliseconds:
-                          widget.autoCompleteDebounceInMilliseconds,
-                      onPicked: (prediction) {
-                        _pickPrediction(prediction, 'startPoint');
-                      },
-                      onSearchFailed: (status) {
-                        if (widget.onAutoCompleteFailed != null) {
-                          widget.onAutoCompleteFailed(status);
-                        }
-                      },
-                      autocompleteOffset: widget.autocompleteOffset,
-                      autocompleteRadius: widget.autocompleteRadius,
-                      autocompleteLanguage: widget.autocompleteLanguage,
-                      autocompleteComponents: widget.autocompleteComponents,
-                      autocompleteTypes: widget.autocompleteTypes,
-                      strictbounds: widget.strictbounds,
-                      region: widget.region,
-                      initialSearchString: widget.initialSearchString,
-                      searchForInitialValue: widget.searchForInitialValue,
-                      autocompleteOnTrailingWhitespace:
-                          widget.autocompleteOnTrailingWhitespace),
-                ),
-                // SizedBox(width: 5),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                SizedBox(width: 15),
-                Expanded(
-                  child: AutoCompleteSearch(
-                      appBarKey: appBarKey,
-                      searchBarController: searchBarDestinationController,
-                      sessionToken: provider.sessionToken,
-                      hintText: widget.hintDirectionText,
-                      searchingText: widget.searchingText,
-                      debounceMilliseconds:
-                          widget.autoCompleteDebounceInMilliseconds,
-                      onPicked: (prediction) {
-                        _pickPrediction(prediction, 'endPoint');
-                      },
-                      onSearchFailed: (status) {
-                        if (widget.onAutoCompleteFailed != null) {
-                          widget.onAutoCompleteFailed(status);
-                        }
-                      },
-                      autocompleteOffset: widget.autocompleteOffset,
-                      autocompleteRadius: widget.autocompleteRadius,
-                      autocompleteLanguage: widget.autocompleteLanguage,
-                      autocompleteComponents: widget.autocompleteComponents,
-                      autocompleteTypes: widget.autocompleteTypes,
-                      strictbounds: widget.strictbounds,
-                      region: widget.region,
-                      initialSearchString: widget.initialSearchString,
-                      searchForInitialValue: widget.searchForInitialValue,
-                      autocompleteOnTrailingWhitespace:
-                          widget.autocompleteOnTrailingWhitespace),
-                ),
-              ],
-            ),
-          ],
-        )
-      ],
-    );
-  }
-
-  _pickPrediction(Prediction prediction, String source) async {
-    provider.placeSearchingState = SearchingState.Searching;
-
-    final PlacesDetailsResponse response =
-        await provider.places.getDetailsByPlaceId(
-      prediction.placeId,
-      sessionToken: provider.sessionToken,
-      language: widget.autocompleteLanguage,
-    );
-
-    //TODO check here if we can get the location
-
-    if (response.errorMessage?.isNotEmpty == true ||
-        response.status == "REQUEST_DENIED") {
-      print("AutoCompleteSearch Error: " + response.errorMessage);
-      if (widget.onAutoCompleteFailed != null) {
-        widget.onAutoCompleteFailed(response.status);
-      }
-      return;
-    }
-
-    provider.selectedPlace = PickResult.fromPlaceDetailResult(response.result);
-
-    // Prevents searching again by camera movement.
-    provider.isAutoCompleteSearching = true;
-
-    // await _moveTo(provider.selectedPlace.geometry.location.lat,
-    //     provider.selectedPlace.geometry.location.lng);
-
-    if (source == 'startPoint') {
-      provider.startLocation = provider.selectedPlace;
-    } else if (source == 'endPoint') {
-      provider.endLocation = provider.selectedPlace;
-    }
-
-    provider.placeSearchingState = SearchingState.Idle;
   }
 
   _moveTo(double latitude, double longitude) async {
@@ -456,149 +351,17 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  // Method for calculating the distance between two places
-  Future<bool> _createRoute() async {
-    searchBarController.reset();
-    searchBarDestinationController.reset();
-    try {
-      String startLocationId = provider.startLocation?.placeId;
-      String endLocationId = provider.endLocation?.placeId;
-
-      if (startLocationId.isNotEmpty && endLocationId.isNotEmpty) {
-        String startLocationAddress = provider.startLocation.formattedAddress;
-        String endLocationAddress = provider.endLocation.formattedAddress;
-
-        double startLocationLat = provider.startLocation.geometry.location.lat;
-        double startLocationLng = provider.startLocation.geometry.location.lng;
-
-        double endLocationLat = provider.endLocation.geometry.location.lat;
-        double endLocationLng = provider.endLocation.geometry.location.lng;
-
-        Position startCoordinates =
-            Position(latitude: startLocationLat, longitude: startLocationLng);
-        Position destinationCoordinates =
-            Position(latitude: endLocationLat, longitude: endLocationLng);
-
-        // Start Location Marker
-        Marker startMarker = Marker(
-          markerId: MarkerId('$startCoordinates'),
-          position: LatLng(
-            startCoordinates.latitude,
-            startCoordinates.longitude,
-          ),
-          infoWindow: InfoWindow(
-            title: 'Start',
-            snippet: startLocationAddress,
-          ),
-          icon: BitmapDescriptor.defaultMarker,
-        );
-
-        // Destination Location Marker
-        Marker destinationMarker = Marker(
-          markerId: MarkerId('$destinationCoordinates'),
-          position: LatLng(
-            destinationCoordinates.latitude,
-            destinationCoordinates.longitude,
-          ),
-          infoWindow: InfoWindow(
-            title: 'Destination',
-            snippet: endLocationAddress,
-          ),
-          icon: BitmapDescriptor.defaultMarker,
-        );
-
-        //get old markers
-        Set<Marker> previousMarkers =
-            provider.markers != null ? provider.markers : new Set<Marker>();
-
-        // Adding the markers to the list
-        previousMarkers.add(startMarker);
-        previousMarkers.add(destinationMarker);
-
-        //set new marker
-        provider.markers = previousMarkers;
-
-        Position _northeastCoordinates;
-        Position _southwestCoordinates;
-
-        // Calculating to check that
-        // southwest coordinate <= northeast coordinate
-        if (startCoordinates.latitude <= destinationCoordinates.latitude) {
-          _southwestCoordinates = startCoordinates;
-          _northeastCoordinates = destinationCoordinates;
-        } else {
-          _southwestCoordinates = destinationCoordinates;
-          _northeastCoordinates = startCoordinates;
-        }
-
-        // Accommodate the two locations within the
-        // camera view of the map
-        GoogleMapController controller = provider.mapController;
-        if (controller == null) return null;
-
-        // await controller.animateCamera(
-        //   CameraUpdate.newLatLngBounds(
-        //     LatLngBounds(
-        //       northeast: LatLng(
-        //         _northeastCoordinates.latitude,
-        //         _northeastCoordinates.longitude,
-        //       ),
-        //       southwest: LatLng(
-        //         _southwestCoordinates.latitude,
-        //         _southwestCoordinates.longitude,
-        //       ),
-        //     ),
-        //     100.0,
-        //   ),
-        // );
-
-        // Calculating the distance between the start and the end positions
-        // with a straight path, without considering any route
-        // double distanceInMeters = await Geolocator().bearingBetween(
-        //   startCoordinates.latitude,
-        //   startCoordinates.longitude,
-        //   destinationCoordinates.latitude,
-        //   destinationCoordinates.longitude,
-        // );
-
-        List<LatLng> polylineCoordinates =
-            await _createPolyLines(startCoordinates, destinationCoordinates);
-
-        double totalDistance = 0.0;
-
-        // Calculating the total distance by adding the distance
-        // between small segments
-        for (int i = 0; i < polylineCoordinates.length - 1; i++) {
-          totalDistance += _coordinateDistance(
-            polylineCoordinates[i].latitude,
-            polylineCoordinates[i].longitude,
-            polylineCoordinates[i + 1].latitude,
-            polylineCoordinates[i + 1].longitude,
-          );
-        }
-
-        String _placeDistance = totalDistance.toStringAsFixed(2);
-
-        print('DISTANCE: $_placeDistance km');
-
-        //TODO: to remove later firebase exemple from here
-
-        return true;
-      }
-    } catch (e) {
-      print(e);
-    }
-    return false;
-  }
-
-  _createPolyLines(Position start, Position destination) async {
+  _createPolyLines(
+      PickResult fromSelectedPlace, PickResult toSelectedPlace) async {
     List<LatLng> polylineCoordinates = [];
     PolylinePoints polylinePoints = PolylinePoints();
 
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       widget.apiKey, // Google Maps API Key
-      PointLatLng(start.latitude, start.longitude),
-      PointLatLng(destination.latitude, destination.longitude),
+      PointLatLng(fromSelectedPlace.geometry.location.lat,
+          fromSelectedPlace.geometry.location.lng),
+      PointLatLng(toSelectedPlace.geometry.location.lat,
+          toSelectedPlace.geometry.location.lng),
       // travelMode: TravelMode.transit,
     );
 
@@ -611,35 +374,19 @@ class _MapScreenState extends State<MapScreen> {
     PolylineId id = PolylineId('poly');
 
     Polyline polyline = Polyline(
-      polylineId: id,
-      color: Colors.red,
-      points: polylineCoordinates,
       width: 3,
+      polylineId: id,
+      color: Palette.primaryColor,
+      points: polylineCoordinates,
     );
 
-    //get old polylines
     Map<PolylineId, Polyline> newPolylines = new Map<PolylineId, Polyline>();
-    // Map<PolylineId, Polyline> a = new Map<PolylineId, Polyline>();
 
-    // Adding the new polyline
-    // a[id] = polyline;
     newPolylines[id] = polyline;
 
-    //set new marker
-    provider.polylines = newPolylines;
-
-    return polylineCoordinates;
-  }
-
-  // Formula for calculating distance between two coordinates
-  // https://stackoverflow.com/a/54138876/11910277
-  double _coordinateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
+    setState(() {
+      polylines = newPolylines;
+    });
   }
 
   Widget _buildMapWithLocation() {
@@ -675,123 +422,23 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget _buildMap(LatLng initialTarget) {
     return GoogleMapPlacePicker(
-      initialTarget: initialTarget,
+      polyLines: polylines,
       appBarKey: appBarKey,
-      selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
+      initialTarget: initialTarget,
       pinBuilder: widget.pinBuilder,
+      onMapCreated: widget.onMapCreated,
+      onPlacePicked: widget.onPlacePicked,
+      language: widget.autocompleteLanguage,
       onSearchFailed: widget.onGeocodingSearchFailed,
-      debounceMilliseconds: widget.cameraMoveDebounceInMilliseconds,
       enableMapTypeButton: widget.enableMapTypeButton,
-      enableMyLocationButton: widget.enableMyLocationButton,
       usePinPointingSearch: widget.usePinPointingSearch,
       usePlaceDetailSearch: widget.usePlaceDetailSearch,
-      onMapCreated: widget.onMapCreated,
       selectInitialPosition: widget.selectInitialPosition,
-      language: widget.autocompleteLanguage,
+      enableMyLocationButton: widget.enableMyLocationButton,
       forceSearchOnZoomChanged: widget.forceSearchOnZoomChanged,
+      selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
+      debounceMilliseconds: widget.cameraMoveDebounceInMilliseconds,
       hidePlaceDetailsWhenDraggingPin: widget.hidePlaceDetailsWhenDraggingPin,
-      onToggleMapType: () {
-        provider.switchMapType();
-      },
-      createRoute: () {
-        _createRoute();
-      },
-      onMyLocation: () async {
-        // Prevent to click many times in short period.
-        // if (provider.isOnUpdateLocationCooldown == false) {
-        //   provider.isOnUpdateLocationCooldown = true;
-        //   Timer(Duration(seconds: widget.myLocationButtonCooldown), () {
-        //     provider.isOnUpdateLocationCooldown = false;
-        //   });
-        await provider
-            .updateCurrentLocation(widget.forceAndroidLocationManager);
-        await _moveToCurrentPosition();
-        // }
-      },
-      onMoveStart: () {
-        searchBarController.reset();
-        searchBarDestinationController.reset();
-      },
-      onPlacePicked: widget.onPlacePicked,
-    );
-  }
-
-  Widget _buildFloatingCard() {
-    return Selector<PlaceProvider,
-        Tuple4<PickResult, SearchingState, bool, PinState>>(
-      selector: (_, provider) => Tuple4(
-          provider.selectedPlace,
-          provider.placeSearchingState,
-          provider.isSearchBarFocused,
-          provider.pinState),
-      builder: (context, data, __) {
-        if ((data.item1 == null && data.item2 == SearchingState.Idle) ||
-            data.item3 == true ||
-            data.item4 == PinState.Dragging) {
-          return Container();
-        } else {
-          return FloatingCard(
-            bottomPosition: MediaQuery.of(context).size.height * 0.05,
-            leftPosition: MediaQuery.of(context).size.width * 0.025,
-            rightPosition: MediaQuery.of(context).size.width * 0.025,
-            width: MediaQuery.of(context).size.width * 0.9,
-            borderRadius: BorderRadius.circular(12.0),
-            elevation: 4.0,
-            color: Theme.of(context).cardColor,
-            child: provider.placeSearchingState == SearchingState.Searching
-                ? _buildLoadingIndicator()
-                : _buildSelectionDetails(context),
-          );
-        }
-      },
-    );
-  }
-
-  Widget _buildLoadingIndicator() {
-    return Container(
-      height: 48,
-      child: const Center(
-        child: SizedBox(
-          width: 24,
-          height: 24,
-          child: CircularProgressIndicator(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSelectionDetails(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(10),
-      child: Column(
-        children: <Widget>[
-          Text(
-            provider?.startLocation?.formattedAddress ?? "",
-            style: TextStyle(fontSize: 18),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 10),
-          Text(
-            provider?.endLocation?.formattedAddress ?? "",
-            style: TextStyle(fontSize: 18),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 10),
-          RaisedButton(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Text(
-              "Confirm ride",
-              style: TextStyle(fontSize: 16),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4.0),
-            ),
-            onPressed: () {
-              print("confirmed");
-            },
-          ),
-        ],
-      ),
     );
   }
 }

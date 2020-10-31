@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -90,17 +91,40 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     _clearOverlay();
   }
 
+  _clearRouteInformation(){
+    setState((){
+      distance = '0.0';
+      estimatedTime = '0';
+    });
+  }
+
+  _clearToSelectedPlace(){
+    setState((){
+      toSelectedPlace = null;
+    });
+  }
+
+  _clearFromSelectedPlace(){
+    setState((){
+      fromSelectedPlace = null;
+    });
+  }
+
   _onSearchFromInputChange(text) {
     if (!mounted) return;
 
     if (text.isEmpty) {
       _clearOverlay();
+      _clearFromSelectedPlace();
+      _clearRouteInformation();
       debounceTimer?.cancel();
       return;
     }
 
     if (text.substring(text.length - 1) == " ") {
       _clearOverlay();
+      _clearFromSelectedPlace();
+      _clearRouteInformation();
       debounceTimer?.cancel();
       return;
     }
@@ -121,12 +145,16 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
 
     if (text.isEmpty) {
       _clearOverlay();
+      _clearToSelectedPlace();
+      _clearRouteInformation();
       debounceTimer?.cancel();
       return;
     }
 
     if (text.substring(text.length - 1) == " ") {
       _clearOverlay();
+      _clearToSelectedPlace();
+      _clearRouteInformation();
       debounceTimer?.cancel();
       return;
     }
@@ -278,8 +306,6 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       sessionToken: widget.sessionToken,
       // language: widget.autocompleteLanguage,
     );
-
-    //TODO check here if we can get the location
 
     if (response.errorMessage?.isNotEmpty == true ||
         response.status == "REQUEST_DENIED") {
@@ -542,12 +568,10 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       "key": Secrets.API_KEY
     };
 
-    //TODO:fix URL
     Uri uri = Uri.https(
         "maps.googleapis.com", "maps/api/distancematrix/json", params);
 
     String url = uri.toString();
-    // print('GOOGLE MAPS URL: ' + url);
     var response = await http.get(url);
     if (response?.statusCode == 200) {
       var parsedJson = json.decode(response.body);
@@ -588,7 +612,42 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     );
   }
 
+  String _addRouteValidate() {
+    String errorMsg = '';
+
+    if (fromSelectedPlace == null) errorMsg += "Starting point can't be left empty.";
+
+    if (toSelectedPlace == null)
+      errorMsg +=
+          "${errorMsg != '' ? '\n' : ''}Destination point can't be left empty.";
+
+    return errorMsg;
+  }
+
+  _displaySnackBar(String status, String text) {
+    Flushbar(
+      backgroundGradient:
+          status == 'success' ? Palette.successGradient : Palette.errorGradient,
+      title: status == 'success' ? 'Success' : 'Error',
+      message: text,
+      icon: Icon(
+        status == 'success' ? Icons.check : Icons.error,
+        size: 28.0,
+        color: Colors.white,
+      ),
+      duration: const Duration(seconds: 5),
+      onTap: (flushBar) => flushBar.dismiss(),
+    )..show(context);
+  }
+
   _addRoute() async {
+    String errorMsg = _addRouteValidate();
+
+    if (errorMsg != '') {
+      _displaySnackBar('inputsEmpty', errorMsg);
+      return;
+    }
+
     final http.Response response = await http.post(
       '$baseUrlRoutes/addRoute',
       headers: <String, String>{
@@ -608,7 +667,11 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       }),
     );
 
-    Navigator.pop(context, response.statusCode == 200 ? 'success' : 'failed');
+    Navigator.pop(context, {
+      "status": response.statusCode == 200 ? 'success' : 'failed',
+      "fromSelectedPlace": fromSelectedPlace,
+      "toSelectedPlace": toSelectedPlace
+    });
   }
 
   _pickTime() async {
