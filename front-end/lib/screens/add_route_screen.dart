@@ -91,21 +91,21 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     _clearOverlay();
   }
 
-  _clearRouteInformation(){
-    setState((){
+  _clearRouteInformation() {
+    setState(() {
       distance = '0.0';
       estimatedTime = '0';
     });
   }
 
-  _clearToSelectedPlace(){
-    setState((){
+  _clearToSelectedPlace() {
+    setState(() {
       toSelectedPlace = null;
     });
   }
 
-  _clearFromSelectedPlace(){
-    setState((){
+  _clearFromSelectedPlace() {
+    setState(() {
       fromSelectedPlace = null;
     });
   }
@@ -408,6 +408,8 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   }
 
   Widget _buildSearchBar() {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -415,7 +417,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       ),
       margin: const EdgeInsets.only(right: 20.0, left: 20.0),
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 5),
-      // height: 115.0,
+      height: screenHeight * 0.19,
       child: Row(
         children: <Widget>[
           _threeDots(),
@@ -586,36 +588,11 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     return result;
   }
 
-  Widget _displaySummaryHeader() {
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Route Summary',
-              style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.w500,
-                fontSize: 18.0,
-              ),
-            ),
-          ],
-        ),
-        Divider(
-          height: 5,
-          indent: 15,
-          endIndent: 15,
-          thickness: 1.5,
-        ),
-      ],
-    );
-  }
-
   String _addRouteValidate() {
     String errorMsg = '';
 
-    if (fromSelectedPlace == null) errorMsg += "Starting point can't be left empty.";
+    if (fromSelectedPlace == null)
+      errorMsg += "Starting point can't be left empty.";
 
     if (toSelectedPlace == null)
       errorMsg +=
@@ -684,17 +661,21 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   }
 
   Widget _displayDepartureOn() {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Text("Departure on:"),
+        Text(
+          "Departure on",
+          style: TextStyle(color: Colors.grey),
+        ),
         SizedBox(
-          width: 90,
+          width: 91,
           child: ListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(
               "${departureOnTime.hour}:${departureOnTime.minute}",
               style: TextStyle(
+                fontSize: 20.0,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -707,45 +688,56 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   }
 
   Widget _displayEstimatedTime() {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Estimated Duration: ',
+          'Duration',
+          style: TextStyle(color: Colors.grey),
         ),
-        Expanded(
-          child: Text(
-            "$estimatedTime",
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-            ),
+        // Expanded(
+        //   child:
+        Text(
+          "$estimatedTime",
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.w500,
           ),
+          // ),
         ),
       ],
     );
   }
 
   Widget _displayDistance() {
-    return Row(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Text("Distance: "),
-        Expanded(
-          child: Text(
-            "$distance km",
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-            ),
+        Text(
+          "Distance",
+          style: TextStyle(color: Colors.grey),
+        ),
+        // Expanded(
+        //   child:
+        Text(
+          "$distance km",
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.w500,
           ),
+          // ),
         ),
       ],
     );
   }
 
   Widget _displayCapacityInput() {
-    return Row(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Passenger capacity: ',
+          'Passenger capacity',
+          style: TextStyle(color: Colors.grey),
         ),
         DropdownButton<String>(
           value: passengerCapacity,
@@ -753,6 +745,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
           iconSize: 20,
           elevation: 16,
           style: TextStyle(
+            fontSize: 20.0,
             color: Colors.black,
             fontWeight: FontWeight.w500,
           ),
@@ -839,9 +832,10 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     final width = deviceSize.width;
 
     return Container(
-      height: screenHeight - 30.0 - 40.0,
-      width: width,
-      margin: const EdgeInsets.only(top: 30.0),
+      // height: screenHeight - 30.0 - 40.0,
+      height: screenHeight * 0.6,
+      // width: width,
+      // margin: const EdgeInsets.only(top: 30.0),
       decoration: BoxDecoration(
         color: Palette.thirdColor,
         borderRadius: BorderRadius.only(
@@ -850,21 +844,34 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         ),
       ),
       child: Container(
-        margin: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 50.0),
-        padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
+        margin: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            _displaySummaryHeader(),
-            _displayDepartureOn(),
-            _displayEstimatedTime(),
-            SizedBox(height: 8.0),
-            _displayDistance(),
-            _displayCapacityInput(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    _displayDepartureOn(),
+                    _displayEstimatedTime(),
+                  ],
+                ),
+                Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    _displayCapacityInput(),
+                    _displayDistance(),
+                  ],
+                ),
+              ],
+            ),
             _displayFinalDepartureDestinationValues(),
             _buildAddRouteButton(),
           ],
@@ -879,6 +886,18 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
 
     return Scaffold(
       appBar: CustomAppBar(title: "Create route"),
+        backgroundColor: Palette.primaryColor,
+      body:Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            _buildSearchBar(),
+            _buildConfirmationCard()
+          ],
+        ),
+    );
+
+    return Scaffold(
+      appBar: CustomAppBar(title: "Create route"),
       backgroundColor: Palette.primaryColor,
       body: CustomScrollView(
         center: centerKey,
@@ -890,6 +909,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
                 return Container(
                   alignment: Alignment.center,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       _buildSearchBar(),
                       _buildConfirmationCard()
