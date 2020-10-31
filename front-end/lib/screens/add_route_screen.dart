@@ -18,6 +18,7 @@ import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:khedni_maak/config/globals.dart' as globals;
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class AddRouteScreen extends StatefulWidget {
   final String sessionToken;
@@ -76,6 +77,12 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       baseUrl: null,
       httpClient: httpClient,
     );
+
+    initCurrentPosition().then((value) => currentPosition = value);
+  }
+
+  Future<Position> initCurrentPosition() async {
+    return getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 
   @override
@@ -222,9 +229,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       final PlacesAutocompleteResponse response = await places.autocomplete(
         searchTerm,
         sessionToken: widget.sessionToken,
-        location: currentPosition == null
-            ? null
-            : Location(currentPosition.latitude, currentPosition.longitude),
+        location: Location(currentPosition.latitude, currentPosition.longitude),
         offset: null,
         radius: null,
         language: null,
@@ -426,7 +431,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                TextFormField(
+                TextField(
                   controller: _fromController,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
@@ -441,6 +446,10 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
                     isDense: true,
                     labelText: 'From',
                     border: InputBorder.none,
+                    // suffixIcon: IconButton(
+                    //   icon: Icon(OMIcons.myLocation),
+                    //   onPressed: _setCurrentPosition,
+                    // ),
                   ),
                 ),
                 Divider(
@@ -450,7 +459,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
                   thickness: 1.5,
                 ),
                 SizedBox(height: 6),
-                TextFormField(
+                TextField(
                   controller: _toController,
                   focusNode: _toFocusNode,
                   onChanged: (text) {
@@ -462,6 +471,10 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
                     isDense: true,
                     labelText: 'To',
                     border: InputBorder.none,
+                    // suffixIcon: IconButton(
+                    //   icon: Icon(OMIcons.myLocation),
+                    //   onPressed: _setCurrentPosition,
+                    // ),
                   ),
                 ),
               ],
@@ -668,7 +681,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
           "Departure on",
           style: TextStyle(color: Colors.grey),
         ),
-        SizedBox(height:1.0),
+        SizedBox(height: 1.0),
         SizedBox(
           width: 91,
           child: ListTile(
@@ -734,7 +747,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
           'Passenger capacity',
           style: TextStyle(color: Colors.grey),
         ),
-        SizedBox(height:7.0),
+        SizedBox(height: 7.0),
         DropdownButton<String>(
           value: passengerCapacity,
           icon: Icon(Icons.keyboard_arrow_down),
@@ -880,14 +893,11 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
 
     return Scaffold(
       appBar: CustomAppBar(title: "Create route"),
-        backgroundColor: Palette.primaryColor,
-      body:Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            _buildSearchBar(),
-            _buildConfirmationCard()
-          ],
-        ),
+      backgroundColor: Palette.primaryColor,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[_buildSearchBar(), _buildConfirmationCard()],
+      ),
     );
 
     return Scaffold(
