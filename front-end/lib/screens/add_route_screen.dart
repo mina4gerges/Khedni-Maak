@@ -18,7 +18,6 @@ import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:khedni_maak/config/globals.dart' as globals;
-import 'package:outline_material_icons/outline_material_icons.dart';
 
 class AddRouteScreen extends StatefulWidget {
   final String sessionToken;
@@ -890,15 +889,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   @override
   Widget build(BuildContext context) {
     const Key centerKey = ValueKey('bottom-sliver-list');
-
-    return Scaffold(
-      appBar: CustomAppBar(title: "Create route"),
-      backgroundColor: Palette.primaryColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[_buildSearchBar(), _buildConfirmationCard()],
-      ),
-    );
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: CustomAppBar(title: "Create route"),
@@ -912,8 +903,9 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
               (BuildContext context, int index) {
                 return Container(
                   alignment: Alignment.center,
+                  height: screenHeight - 80.0,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       _buildSearchBar(),
                       _buildConfirmationCard()
