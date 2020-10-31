@@ -8,42 +8,32 @@ class BuildStatCard extends StatelessWidget {
     this.color,
   }) : super(key: key);
 
-  final String title;
-  final String body;
+  final Widget title;
+  final Widget body;
   final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 110,
-      margin: const EdgeInsets.all(8.0),
-      padding: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        color: color,
+    return Card(
+      color: color,
+      margin: const EdgeInsets.all(5.0),
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          Text(
+      child: InkWell(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: 5.0),
+            title ?? Container(),
             body,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+            SizedBox(height: 5.0),
+          ],
+        ),
+        onTap: () => {Navigator.pushNamed(context, '/auth/DashboardScreen/navBar')},
       ),
+      elevation: 5,
     );
   }
 }

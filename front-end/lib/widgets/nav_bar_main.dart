@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khedni_maak/config/Secrets.dart';
 import 'package:khedni_maak/config/palette.dart';
-import 'package:khedni_maak/screens/drivers_screen.dart';
+import 'package:khedni_maak/screens/rides_screen.dart';
 import 'package:khedni_maak/screens/map_screen.dart';
 import 'package:khedni_maak/utils/nav_bar/nav_bar.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
@@ -49,12 +49,12 @@ class _NavBarMainState extends State<NavBarMain> {
       //Create the views which will be mapped to the indices for our nav btns
       _viewsByIndex = <Widget>[
         MapScreen(apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0)),
-        Text('hi from driver Rides'),
+        RidesScreen(source:'driver'),
         Text('hi from driver notification'),
       ];
 
       //Declare app bar titles
-      _appBarTitles = <String>["Map", "Rides", "Notification"];
+      _appBarTitles = <String>["Map", "My Rides", "Notification"];
     }
     //user is rider
     else {
@@ -68,13 +68,13 @@ class _NavBarMainState extends State<NavBarMain> {
 
       //Create the views which will be mapped to the indices for our nav btns
       _viewsByIndex = <Widget>[
-        DriverScreen(),
+        RidesScreen(source:'rider'),
         Text('hi from rider History'),
         Text('hi from rider notification'),
       ];
 
       //Declare app bar titles
-      _appBarTitles = <String>["Rides", "History", "Notification"];
+      _appBarTitles = <String>["Available Rides", "History", "Notification"];
     }
   }
 
