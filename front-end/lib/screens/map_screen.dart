@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
@@ -181,6 +182,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  String addRouteStatus;
   GlobalKey appBarKey = GlobalKey();
   PlaceProvider provider;
   SearchBarController searchBarController = SearchBarController();
@@ -196,16 +198,19 @@ class _MapScreenState extends State<MapScreen> {
     provider.desiredAccuracy = widget.desiredLocationAccuracy;
     provider.setMapType(widget.initialMapType);
 
-    test();
+    initMap();
   }
 
-  void test() async {
+  void initMap() async {
     await provider.updateCurrentLocation(widget.forceAndroidLocationManager);
     await _moveToCurrentPosition();
   }
 
   @override
   void dispose() {
+    setState(() {
+      addRouteStatus = null;
+    });
     searchBarController.dispose();
     searchBarDestinationController.dispose();
 
@@ -239,7 +244,7 @@ class _MapScreenState extends State<MapScreen> {
               // ),
               body: Stack(children: <Widget>[
                 _buildMapWithLocation(),
-                _buildFloatingCard(),
+                // _buildFloatingCard(),
                 _buildMapAddRoute(context),
               ]),
             );
@@ -249,21 +254,60 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
+  _displaySnackBar(String status, String text, LinearGradient linearGradient) {
+    Flushbar(
+      backgroundGradient: linearGradient,
+      // title: text,
+      message: text,
+      icon: Icon(
+        status == 'success' ? Icons.check : Icons.error,
+        size: 28.0,
+        color: Colors.white,
+      ),
+      duration: const Duration(seconds: 3),
+      onTap: (flushBar) => flushBar.dismiss(),
+    )..show(context);
+  }
+
+  _navigateToAddRoute() {
+    Navigator.push(
+      context,
+      FadePageRoute(
+        builder: (context) => AddRouteScreen(
+            sessionToken: provider.sessionToken, appBarKey: appBarKey),
+      ),
+    ).then(
+      (addRouteStatus) => {
+        if (addRouteStatus != null)
+          {
+            setState(() {
+              addRouteStatus = addRouteStatus;
+            }),
+            _displaySnackBar(
+              addRouteStatus,
+              addRouteStatus == 'success'
+                  ? "Route added"
+                  : 'Failed to add a new route',
+              addRouteStatus == 'success'
+                  ? LinearGradient(
+                      colors: [Colors.green[600], Colors.green[400]],
+                    )
+                  : LinearGradient(
+                      colors: [Colors.red[600], Colors.red[400]],
+                    ),
+            ),
+          }
+      },
+    );
+  }
+
   Widget _buildMapAddRoute(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Align(
         alignment: Alignment.bottomRight,
         child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              FadePageRoute(
-                builder: (context) => AddRouteScreen(
-                    sessionToken: provider.sessionToken,appBarKey: appBarKey),
-              ),
-            );
-          },
+          onPressed: _navigateToAddRoute,
           elevation: 8.0,
           child: Icon(OMIcons.directions),
           backgroundColor: Palette.secondColor,
