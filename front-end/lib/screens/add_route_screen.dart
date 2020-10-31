@@ -662,12 +662,13 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
 
   Widget _displayDepartureOn() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
           "Departure on",
           style: TextStyle(color: Colors.grey),
         ),
+        SizedBox(height:1.0),
         SizedBox(
           width: 91,
           child: ListTile(
@@ -689,21 +690,18 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
 
   Widget _displayEstimatedTime() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
           'Duration',
           style: TextStyle(color: Colors.grey),
         ),
-        // Expanded(
-        //   child:
         Text(
           "$estimatedTime",
           style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.w500,
           ),
-          // ),
         ),
       ],
     );
@@ -711,21 +709,18 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
 
   Widget _displayDistance() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
           "Distance",
           style: TextStyle(color: Colors.grey),
         ),
-        // Expanded(
-        //   child:
         Text(
           "$distance km",
           style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.w500,
           ),
-          // ),
         ),
       ],
     );
@@ -733,12 +728,13 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
 
   Widget _displayCapacityInput() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
           'Passenger capacity',
           style: TextStyle(color: Colors.grey),
         ),
+        SizedBox(height:7.0),
         DropdownButton<String>(
           value: passengerCapacity,
           icon: Icon(Icons.keyboard_arrow_down),
@@ -828,8 +824,6 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
 
   Widget _buildConfirmationCard() {
     final screenHeight = MediaQuery.of(context).size.height;
-    final deviceSize = MediaQuery.of(context).size;
-    final width = deviceSize.width;
 
     return Container(
       // height: screenHeight - 30.0 - 40.0,
