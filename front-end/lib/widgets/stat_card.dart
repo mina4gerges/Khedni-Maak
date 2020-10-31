@@ -6,11 +6,13 @@ class BuildStatCard extends StatelessWidget {
     this.title,
     this.body,
     this.color,
+    this.onCarTap,
   }) : super(key: key);
 
   final Widget title;
   final Widget body;
   final Color color;
+  final VoidCallback onCarTap;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class BuildStatCard extends StatelessWidget {
             SizedBox(height: 5.0),
           ],
         ),
-        onTap: () => {Navigator.pushNamed(context, '/auth/DashboardScreen/navBar')},
+        onTap:onCarTap,
       ),
       elevation: 5,
     );
