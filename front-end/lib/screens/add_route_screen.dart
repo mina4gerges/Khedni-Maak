@@ -33,10 +33,8 @@ class AddRouteScreen extends StatefulWidget {
 }
 
 class _AddRouteScreenState extends State<AddRouteScreen> {
-  Future _distanceFuture;
-  Future _estimatedTimeFuture;
-  String estimatedTime;
-  String distance;
+  String estimatedTime = '0';
+  String distance = '0.0';
   String passengerCapacity;
   TimeOfDay departureOnTime;
 
@@ -262,7 +260,6 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   }
 
   _pickPrediction(Prediction prediction, String source) async {
-    // provider.placeSearchingState = SearchingState.Searching;
     _clearOverlay();
 
     if (source == 'fromInput') {
@@ -287,9 +284,6 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     if (response.errorMessage?.isNotEmpty == true ||
         response.status == "REQUEST_DENIED") {
       print("AutoCompleteSearch Error: " + response.errorMessage);
-      // if (widget.onAutoCompleteFailed != null) {
-      //   widget.onAutoCompleteFailed(response.status);
-      // }
       return;
     }
 
@@ -316,35 +310,37 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       setState(() {
         toSelectedPlace = selectedPlace;
       });
-
-      if (isInputChanged) {
-        Future tempDistanceFuture =
-            _getDistance(fromSelectedPlace, toSelectedPlace);
-
-        Future tempEstimatedTimeFuture =
-            _getEstimatedTime(fromSelectedPlace, toSelectedPlace);
-
-        tempDistanceFuture.then((value) => setState(() => {
-              distance: value,
-            }));
-
-        tempEstimatedTimeFuture.then((value) => setState(() => {
-              estimatedTime: value,
-            }));
-
-        setState(() => {
-              _distanceFuture: tempDistanceFuture,
-              _estimatedTimeFuture: tempEstimatedTimeFuture
-            });
-      }
     }
-    // Prevents searching again by camera movement.
-    // provider.isAutoCompleteSearching = true;
+
+    if (isInputChanged) {
+      Future tempDistanceFuture;
+      Future tempEstimatedTimeFuture;
+
+      if (source == 'toInput') {
+        if (fromSelectedPlace != null) {
+          tempDistanceFuture = _getDistance(fromSelectedPlace, selectedPlace);
+          tempEstimatedTimeFuture =
+              _getEstimatedTime(fromSelectedPlace, selectedPlace);
+        }
+      } else if (source == 'fromInput') {
+        if (toSelectedPlace != null) {
+          tempDistanceFuture = _getDistance(selectedPlace, toSelectedPlace);
+          tempEstimatedTimeFuture =
+              _getEstimatedTime(selectedPlace, toSelectedPlace);
+        }
+      }
+
+      tempDistanceFuture.then((value) => {
+            setState(() => {distance = value})
+          });
+
+      tempEstimatedTimeFuture.then((value) => {
+            setState(() => {estimatedTime = value})
+          });
+    }
 
     // await _moveTo(provider.selectedPlace.geometry.location.lat,
     //     provider.selectedPlace.geometry.location.lng);
-
-    // provider.placeSearchingState = SearchingState.Idle;
   }
 
   Widget _threeDots() {
@@ -602,7 +598,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         "estimationTime": estimatedTime,
         "startingTime": departureOnTime.toString(),
         "capacity": "$passengerCapacity",
-        "driverUserName": globals.loginUserName,
+        "driverUsername": globals.loginUserName ?? "minaTest",
         "car": "-",
         "latStart": fromSelectedPlace.geometry.location.lat,
         "lngStart": fromSelectedPlace.geometry.location.lng,
@@ -612,13 +608,10 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     );
 
     if (response.statusCode == 200) {
-      String body = json.decode(response.body);
       print("route added");
-    } else if (response.statusCode == 400) {
-      // return json.decode(response.body)["message"];
-      print("route error 400");
     } else {
-      print("route error unknown");
+      print("route error ");
+      // return json.decode(response.body)["message"];
     }
   }
 
@@ -633,6 +626,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
 
   Widget _displayDepartureOn() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text("Departure on:"),
         SizedBox(
@@ -653,77 +647,38 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     );
   }
 
-  FutureBuilder<String> _displayEstimatedTime() {
-    return FutureBuilder(
-      future: _estimatedTimeFuture,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Row(
-            children: <Widget>[
-              Text(
-                'Estimated Duration: ',
-              ),
-              Text(
-                "${snapshot.data}",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          );
-        }
-        // if (snapshot.hasError) {
-        //   return Text(snapshot.error.toString());
-        // }
-        return Row(
-          children: <Widget>[
-            Text(
-              'Estimated Duration: ',
+  Widget _displayEstimatedTime() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Estimated Duration: ',
+        ),
+        Expanded(
+          child: Text(
+            "$estimatedTime",
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
             ),
-            Text(
-              "${0} min",
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 
-  FutureBuilder<String> _displayDistance() {
-    return FutureBuilder(
-      future: _distanceFuture,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Row(
-            children: <Widget>[
-              Text("Distance: "),
-              Text(
-                "${snapshot.data} km",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          );
-        }
-        // if (snapshot.hasError) {
-        //   return Text(snapshot.error.toString());
-        // }
-        return (Row(
-          children: <Widget>[
-            Text("Distance: "),
-            Text(
-              "${0.00} km",
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-              ),
+  Widget _displayDistance() {
+    return Row(
+      children: <Widget>[
+        Text("Distance: "),
+        Expanded(
+          child: Text(
+            "$distance km",
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
             ),
-          ],
-        ));
-      },
+          ),
+        ),
+      ],
     );
   }
 
@@ -772,7 +727,8 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
             _threeDots(),
             SizedBox(width: 10.0),
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 SizedBox(height: 13.0),
                 Text(
@@ -824,7 +780,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     final width = deviceSize.width;
 
     return Container(
-      height: screenHeight - 30.0 - 190.0,
+      height: screenHeight - 30.0 - 40.0,
       width: width,
       margin: const EdgeInsets.only(top: 30.0),
       decoration: BoxDecoration(
@@ -847,7 +803,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
             _displaySummaryHeader(),
             _displayDepartureOn(),
             _displayEstimatedTime(),
-            SizedBox(height: 5.0),
+            SizedBox(height: 8.0),
             _displayDistance(),
             _displayCapacityInput(),
             _displayFinalDepartureDestinationValues(),
