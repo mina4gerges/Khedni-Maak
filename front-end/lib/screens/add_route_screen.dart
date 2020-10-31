@@ -624,7 +624,11 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     Navigator.pop(context, {
       "status": response.statusCode == 200 ? 'success' : 'failed',
       "fromSelectedPlace": fromSelectedPlace,
-      "toSelectedPlace": toSelectedPlace
+      "toSelectedPlace": toSelectedPlace,
+      "latStart": fromSelectedPlace.geometry.location.lat,
+      "lngStart": fromSelectedPlace.geometry.location.lng,
+      "latEnd": toSelectedPlace.geometry.location.lat,
+      "lngEnd": toSelectedPlace.geometry.location.lng,
     });
   }
 
