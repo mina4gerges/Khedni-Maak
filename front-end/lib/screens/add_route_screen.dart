@@ -589,8 +589,6 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   }
 
   _addRoute() async {
-    String saveStatus;
-
     final http.Response response = await http.post(
       '$baseUrlRoutes/addRoute',
       headers: <String, String>{
@@ -601,7 +599,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         "estimationTime": estimatedTime,
         "startingTime": departureOnTime.toString(),
         "capacity": "$passengerCapacity",
-        "driverUsername": globals.loginUserName ?? "minaTest",
+        "driverUsername": globals.loginUserName,
         "car": "-",
         "latStart": fromSelectedPlace?.geometry?.location?.lat,
         "lngStart": fromSelectedPlace?.geometry?.location?.lng,
@@ -610,12 +608,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       }),
     );
 
-    if (response.statusCode == 200) {
-      saveStatus = 'success';
-    } else {
-      saveStatus = 'failed';
-    }
-    Navigator.pop(context, saveStatus);
+    Navigator.pop(context, response.statusCode == 200 ? 'success' : 'failed');
   }
 
   _pickTime() async {
