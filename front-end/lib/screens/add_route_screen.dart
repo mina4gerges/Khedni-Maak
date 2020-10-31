@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -18,6 +17,7 @@ import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:khedni_maak/config/globals.dart' as globals;
+import 'package:khedni_maak/widgets/from_to_three_dots.dart';
 
 class AddRouteScreen extends StatefulWidget {
   final String sessionToken;
@@ -373,44 +373,6 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     //     provider.selectedPlace.geometry.location.lng);
   }
 
-  Widget _threeDots() {
-    return Column(
-      children: <Widget>[
-        SizedBox(height: 12),
-        Icon(FontAwesomeIcons.dotCircle, color: Colors.green),
-        SizedBox(height: 5),
-        Container(
-          width: 5.0,
-          height: 5.0,
-          decoration: new BoxDecoration(
-            color: Colors.grey[400],
-            shape: BoxShape.circle,
-          ),
-        ),
-        SizedBox(height: 5),
-        Container(
-          width: 5.0,
-          height: 5.0,
-          decoration: new BoxDecoration(
-            color: Colors.grey[400],
-            shape: BoxShape.circle,
-          ),
-        ),
-        SizedBox(height: 5),
-        Container(
-          width: 5.0,
-          height: 5.0,
-          decoration: new BoxDecoration(
-            color: Colors.grey[400],
-            shape: BoxShape.circle,
-          ),
-        ),
-        SizedBox(height: 5),
-        Icon(FontAwesomeIcons.dotCircle, color: Colors.blue),
-      ],
-    );
-  }
-
   Widget _buildSearchBar() {
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -424,7 +386,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       height: screenHeight * 0.19,
       child: Row(
         children: <Widget>[
-          _threeDots(),
+          FromToThreeDots(),
           SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -643,16 +605,19 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, Object>{
-        // "distance":distance,
+        "source": fromSelectedPlace.formattedAddress,
+        "destination": toSelectedPlace.formattedAddress,
+        "distance": "${distance}Km",
         "estimationTime": estimatedTime,
-        "startingTime": departureOnTime.toString(),
+        // "startingTime": departureOnTime.toString(),
+        "startingTime": "${departureOnTime.hour}:${departureOnTime.minute}",
         "capacity": "$passengerCapacity",
         "driverUsername": globals.loginUserName,
         "car": "-",
-        "latStart": fromSelectedPlace?.geometry?.location?.lat,
-        "lngStart": fromSelectedPlace?.geometry?.location?.lng,
-        "latEnd": toSelectedPlace?.geometry?.location?.lat,
-        "lngEnd": toSelectedPlace?.geometry?.location?.lng,
+        "latStart": fromSelectedPlace.geometry.location.lat,
+        "lngStart": fromSelectedPlace.geometry.location.lng,
+        "latEnd": toSelectedPlace.geometry.location.lat,
+        "lngEnd": toSelectedPlace.geometry.location.lng,
       }),
     );
 
@@ -728,7 +693,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
           style: TextStyle(color: Colors.grey),
         ),
         Text(
-          "$distance km",
+          "${distance}km",
           style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.w500,
@@ -784,7 +749,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            _threeDots(),
+            FromToThreeDots(),
             SizedBox(width: 10.0),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
