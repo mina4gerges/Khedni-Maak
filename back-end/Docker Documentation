@@ -1,0 +1,23 @@
+1) Create docker image from Dockerfile and name it routes-microservice
+
+cd ../Microservice-Routes/
+docker build -f Dockerfile -t routes-microservice .
+
+
+2) Run docker container image
+
+docker run -p 9292:9292 routes-microservice
+
+
+3) create a docker for mysql
+
+docker run -d \
+      -p 2012:3306 \
+     --name mysql-docker-container \
+     -e MYSQL_ROOT_PASSWORD=root123 \
+     -e MYSQL_DATABASE=cars \
+     -e MYSQL_USER=khedni \
+     -e MYSQL_PASSWORD=Khedni123 \
+        mysql:latest
+
+

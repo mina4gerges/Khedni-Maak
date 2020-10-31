@@ -43,10 +43,11 @@ public class Routes {
     private int capacity; //maximum number of passengers
     private ArrayList<String> passengers = new ArrayList<String>();
     private String driverUsername; //name of the driver 
+    private String driverPhone;
 	private String car;
 	
 	private String distance;
-
+	
 	public String getSource() {
 		return source;
 	}
@@ -137,6 +138,12 @@ public class Routes {
 	}
 	public void setLngEnd(double lngEnd) {
 		this.lngEnd = lngEnd;
+	}
+	public String getDriverPhone() {
+		return driverPhone;
+	}
+	public void setDriverPhone(String driverPhone) {
+		this.driverPhone = driverPhone;
 	}
 
 
