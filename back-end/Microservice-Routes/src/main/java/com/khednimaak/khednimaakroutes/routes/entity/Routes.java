@@ -25,9 +25,10 @@ import org.ietf.jgss.Oid;
 public class Routes {
 	@Id
 	@GeneratedValue
-    private int id;
-//	private String source;
-//  private String destination;
+	private int id;
+	
+	private String source;
+ 	private String destination;
 	
     private double latStart; // coordinates: latitude start
     private double lngStart; // coordinates: longitude start
@@ -42,11 +43,28 @@ public class Routes {
     private int capacity; //maximum number of passengers
     private ArrayList<String> passengers = new ArrayList<String>();
     private String driverUsername; //name of the driver 
-    private String car;
-
+	private String car;
 	
+	private String distance;
 
-
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
+	}
+	public String getDestination() {
+		return destination;
+	}
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+	public String getDistance() {
+		return distance;
+	}
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
 
 	public String getDriverUsername() {
 		return driverUsername;
