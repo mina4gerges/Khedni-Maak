@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -108,13 +109,63 @@ class _RidesScreenState extends State<RidesScreen> {
       padding: const EdgeInsets.all(5),
       itemCount: routes.length,
       itemBuilder: (BuildContext context, int index) {
-        return BuildStatCard(
-          body: _getCardBody(routes[index]),
-          color: Colors.white,
-          onCarTap: () => {_onCardTab(routes[index])},
+        final route = routes[index];
+        return Dismissible(
+          key: Key("${route['id']}"),
+          onDismissed: (direction) {
+            _removeRide(route['id']);
+          },
+          background: Container(color: Colors.red),
+          child: BuildStatCard(
+            body: _getCardBody(route),
+            color: Colors.white,
+            onCarTap: () => {_onCardTab(route)},
+          ),
         );
       },
     );
+  }
+
+  _removeRide(int routeId) async {
+    final http.Response response = await http.put(
+      '$baseUrlRoutes/updateStatus',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, Object>{
+        "id": routeId,
+      }),
+    );
+
+    bool isSuccess = response.statusCode == 200;
+
+    _displaySnackBar(isSuccess ? "success" : "failed",
+        isSuccess ? "Route deleted" : "Route not deleted");
+
+    setState(() {
+      _routesFuture = _getRoutes();
+    });
+  }
+
+  _displaySnackBar(String status, String text) {
+    Flushbar(
+      backgroundGradient:
+          status == 'success' ? Palette.successGradient : Palette.errorGradient,
+      title: status == 'success' ? 'Success' : 'Error',
+      message: text,
+      icon: Icon(
+        status == 'success' ? Icons.check : Icons.error,
+        size: 28.0,
+        color: Colors.white,
+      ),
+      duration: const Duration(seconds: 3),
+      onTap: (flushBar) => flushBar.dismiss(),
+    )..show(context);
+  }
+
+  //filter routes with status 1 (available)
+  List _filterRoutesStatus(List routes) {
+    return routes.where((route) => route["status"] == 1).toList();
   }
 
   Future<void> _onCardTab(Map route) async {
@@ -178,17 +229,19 @@ class _RidesScreenState extends State<RidesScreen> {
         } else {
           List routes = json.decode(snap.data.body);
 
-          if (routes.isEmpty)
+          List filteredRoutes = _filterRoutesStatus(routes);
+
+          if (filteredRoutes.isEmpty)
             return Center(
               child: Text(
-                "Routes are empty",
+                "No rides available",
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
               ),
             );
           else
-            return _buildRoutesList(json.decode(snap.data.body));
+            return _buildRoutesList(filteredRoutes);
         }
       },
     );
