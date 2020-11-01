@@ -234,7 +234,7 @@ class _MapScreenState extends State<MapScreen> {
               resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
               extendBodyBehindAppBar: true,
               body: _buildMapWithLocation(),
-              floatingActionButton: _buildMapAddRoute(context),
+              floatingActionButton: _buildFloatingActionButtons(context),
             );
           },
         ),
@@ -242,7 +242,7 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  Widget _buildMapAddRoute(BuildContext context) {
+  Widget _buildFloatingActionButtons(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Column(
         children: [
@@ -336,6 +336,8 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   _handleAddRouteResponse(addRouteResponse) async {
+    //should send notification
+
     _displaySnackBar(
       addRouteResponse['status'],
       addRouteResponse['status'] == 'success'
