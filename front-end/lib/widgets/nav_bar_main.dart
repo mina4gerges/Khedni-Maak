@@ -101,7 +101,7 @@ class _NavBarMainState extends State<NavBarMain> {
 
     //Wrap our custom navbar + contentView with the app Scaffold
     return Scaffold(
-      appBar: CustomAppBar(title: _appBarTitles[_selectedNavIndex]),
+      appBar: CustomAppBar(title: Text(_appBarTitles[_selectedNavIndex])),
       backgroundColor: Color(0xffE6E6E6),
       body: SafeArea(
         child: Container(
