@@ -179,6 +179,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
                 provider.setCameraPosition(initialCameraPosition);
                 _searchByCameraLocation(provider);
               }
+              provider.moveToPolyLine();
             },
             onCameraIdle: () {
               if (provider.isAutoCompleteSearching) {

@@ -49,7 +49,11 @@ class _NavBarMainState extends State<NavBarMain> {
       //Create the views which will be mapped to the indices for our nav btns
       _viewsByIndex = <Widget>[
         MapScreen(apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0)),
-        RidesScreen(source:'driver'),
+        RidesScreen(
+          source: 'driver',
+          moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+              {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+        ),
         Text('hi from driver notification'),
       ];
 
@@ -68,7 +72,11 @@ class _NavBarMainState extends State<NavBarMain> {
 
       //Create the views which will be mapped to the indices for our nav btns
       _viewsByIndex = <Widget>[
-        RidesScreen(source:'rider'),
+        RidesScreen(
+          source: 'rider',
+          moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+              {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+        ),
         Text('hi from rider History'),
         Text('hi from rider notification'),
       ];
@@ -108,6 +116,38 @@ class _NavBarMainState extends State<NavBarMain> {
       ),
       bottomNavigationBar: navBar, //Pass our custom navBar into the scaffold
     );
+  }
+
+  void _goToMap() {
+    setState(() {
+      _selectedNavIndex = 0;
+    });
+  }
+
+  void _moveToPolyLines(Map<PolylineId, Polyline> polylines, double lngFrom,
+      double latFrom, double lngTo, double latTo) {
+    _goToMap();
+
+
+    setState(() {
+      _viewsByIndex = <Widget>[
+        MapScreen(
+          apiKey: Secrets.API_KEY,
+          initialPosition: LatLng(0, 0),
+          polylines: polylines,
+          lngFrom: lngFrom,
+          latFrom: latFrom,
+          lngTo: lngTo,
+          latTo: latTo,
+        ),
+        RidesScreen(
+          source: widget.source,
+          moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+              {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+        ),
+        Text('hi from driver notification'),
+      ];
+    });
   }
 
   void _handleNavBtnTapped(int index) {
