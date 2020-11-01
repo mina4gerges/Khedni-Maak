@@ -24,7 +24,6 @@ class Functions {
     );
 
     if (response.statusCode == 200) {
-      print('success: user info');
 
       String fullName = json.decode(response.body)['name'];
 

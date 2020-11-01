@@ -612,12 +612,13 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         // "startingTime": departureOnTime.toString(),
         "startingTime": "${departureOnTime.hour}:${departureOnTime.minute}",
         "capacity": "$passengerCapacity",
-        "driverUsername": globals.loginUserName,
+        "driverUsername": globals.userFullName,
         "car": "-",
         "latStart": fromSelectedPlace.geometry.location.lat,
         "lngStart": fromSelectedPlace.geometry.location.lng,
         "latEnd": toSelectedPlace.geometry.location.lat,
         "lngEnd": toSelectedPlace.geometry.location.lng,
+        "driverPhone":globals.userPhoneNumber,
       }),
     );
 
