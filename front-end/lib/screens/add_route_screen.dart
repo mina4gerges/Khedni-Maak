@@ -862,7 +862,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Create route"),
+      appBar: CustomAppBar(title: Text("Create route")),
       backgroundColor: Palette.primaryColor,
       body: CustomScrollView(
         center: centerKey,
