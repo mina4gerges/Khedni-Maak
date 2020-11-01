@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/widgets/model/user.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
+
 
 class Functions {
   static String getGreetings() {
@@ -18,6 +20,18 @@ class Functions {
   }
 
   static Future<User> getUserInfo(username, token) async {
+
+    if(token==null || token == ''){
+      String fullName = globals.userFullName;
+
+      return User(
+        name: fullName.split(' ')[0],
+        lastName: fullName.split(' ')[1],
+        email: globals.email,
+        userName: globals.loginUserName,
+      );
+    }
+
     final response = await http.get(
       '$baseUrl/usersId/$username',
       headers: <String, String>{'Authorization': 'Bearer $token'},
