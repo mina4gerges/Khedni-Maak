@@ -84,7 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
           if (response.statusCode == 200)
             {
               globals.userFullName = json.decode(response.body)["name"],
-              globals.userPhoneNumber = json.decode(response.body)["phone"]
+              globals.userPhoneNumber = json.decode(response.body)["phone"],
+              globals.email = json.decode(response.body)["email"]
             }
         });
   }
@@ -148,6 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
       globals.loginUserName = data.name;
       globals.userFullName = name;
       globals.userPhoneNumber = data.phoneNumber;
+      globals.email = data.name;
       return null;
     } else if (response.statusCode == 400)
       return json.decode(response.body)["message"];
