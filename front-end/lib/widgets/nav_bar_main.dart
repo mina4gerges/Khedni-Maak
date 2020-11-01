@@ -128,7 +128,6 @@ class _NavBarMainState extends State<NavBarMain> {
       double latFrom, double lngTo, double latTo) {
     _goToMap();
 
-
     setState(() {
       _viewsByIndex = <Widget>[
         MapScreen(
@@ -153,6 +152,32 @@ class _NavBarMainState extends State<NavBarMain> {
   void _handleNavBtnTapped(int index) {
     //Save the new index and trigger a rebuild
     setState(() {
+      //user is driver
+      if (widget.source == 'driver') {
+        //Create the views which will be mapped to the indices for our nav btns
+        _viewsByIndex = <Widget>[
+          MapScreen(apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0)),
+          RidesScreen(
+            source: 'driver',
+            moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+                {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+          ),
+          Text('hi from driver notification'),
+        ];
+      }
+      //user is rider
+      else {
+        //Create the views which will be mapped to the indices for our nav btns
+        _viewsByIndex = <Widget>[
+          RidesScreen(
+            source: 'rider',
+            moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+                {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+          ),
+          Text('hi from rider History'),
+          Text('hi from rider notification'),
+        ];
+      }
       //This will be passed into the NavBar and change it's selected state, also controls the active content page
       _selectedNavIndex = index;
     });
