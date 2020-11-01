@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -9,6 +10,7 @@ import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/widgets/from_to_three_dots.dart';
 import 'package:khedni_maak/widgets/stat_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RidesScreen extends StatefulWidget {
   RidesScreen({
@@ -69,14 +71,20 @@ class _RidesScreenState extends State<RidesScreen> {
                   _getRouteSingleInfo('To', route['destination']),
                 ],
               ),
-
               //driverUsername
               //capacity
             ],
           ),
+          _displayActionButton(route),
         ],
       ),
     );
+  }
+
+  _sendRequest(Map route) {
+    //TODO send notification
+    _displaySnackBar(
+        'success', "Request sent successfully to ${route["driverUsername"]}");
   }
 
   _getRouteSingleInfo(String title, String body) {
@@ -110,20 +118,64 @@ class _RidesScreenState extends State<RidesScreen> {
       itemCount: routes.length,
       itemBuilder: (BuildContext context, int index) {
         final route = routes[index];
-        return Dismissible(
-          key: Key("${route['id']}"),
-          onDismissed: (direction) {
-            _removeRide(route['id']);
-          },
-          background: Container(color: Colors.red),
-          child: BuildStatCard(
-            body: _getCardBody(route),
-            color: Colors.white,
-            onCarTap: () => {_onCardTab(route)},
-          ),
-        );
+        return widget.source == 'driver'
+            ? Dismissible(
+                key: Key("${route['id']}"),
+                onDismissed: (direction) {
+                  _removeRide(route['id']);
+                },
+                background: Container(color: Colors.red),
+                child: BuildStatCard(
+                  body: _getCardBody(route),
+                  color: Colors.white,
+                  onCarTap: () => {_onCardTab(route)},
+                ),
+              )
+            : BuildStatCard(
+                body: _getCardBody(route),
+                color: Colors.white,
+                onCarTap: () => {_onCardTab(route)},
+              );
       },
     );
+  }
+
+  _displayActionButton(Map route) {
+    return widget.source == 'rider'
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              RaisedButton(
+                onPressed: () => launch("tel://${route["driverPhone"]}"),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                color: Palette.primaryColor,
+                textColor: Colors.white,
+                child: Row(
+                  children: [
+                    Icon(FlevaIcons.phone_call_outline),
+                    Text(route["driverUsername"]),
+                  ],
+                ),
+              ),
+              RaisedButton(
+                onPressed:()=> _sendRequest(route),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                color: Palette.fifthColor,
+                textColor: Colors.white,
+                child: Row(
+                  children: [
+                    Icon(Icons.send_sharp),
+                    Text("Send Request"),
+                  ],
+                ),
+              ),
+            ],
+          )
+        : Container();
   }
 
   _removeRide(int routeId) async {
@@ -163,7 +215,7 @@ class _RidesScreenState extends State<RidesScreen> {
     )..show(context);
   }
 
-  //filter routes with status 1 (available)
+//filter routes with status 1 (available)
   List _filterRoutesStatus(List routes) {
     return routes.where((route) => route["status"] == 1).toList();
   }
