@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khedni_maak/functions/functions.dart';
-import 'package:khedni_maak/widgets/model/user.dart';
 import 'package:khedni_maak/config/globals.dart' as globals;
 
 class UserProfile extends StatefulWidget {
@@ -17,40 +16,19 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  Future<User> user;
-
-  @override
-  void initState() {
-    super.initState();
-
-    String token = globals.loginToken;
-
-    String username = globals.loginUserName;
-
-    user = Functions.getUserInfo(username, token);
-  }
+  final String username = globals.loginUserName;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<User>(
-      future: user,
-      builder: (context, snapshot) {
-        String name = snapshot.hasData ? snapshot.data.name : '';
-        String capitalizedName = name.isNotEmpty
-            ? ', ${name[0].toUpperCase() + name.substring(1)}'
-            : '';
-
-        return Expanded(
-          child: Text(
-            '${Functions.getGreetings()}$capitalizedName',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: widget.screenHeight * 0.05,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        );
-      },
+    return Expanded(
+      child: Text(
+        '${Functions.getGreetings()}, ${globals.userFullName.split(' ')[0]}',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: widget.screenHeight * 0.05,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }
