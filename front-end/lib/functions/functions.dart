@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/widgets/model/user.dart';
-import 'package:khedni_maak/config/globals.dart' as globals;
 
 
 class Functions {
@@ -21,17 +20,6 @@ class Functions {
 
   static Future<User> getUserInfo(username, token) async {
 
-    if(token==null || token == ''){
-      String fullName = globals.userFullName;
-
-      return User(
-        name: fullName.split(' ')[0],
-        lastName: fullName.split(' ')[1],
-        email: globals.email,
-        userName: globals.loginUserName,
-      );
-    }
-
     final response = await http.get(
       '$baseUrl/usersId/$username',
       headers: <String, String>{'Authorization': 'Bearer $token'},
@@ -42,9 +30,11 @@ class Functions {
       String fullName = json.decode(response.body)['name'];
 
       return User(
+        fullName:fullName,
         name: fullName.split(' ')[0],
         lastName: fullName.split(' ')[1],
         email: json.decode(response.body)['email'],
+        phoneNumber:json.decode(response.body)["phone"],
         userName: json.decode(response.body)['username'],
       );
     } else {
@@ -52,9 +42,15 @@ class Functions {
     }
     return User(
       name: '',
-      lastName: '',
       email: '',
+      lastName: '',
+      fullName:'',
       userName: '',
+      phoneNumber:'',
     );
+  }
+
+  static String upperCaseFirstChar(String name){
+    return name.substring(0, 1).toUpperCase() + name.substring(1);
   }
 }
