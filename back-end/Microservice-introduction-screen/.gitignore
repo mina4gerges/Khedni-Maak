@@ -1,2 +1,5 @@
+#screens/dataBase.py
+venv/
+data/
 .idea
-./venv
+__pycache__
