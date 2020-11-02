@@ -1,6 +1,19 @@
 # Khedni Maak
 ###### Par Mina Gerges (mina.gerges@isae.edu.lb) et Samer Barhouche (samer.barhouche@isae.edu.lb)
 
+1. Introduction et idee generale
+2. Développeurs
+3. Installation
+   - Front end installation
+   - Back end installation
+4. Documentation
+5. Exemples et screenshots
+6. Architecture
+7. Technologie utilise
+8. Problème Rencontré
+9. Conclusion
+
+
 **Idée générale :**
 
 “*Khedni Maak*” est une application mobile dont son idée générale est d'aider les travailleurs, les étudiant ou chaque personne qui n’a pas une voiture pour qu’il puisse se déplacer facilement.
