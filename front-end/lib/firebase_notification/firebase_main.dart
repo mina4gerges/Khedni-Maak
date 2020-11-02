@@ -9,17 +9,16 @@ class FireBaseMain extends StatelessWidget {
   const FireBaseMain({this.appTitle});
 
   void sentNotification() {
-
-    sendAndRetrieveMessage("test title", "test body")
-        .then((value) => {
-          if(value.statusCode == 200){
-            print("notification sent successfully"),
-          }
-          else{
-            print('failed to sent notification'),
-          }
-    });
-
+    sendAndRetrieveMessage("test title", "test body", "").then((value) => {
+          if (value.statusCode == 200)
+            {
+              print("notification sent successfully"),
+            }
+          else
+            {
+              print('failed to sent notification'),
+            }
+        });
   }
 
   @override

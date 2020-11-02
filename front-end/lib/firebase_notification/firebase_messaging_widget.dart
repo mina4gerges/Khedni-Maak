@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:khedni_maak/firebase_config/model/message.dart';
+import 'package:khedni_maak/firebase_notification/model/message.dart';
 
 class MessagingWidget extends StatefulWidget {
   @override

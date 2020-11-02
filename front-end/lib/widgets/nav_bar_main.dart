@@ -49,7 +49,11 @@ class _NavBarMainState extends State<NavBarMain> {
       //Create the views which will be mapped to the indices for our nav btns
       _viewsByIndex = <Widget>[
         MapScreen(apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0)),
-        RidesScreen(source:'driver'),
+        RidesScreen(
+          source: 'driver',
+          moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+              {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+        ),
         Text('hi from driver notification'),
       ];
 
@@ -68,7 +72,11 @@ class _NavBarMainState extends State<NavBarMain> {
 
       //Create the views which will be mapped to the indices for our nav btns
       _viewsByIndex = <Widget>[
-        RidesScreen(source:'rider'),
+        RidesScreen(
+          source: 'rider',
+          moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+              {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+        ),
         Text('hi from rider History'),
         Text('hi from rider notification'),
       ];
@@ -93,7 +101,7 @@ class _NavBarMainState extends State<NavBarMain> {
 
     //Wrap our custom navbar + contentView with the app Scaffold
     return Scaffold(
-      appBar: CustomAppBar(title: _appBarTitles[_selectedNavIndex]),
+      appBar: CustomAppBar(title: Text(_appBarTitles[_selectedNavIndex])),
       backgroundColor: Color(0xffE6E6E6),
       body: SafeArea(
         child: Container(
@@ -110,9 +118,66 @@ class _NavBarMainState extends State<NavBarMain> {
     );
   }
 
+  void _goToMap() {
+    setState(() {
+      _selectedNavIndex = 0;
+    });
+  }
+
+  void _moveToPolyLines(Map<PolylineId, Polyline> polylines, double lngFrom,
+      double latFrom, double lngTo, double latTo) {
+    _goToMap();
+
+    setState(() {
+      _viewsByIndex = <Widget>[
+        MapScreen(
+          apiKey: Secrets.API_KEY,
+          initialPosition: LatLng(0, 0),
+          polylines: polylines,
+          lngFrom: lngFrom,
+          latFrom: latFrom,
+          lngTo: lngTo,
+          latTo: latTo,
+        ),
+        RidesScreen(
+          source: widget.source,
+          moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+              {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+        ),
+        Text('hi from driver notification'),
+      ];
+    });
+  }
+
   void _handleNavBtnTapped(int index) {
     //Save the new index and trigger a rebuild
     setState(() {
+      //user is driver
+      if (widget.source == 'driver') {
+        //Create the views which will be mapped to the indices for our nav btns
+        _viewsByIndex = <Widget>[
+          MapScreen(apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0)),
+          RidesScreen(
+            source: 'driver',
+            moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+                {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+          ),
+          Text('hi from driver notification'),
+        ];
+      }
+      //user is rider
+      else {
+        //Create the views which will be mapped to the indices for our nav btns
+        _viewsByIndex = <Widget>[
+          RidesScreen(
+            source: 'rider',
+            moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+                {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+          ),
+          Text('hi from rider History'),
+          Text('hi from rider notification'),
+        ];
+      }
       //This will be passed into the NavBar and change it's selected state, also controls the active content page
       _selectedNavIndex = index;
     });

@@ -186,4 +186,78 @@ class PlaceProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  double _lngFrom = 0.0;
+
+  double get lngFrom => _lngFrom;
+
+  set lngFrom(double lngFrom) {
+    _lngFrom = lngFrom;
+    notifyListeners();
+  }
+
+  double _latFrom = 0.0;
+
+  double get latFrom => _latFrom;
+
+  set latFrom(double latFrom) {
+    _latFrom = latFrom;
+    notifyListeners();
+  }
+
+  double _lngTo = 0.0;
+
+  double get lngTo => _lngTo;
+
+  set lngTo(double lngTo) {
+    _lngTo = lngTo;
+    notifyListeners();
+  }
+
+  double _latTo = 0.0;
+
+  double get latTo => _latTo;
+
+  set latTo(double latTo) {
+    _latTo = latTo;
+    notifyListeners();
+  }
+
+  // Future<void> moveToPolyLine(double lngFrom,double latFrom,double lngTo,double latTo) async {
+  Future<void> moveToPolyLine() async {
+
+    if (mapController == null) return;
+
+    if (lngFrom == null &&
+        latFrom == null &&
+        lngTo == null &&
+        latTo == null) return;
+
+    Position fromLocationLatLng =
+    new Position(longitude: lngFrom, latitude: latFrom);
+    Position toLocationLatLng =
+    new Position(longitude:lngTo, latitude: latTo);
+
+    await mapController.animateCamera(
+      CameraUpdate.newLatLngBounds(
+          LatLngBounds(
+              southwest: LatLng(
+                  fromLocationLatLng.latitude <= toLocationLatLng.latitude
+                      ? fromLocationLatLng.latitude
+                      : toLocationLatLng.latitude,
+                  fromLocationLatLng.longitude <= toLocationLatLng.longitude
+                      ? fromLocationLatLng.longitude
+                      : toLocationLatLng.longitude),
+              northeast: LatLng(
+                  fromLocationLatLng.latitude <= toLocationLatLng.latitude
+                      ? toLocationLatLng.latitude
+                      : fromLocationLatLng.latitude,
+                  fromLocationLatLng.longitude <= toLocationLatLng.longitude
+                      ? toLocationLatLng.longitude
+                      : fromLocationLatLng.longitude)),
+          100),
+    );
+
+    notifyListeners();
+  }
 }

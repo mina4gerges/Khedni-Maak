@@ -76,6 +76,20 @@ class _LoginScreenState extends State<LoginScreen> {
   //   );
   // }
 
+  _getUserInformation(String username, String token) {
+    http.get(
+      '$baseUrl/usersId/$username',
+      headers: <String, String>{'Authorization': 'Bearer $token'},
+    ).then((response) => {
+          if (response.statusCode == 200)
+            {
+              globals.userFullName = json.decode(response.body)["name"],
+              globals.userPhoneNumber = json.decode(response.body)["phone"],
+              globals.email = json.decode(response.body)["email"]
+            }
+        });
+  }
+
   Future<String> _loginUser(LoginData data) async {
     //sign in
     final http.Response response = await http.post(
@@ -92,6 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
       globals.loginToken = token;
       globals.loginUserName = data.name;
+
+      _getUserInformation(data.name, token);
 
       print(token);
       return null;
@@ -128,9 +144,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (response.statusCode == 200) {
-      String token = json.decode(response.body)['token'];
+      // String token = json.decode(response.body)['token'];
 
-      print(token);
+      globals.loginUserName = data.name;
+      globals.userFullName = name;
+      globals.userPhoneNumber = data.phoneNumber;
+      globals.email = data.name;
       return null;
     } else if (response.statusCode == 400)
       return json.decode(response.body)["message"];
@@ -156,21 +175,19 @@ class _LoginScreenState extends State<LoginScreen> {
       titleTag: Constants.titleTag,
       theme: LoginTheme(
         primaryColor: Palette.primaryColor,
-        accentColor:Palette.primaryColor,
+        accentColor: Palette.primaryColor,
         // cardTheme = const CardTheme(),
         // inputTheme = const InputDecorationTheme(
         //   filled: true,
         // ),
         // buttonTheme = const LoginButtonTheme(),
-        titleStyle:TextStyle(
-          color:Colors.white
-        ),
+        titleStyle: TextStyle(color: Colors.white),
         // bodyStyle:Colors.red,
         // textFieldStyle:Colors.red,
-        buttonTheme:  LoginButtonTheme(
+        buttonTheme: LoginButtonTheme(
           // this.backgroundColor,
           // this.highlightColor,
-          splashColor:Palette.gradientPrimaryColor,
+          splashColor: Palette.gradientPrimaryColor,
           // this.elevation,
           // this.highlightElevation,
           // this.shape,

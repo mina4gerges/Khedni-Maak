@@ -612,19 +612,24 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         // "startingTime": departureOnTime.toString(),
         "startingTime": "${departureOnTime.hour}:${departureOnTime.minute}",
         "capacity": "$passengerCapacity",
-        "driverUsername": globals.loginUserName,
+        "driverUsername": globals.userFullName,
         "car": "-",
         "latStart": fromSelectedPlace.geometry.location.lat,
         "lngStart": fromSelectedPlace.geometry.location.lng,
         "latEnd": toSelectedPlace.geometry.location.lat,
         "lngEnd": toSelectedPlace.geometry.location.lng,
+        "driverPhone":globals.userPhoneNumber,
       }),
     );
 
     Navigator.pop(context, {
       "status": response.statusCode == 200 ? 'success' : 'failed',
       "fromSelectedPlace": fromSelectedPlace,
-      "toSelectedPlace": toSelectedPlace
+      "toSelectedPlace": toSelectedPlace,
+      "latStart": fromSelectedPlace.geometry.location.lat,
+      "lngStart": fromSelectedPlace.geometry.location.lng,
+      "latEnd": toSelectedPlace.geometry.location.lat,
+      "lngEnd": toSelectedPlace.geometry.location.lng,
     });
   }
 
@@ -857,7 +862,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Create route"),
+      appBar: CustomAppBar(title: Text("Create route")),
       backgroundColor: Palette.primaryColor,
       body: CustomScrollView(
         center: centerKey,

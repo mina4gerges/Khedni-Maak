@@ -21,50 +21,55 @@ enum PinState { Preparing, Idle, Dragging }
 enum SearchingState { Idle, Searching }
 
 class MapScreen extends StatefulWidget {
-  MapScreen(
-      {Key key,
-      @required this.apiKey,
-      this.onPlacePicked,
-      @required this.initialPosition,
-      this.useCurrentLocation = true,
-      this.desiredLocationAccuracy = LocationAccuracy.high,
-      this.onMapCreated,
-      this.hintText = 'From',
-      this.hintDirectionText = 'To',
-      this.searchingText,
-      // this.searchBarHeight,
-      // this.contentPadding,
-      this.onAutoCompleteFailed,
-      this.onGeocodingSearchFailed,
-      this.proxyBaseUrl,
-      this.httpClient,
-      this.selectedPlaceWidgetBuilder,
-      this.pinBuilder,
-      this.autoCompleteDebounceInMilliseconds = 500,
-      this.cameraMoveDebounceInMilliseconds = 750,
-      this.initialMapType = MapType.normal,
-      this.enableMapTypeButton = true,
-      this.enableMyLocationButton = true,
-      this.myLocationButtonCooldown = 10,
-      this.usePinPointingSearch = true,
-      this.usePlaceDetailSearch = false,
-      this.autocompleteOffset,
-      this.autocompleteRadius,
-      this.autocompleteLanguage,
-      this.autocompleteComponents,
-      this.autocompleteTypes,
-      this.strictbounds,
-      this.region,
-      this.selectInitialPosition = false,
-      this.resizeToAvoidBottomInset = true,
-      this.initialSearchString,
-      this.searchForInitialValue = false,
-      this.forceAndroidLocationManager = false,
-      this.forceSearchOnZoomChanged = false,
-      this.automaticallyImplyAppBarLeading = true,
-      this.autocompleteOnTrailingWhitespace = false,
-      this.hidePlaceDetailsWhenDraggingPin = true})
-      : super(key: key);
+  MapScreen({
+    Key key,
+    @required this.apiKey,
+    this.onPlacePicked,
+    @required this.initialPosition,
+    this.useCurrentLocation = true,
+    this.desiredLocationAccuracy = LocationAccuracy.high,
+    this.onMapCreated,
+    this.hintText = 'From',
+    this.hintDirectionText = 'To',
+    this.searchingText,
+    this.polylines,
+    // this.searchBarHeight,
+    // this.contentPadding,
+    this.onAutoCompleteFailed,
+    this.onGeocodingSearchFailed,
+    this.proxyBaseUrl,
+    this.httpClient,
+    this.selectedPlaceWidgetBuilder,
+    this.pinBuilder,
+    this.autoCompleteDebounceInMilliseconds = 500,
+    this.cameraMoveDebounceInMilliseconds = 750,
+    this.initialMapType = MapType.normal,
+    this.enableMapTypeButton = true,
+    this.enableMyLocationButton = true,
+    this.myLocationButtonCooldown = 10,
+    this.usePinPointingSearch = true,
+    this.usePlaceDetailSearch = false,
+    this.autocompleteOffset,
+    this.autocompleteRadius,
+    this.autocompleteLanguage,
+    this.autocompleteComponents,
+    this.autocompleteTypes,
+    this.strictbounds,
+    this.region,
+    this.selectInitialPosition = false,
+    this.resizeToAvoidBottomInset = true,
+    this.initialSearchString,
+    this.searchForInitialValue = false,
+    this.forceAndroidLocationManager = false,
+    this.forceSearchOnZoomChanged = false,
+    this.automaticallyImplyAppBarLeading = true,
+    this.autocompleteOnTrailingWhitespace = false,
+    this.hidePlaceDetailsWhenDraggingPin = true,
+    this.lngFrom,
+    this.latFrom,
+    this.lngTo,
+    this.latTo,
+  }) : super(key: key);
 
   final String apiKey;
 
@@ -101,6 +106,12 @@ class MapScreen extends StatefulWidget {
   final List<Component> autocompleteComponents;
   final bool strictbounds;
   final String region;
+  final Map<PolylineId, Polyline> polylines;
+
+  final double lngFrom;
+  final double latFrom;
+  final double lngTo;
+  final double latTo;
 
   /// If true the [body] and the scaffold's floating widgets should size
   /// themselves to avoid the onscreen keyboard whose height is defined by the
@@ -189,6 +200,12 @@ class _MapScreenState extends State<MapScreen> {
     provider.sessionToken = Uuid().generateV4();
     provider.desiredAccuracy = widget.desiredLocationAccuracy;
     provider.setMapType(widget.initialMapType);
+    polylines = widget.polylines;
+
+    provider.lngFrom = widget.lngFrom;
+    provider.latFrom = widget.latFrom;
+    provider.lngTo = widget.lngTo;
+    provider.latTo = widget.latTo;
 
     initMap();
   }
@@ -217,7 +234,7 @@ class _MapScreenState extends State<MapScreen> {
               resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
               extendBodyBehindAppBar: true,
               body: _buildMapWithLocation(),
-              floatingActionButton: _buildMapAddRoute(context),
+              floatingActionButton: _buildFloatingActionButtons(context),
             );
           },
         ),
@@ -225,7 +242,7 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  Widget _buildMapAddRoute(BuildContext context) {
+  Widget _buildFloatingActionButtons(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Column(
         children: [
@@ -318,9 +335,8 @@ class _MapScreenState extends State<MapScreen> {
     )..show(context);
   }
 
-  _handleAddRouteResponse(addRouteResponse) {
-    _createPolyLines(addRouteResponse['fromSelectedPlace'],
-        addRouteResponse['toSelectedPlace']);
+  _handleAddRouteResponse(addRouteResponse) async {
+    //should send notification
 
     _displaySnackBar(
       addRouteResponse['status'],
@@ -328,6 +344,16 @@ class _MapScreenState extends State<MapScreen> {
           ? "Route added"
           : 'Failed to add a new route',
     );
+
+    await _createPolyLines(addRouteResponse['fromSelectedPlace'],
+        addRouteResponse['toSelectedPlace']);
+
+    provider.lngFrom = addRouteResponse['lngStart'];
+    provider.latFrom = addRouteResponse['latStart'];
+    provider.lngTo = addRouteResponse['lngEnd'];
+    provider.latTo = addRouteResponse['latEnd'];
+
+    provider.moveToPolyLine();
   }
 
   _moveTo(double latitude, double longitude) async {

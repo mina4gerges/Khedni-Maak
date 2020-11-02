@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khedni_maak/config/palette.dart';
-import 'package:khedni_maak/functions/functions.dart';
-import 'package:khedni_maak/widgets/model/user.dart';
 import 'package:khedni_maak/widgets/user_profile.dart';
-import 'package:khedni_maak/config/globals.dart' as globals;
 
 class DashboardHeader extends StatefulWidget {
   DashboardHeader({
@@ -19,18 +16,6 @@ class DashboardHeader extends StatefulWidget {
 }
 
 class _DashboardHeaderState extends State<DashboardHeader> {
-  Future<User> user;
-
-  String token = globals.loginToken;
-
-  String username = globals.loginUserName;
-
-  @override
-  void initState() {
-    super.initState();
-    user = Functions.getUserInfo(username, token);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(

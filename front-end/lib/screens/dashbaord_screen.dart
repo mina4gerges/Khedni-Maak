@@ -1,12 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:khedni_maak/widgets/nav_bar_main.dart';
 import 'package:khedni_maak/widgets/pic_card.dart';
 import 'package:khedni_maak/login/custom_route.dart';
+import 'package:khedni_maak/widgets/nav_bar_main.dart';
 import 'package:khedni_maak/widgets/dashboard_header.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key key}) : super(key: key);
   static const routeName = '/auth/DashboardScreen';
+
+  @override
+  _DashboardScreenState createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  void initState() {
+    super.initState();
+
+    _firebaseMessaging.subscribeToTopic("all-users");
+  }
+
+  _onCardTap(BuildContext context, String source) {
+    Navigator.of(context).push(
+      FadePageRoute(
+        builder: (_) => NavBarMain(source: source),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,21 +57,14 @@ class DashboardScreen extends StatelessWidget {
                             body: 'You can share your car with someone',
                             pic: 'driver.png',
                             screenHeight: screenHeight,
-                            onCardTap: () {
-                              Navigator.of(context).push(FadePageRoute(
-                                  builder: (_) =>
-                                      NavBarMain(source: 'driver')));
-                            },
+                            onCardTap: () => {_onCardTap(context, 'driver')},
                           ),
                           BuildPicCard(
                             title: 'Find a ride',
                             body: 'You can find someone is sharing his car',
                             pic: 'truck.png',
                             screenHeight: screenHeight,
-                            onCardTap: () {
-                              Navigator.of(context).push(FadePageRoute(
-                                  builder: (_) => NavBarMain(source: 'rider')));
-                            },
+                            onCardTap: () => {_onCardTap(context, 'rider')},
                           ),
                           SizedBox(height: screenHeight * 0.05),
                         ],
