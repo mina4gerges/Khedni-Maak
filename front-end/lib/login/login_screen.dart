@@ -1,20 +1,22 @@
 import 'dart:convert';
 
-import 'constants.dart';
-import 'custom_route.dart';
-import 'flutter_login.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:khedni_maak/config/palette.dart';
-import 'package:khedni_maak/config/constant.dart';
-import 'package:khedni_maak/config/Validations.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-import 'package:khedni_maak/screens/dashbaord_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:khedni_maak/config/Validations.dart';
+import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/config/globals.dart' as globals;
+import 'package:khedni_maak/config/palette.dart';
+import 'package:khedni_maak/functions/functions.dart';
 import 'package:khedni_maak/login/utils/models/login_data.dart';
 import 'package:khedni_maak/login/utils/models/signUp_data.dart';
 import 'package:khedni_maak/login/utils/providers/login_messages.dart';
 import 'package:khedni_maak/login/utils/providers/login_theme.dart';
+import 'package:khedni_maak/screens/dashbaord_screen.dart';
+
+import 'constants.dart';
+import 'custom_route.dart';
+import 'flutter_login.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/auth';
@@ -77,16 +79,10 @@ class _LoginScreenState extends State<LoginScreen> {
   // }
 
   _getUserInformation(String username, String token) {
-    http.get(
-      '$baseUrl/usersId/$username',
-      headers: <String, String>{'Authorization': 'Bearer $token'},
-    ).then((response) => {
-          if (response.statusCode == 200)
-            {
-              globals.userFullName = json.decode(response.body)["name"],
-              globals.userPhoneNumber = json.decode(response.body)["phone"],
-              globals.email = json.decode(response.body)["email"]
-            }
+    Functions.getUserInfo(username, token).then((response) => {
+          globals.userFullName = response.fullName,
+          globals.userPhoneNumber = response.phoneNumber,
+          globals.email = response.email
         });
   }
 
@@ -120,7 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<String> _signUpUser(SignUpData data) async {
     String firstName = data.firstName;
     String lastName = data.lastName;
-    String name = "$firstName $lastName";
+    String name =
+        "${Functions.upperCaseFirstChar(firstName)} ${Functions.upperCaseFirstChar(lastName)}";
 
     final http.Response response = await http.post(
       '$baseUrl/auth/signup',
