@@ -1,11 +1,9 @@
 # TABLE creation:
 #
-# create table screens
-# (
-#     intro_id    int auto_increment
-#         primary key,
-#     intro_title varchar(50) null,
-#     intro_desc  varchar(50) null,
-#     intro_image varchar(50) null,
-#     intro_image_path varchar(50) null,
-# );
+# CREATE TABLE `khedni_maak_introduction_screens`.`screens` (
+#   `intro_id` INT NOT NULL AUTO_INCREMENT,
+#   `intro_title` VARCHAR(50) NULL,
+#   `intro_desc` VARCHAR(50) NULL,
+#   `intro_image` VARCHAR(50) NULL,
+#   `intro_image_path` VARCHAR(50) NULL,
+#   PRIMARY KEY (`intro_id`));
