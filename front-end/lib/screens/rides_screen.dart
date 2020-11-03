@@ -55,7 +55,7 @@ class _RidesScreenState extends State<RidesScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _getRouteSingleInfo("Starting at", route['startingTime']),
+              _getRouteStartingTimeInfo("Starting at", route['startingTime']),
               _getRouteSingleInfo("Duration", route['estimationTime']),
               _getRouteSingleInfo("Distance", route['distance']),
             ],
@@ -114,10 +114,52 @@ class _RidesScreenState extends State<RidesScreen> {
     );
   }
 
+  _getRouteStartingTimeInfo(String title, String body) {
+    List<String> dateTime = body.split(" ");
+
+    DateTime dateObj = DateTime.parse(dateTime[0]);
+
+    String time = dateTime[1];
+    String date = "${dateObj.day}/${dateObj.month}/${dateObj.year}";
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            Text(
+              time,
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Text(
+              date,
+              style: TextStyle(
+                fontSize: 11.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+        title.isNotEmpty
+            ? Text(
+                title,
+                style: TextStyle(
+                  fontSize: 10.0,
+                  color: Colors.grey[700],
+                ),
+              )
+            : Container(),
+      ],
+    );
+  }
+
   _buildRoutesList(List routes) {
     return ListView.builder(
       padding: const EdgeInsets.all(5),
-      itemCount: routes.length,
+      itemCount: routes != null ? routes.length : 0,
       itemBuilder: (BuildContext context, int index) {
         final route = routes[index];
         return widget.source == 'driver'
@@ -298,7 +340,7 @@ class _RidesScreenState extends State<RidesScreen> {
 
           List filteredRoutes = _filterRoutesStatus(routes);
 
-          if (filteredRoutes.isEmpty)
+          if (filteredRoutes != null && filteredRoutes.isEmpty)
             return Center(
               child: Text(
                 "No rides available",

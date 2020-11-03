@@ -599,6 +599,8 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       return;
     }
 
+    String startingTime = "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} ${departureOnTime.hour}:${departureOnTime.minute}";
+
     final http.Response response = await http.post(
       '$baseUrlRoutes/addRoute',
       headers: <String, String>{
@@ -609,8 +611,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         "destination": toSelectedPlace.formattedAddress,
         "distance": "${distance}Km",
         "estimationTime": estimatedTime,
-        // "startingTime": departureOnTime.toString(),
-        "startingTime": "${departureOnTime.hour}:${departureOnTime.minute}",
+        "startingTime": startingTime,
         "capacity": "$passengerCapacity",
         "driverUsername": globals.userFullName,
         "car": "-",
