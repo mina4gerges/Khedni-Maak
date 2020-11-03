@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:khedni_maak/config/Secrets.dart';
 import 'package:khedni_maak/config/constant.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/widgets/from_to_three_dots.dart';
 import 'package:khedni_maak/widgets/stat_card.dart';
@@ -65,6 +67,7 @@ class _RidesScreenState extends State<RidesScreen> {
               FromToThreeDots(),
               SizedBox(width: 20.0),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _getRouteSingleInfo('From', route['source']),
                   SizedBox(height: 12.0),
@@ -95,7 +98,6 @@ class _RidesScreenState extends State<RidesScreen> {
           body,
           style: TextStyle(
             fontSize: 20.0,
-            // color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -104,7 +106,7 @@ class _RidesScreenState extends State<RidesScreen> {
                 title,
                 style: TextStyle(
                   fontSize: 10.0,
-                  // color: Colors.white,
+                  color: Colors.grey[700],
                 ),
               )
             : Container(),
@@ -160,7 +162,7 @@ class _RidesScreenState extends State<RidesScreen> {
                 ),
               ),
               RaisedButton(
-                onPressed:()=> _sendRequest(route),
+                onPressed: () => _sendRequest(route),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -217,7 +219,20 @@ class _RidesScreenState extends State<RidesScreen> {
 
 //filter routes with status 1 (available)
   List _filterRoutesStatus(List routes) {
-    return routes.where((route) => route["status"] == 1).toList();
+    //show only driver route
+    if (widget.source == 'driver')
+      return routes
+          .where((route) =>
+              route["status"] == 1 &&
+              route['driverUsername'] == globals.userFullName)
+          .toList();
+    //show all routes different then loginUserName
+    else
+      return routes
+          .where((route) =>
+              route["status"] == 1 &&
+              route['driverUsername'] != globals.userFullName)
+          .toList();
   }
 
   Future<void> _onCardTab(Map route) async {
