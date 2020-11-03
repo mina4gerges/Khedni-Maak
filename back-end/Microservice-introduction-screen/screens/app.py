@@ -32,14 +32,19 @@ def data():
                 title = params.get('intro_title')
                 desc = params.get('intro_desc')
                 image = params.get('intro_image')
-                image_path = params.get('intro_image_path')
+                intro_image_path = params.get('intro_image_path')
 
-                query = "INSERT INTO screens (intro_title, intro_desc, intro_image,image_path) VALUES (%s, %s, %s,%s);"
+                query = (
+                    "INSERT INTO screens (intro_title, intro_desc, intro_image, intro_image_path) "
+                    "VALUES (%s, %s, %s, %s)"
+                )
 
-                cursor.execute(query, (title, desc, image, image_path))
+                data = (title, desc, image, intro_image_path)
+
+                cursor.execute(query, data)
                 conn.commit()
 
-                return "Inserted 1 row"
+                return "success"
 
             if request.method == 'GET':
                 query = "SELECT * FROM screens;"
@@ -71,9 +76,13 @@ def onedata(id):
             cursor = conn.cursor()
 
             if request.method == 'GET':
-                query = "SELECT * FROM screens WHERE intro_id = %s ;"
+                query = (
+                    "SELECT * FROM screens WHERE intro_id = %s "
+                )
 
-                cursor.execute(query, id)
+                data = id
+
+                cursor.execute(query, data)
                 rows = cursor.fetchall()
                 return str(rows)
 
