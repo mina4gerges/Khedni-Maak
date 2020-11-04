@@ -1,7 +1,11 @@
 from flask import Flask, request, jsonify
 import mysql.connector
 from mysql.connector import Error
-from screens.dataBase import host, user, dbname, password
+from dataBase import host, user, dbname, password
+
+# run flask app:
+# set FLASK_APP=app
+# flask run
 
 app = Flask(__name__)
 
