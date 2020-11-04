@@ -1,16 +1,35 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/login/login_screen.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-class IntroductionView extends StatelessWidget {
+class IntroductionView extends StatefulWidget {
   static const routeName = '/';
 
+  @override
+  _IntroductionViewState createState() => _IntroductionViewState();
+}
+
+class _IntroductionViewState extends State<IntroductionView> {
   final introKey = GlobalKey<IntroductionScreenState>();
+  bool displayIntroductionScreen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTime();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   Future _getIntroductionScreens() async {
     return await http.get('$baseUrlIntroductionScreen/screens');
@@ -58,13 +77,41 @@ class IntroductionView extends StatelessWidget {
     return finalScreens;
   }
 
+  _startTime() async {
+    var _duration = new Duration(seconds: 2);
+    return new Timer(
+        _duration,
+        () => setState(() {
+              displayIntroductionScreen = true;
+            }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _getIntroductionScreens(),
       builder: (context, snap) {
-        if (snap.connectionState == ConnectionState.waiting)
-          return const Center(child: CircularProgressIndicator());
+        if (!displayIntroductionScreen ||
+            snap.connectionState == ConnectionState.waiting)
+          // return const Center(child: CircularProgressIndicator());
+          return new Scaffold(
+            backgroundColor: Palette.primaryColor,
+            body: new Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/truck.png',
+                      width: 200, height: 200),
+                  const Center(
+                    child: SpinKitThreeBounce(
+                      color: Colors.white,
+                      size: 25.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
         else if (snap.data == null) {
           return Center(
             child: Text(

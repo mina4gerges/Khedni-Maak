@@ -57,6 +57,8 @@ dependencies:
   fleva_icons: ^1.0.2
   #date time picker
   datetime_picker_formfield: ^1.0.0
+  #loading indicator
+  flutter_spinkit: "^4.1.2"
   flutter:
     sdk: flutter
 
