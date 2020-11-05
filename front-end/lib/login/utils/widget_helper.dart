@@ -11,6 +11,8 @@ Flushbar showSuccessToast(BuildContext context, String message) {
   return Flushbar(
     title: 'Success',
     message: message,
+    margin: EdgeInsets.all(8),
+    borderRadius: 8,
     icon: Icon(
       Icons.check,
       size: 28.0,
@@ -28,6 +30,8 @@ Flushbar showErrorToast(BuildContext context, String message) {
   return Flushbar(
     title: 'Error',
     message: message,
+    margin: EdgeInsets.all(8),
+    borderRadius: 8,
     icon: Icon(
       Icons.error,
       size: 28.0,

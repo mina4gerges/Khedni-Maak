@@ -25,31 +25,40 @@ dependencies:
   # flutter_login: ^1.0.14
   #  used for login
   transformer_page_view: ^0.1.6
-  flushbar: ^1.9.1
+  flushbar: ^1.10.4
   #  introduction screen dependency
   introduction_screen: ^1.0.9
   #  dependency user for map
-  google_maps_flutter: ^0.5.30
+#  google_maps_flutter: ^0.5.30
+  google_maps_flutter: ^1.0.3
 #  geolocator: ^6.0.0+4
-  geolocator: ^5.3.1
+  geolocator: ^6.0.0+4
   permission_handler: ^5.0.1+1
-  google_maps_webservice: ^0.0.16
+  google_maps_webservice: ^0.0.18
   tuple: ^1.0.3
-  flutter_polyline_points: ^0.2.1
+  flutter_polyline_points: ^0.2.4
   #  http requests dependency
   http: ^0.12.2
   #firebase_core
-  firebase_core: ^0.5.0
+  firebase_core: ^0.5.0+1
   #firestore cloud
-  cloud_firestore: ^0.14.0+2
+  cloud_firestore: ^0.14.1+3
+  firebase_messaging: ^7.0.3
   #  fonts dependency
-  font_awesome_flutter: ^8.5.0
+  font_awesome_flutter: ^8.10.0
   intl: ^0.16.1
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.3
-  outline_material_icons: ^0.1.0
+  cupertino_icons: ^1.0.0
+  outline_material_icons: ^0.1.1
   # dummy package to test https://github.com/NearHuscarl/flutter_login/issues/35
-  provider: ^4.0.1
+  provider: ^4.3.2+2
+  url_launcher: ^5.7.8
+  # icons
+  fleva_icons: ^1.0.2
+  #date time picker
+  datetime_picker_formfield: ^1.0.0
+  #loading indicator
+  flutter_spinkit: "^4.1.2"
   flutter:
     sdk: flutter
 

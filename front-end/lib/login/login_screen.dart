@@ -2,23 +2,30 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:khedni_maak/globals/constant.dart';
-import 'package:khedni_maak/globals/Validations.dart';
-import 'package:khedni_maak/google_map/main.dart';
-import 'package:khedni_maak/google_map/test_map/Secrets.dart';
+import 'package:khedni_maak/config/Validations.dart';
+import 'package:khedni_maak/config/constant.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
+import 'package:khedni_maak/config/palette.dart';
+import 'package:khedni_maak/functions/functions.dart';
 import 'package:khedni_maak/login/utils/models/login_data.dart';
 import 'package:khedni_maak/login/utils/models/signUp_data.dart';
 import 'package:khedni_maak/login/utils/providers/login_messages.dart';
+import 'package:khedni_maak/login/utils/providers/login_theme.dart';
+import 'package:khedni_maak/screens/dashbaord_screen.dart';
 
 import 'constants.dart';
 import 'custom_route.dart';
 import 'flutter_login.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const routeName = '/auth';
 
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   RegExp regexEmail = new RegExp(Validations.emailValidation["pattern"]);
 
   RegExp regexPhone = new RegExp(Validations.phoneValidation["pattern"]);
@@ -26,6 +33,58 @@ class LoginScreen extends StatelessWidget {
   RegExp regexPass = new RegExp(Validations.passValidation['pattern']);
 
   Duration get loginTime => Duration(milliseconds: timeDilation.ceil() * 2250);
+
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  void initState() {
+    super.initState();
+
+    // _firebaseMessaging.configure(
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     print("onMessage: $message");
+    //     // _showItemDialog(message);
+    //   },
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     print("onLaunch: $message");
+    //     _showItemDialog(message);
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //     print("onResume: $message");
+    //   },
+    // );
+  }
+
+  // void _showItemDialog(Map<String, dynamic> message) {
+  //   final notification = message['data'];
+  //
+  //   showDialog<bool>(
+  //     context: context,
+  //     builder: (_) => _buildDialog(context,
+  //         Message(title: notification['title'], body: notification['body'])),
+  //   );
+  // }
+
+  // Widget _buildDialog(BuildContext context, Message item) {
+  //   return AlertDialog(
+  //     content: Text(item.body),
+  //     actions: <Widget>[
+  //       FlatButton(
+  //         child: const Text('CLOSE'),
+  //         onPressed: () {
+  //           Navigator.pop(context, false);
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
+
+  _getUserInformation(String username, String token) {
+    Functions.getUserInfo(username, token).then((response) => {
+          globals.userFullName = response.fullName,
+          globals.userPhoneNumber = response.phoneNumber,
+          globals.email = response.email
+        });
+  }
 
   Future<String> _loginUser(LoginData data) async {
     //sign in
@@ -41,6 +100,11 @@ class LoginScreen extends StatelessWidget {
     if (response.statusCode == 200) {
       String token = json.decode(response.body)['token'];
 
+      globals.loginToken = token;
+      globals.loginUserName = data.name;
+
+      _getUserInformation(data.name, token);
+
       print(token);
       return null;
     } else if (response.statusCode == 400)
@@ -52,7 +116,8 @@ class LoginScreen extends StatelessWidget {
   Future<String> _signUpUser(SignUpData data) async {
     String firstName = data.firstName;
     String lastName = data.lastName;
-    String name = "$firstName $lastName";
+    String name =
+        "${Functions.upperCaseFirstChar(firstName)} ${Functions.upperCaseFirstChar(lastName)}";
 
     final http.Response response = await http.post(
       '$baseUrl/auth/signup',
@@ -76,9 +141,12 @@ class LoginScreen extends StatelessWidget {
     );
 
     if (response.statusCode == 200) {
-      String token = json.decode(response.body)['token'];
+      // String token = json.decode(response.body)['token'];
 
-      print(token);
+      globals.loginUserName = data.name;
+      globals.userFullName = name;
+      globals.userPhoneNumber = data.phoneNumber;
+      globals.email = data.name;
       return null;
     } else if (response.statusCode == 400)
       return json.decode(response.body)["message"];
@@ -102,6 +170,26 @@ class LoginScreen extends StatelessWidget {
       logo: Constants.logoPath,
       logoTag: Constants.logoTag,
       titleTag: Constants.titleTag,
+      theme: LoginTheme(
+        primaryColor: Palette.primaryColor,
+        accentColor: Palette.primaryColor,
+        // cardTheme = const CardTheme(),
+        // inputTheme = const InputDecorationTheme(
+        //   filled: true,
+        // ),
+        // buttonTheme = const LoginButtonTheme(),
+        titleStyle: TextStyle(color: Colors.white),
+        // bodyStyle:Colors.red,
+        // textFieldStyle:Colors.red,
+        buttonTheme: LoginButtonTheme(
+          // this.backgroundColor,
+          // this.highlightColor,
+          splashColor: Palette.gradientPrimaryColor,
+          // this.elevation,
+          // this.highlightElevation,
+          // this.shape,
+        ),
+      ),
       messages: LoginMessages(
         usernameHint: 'Email',
         passwordHint: 'Pass',
@@ -156,14 +244,14 @@ class LoginScreen extends StatelessWidget {
         return _signUpUser(signUpData);
       },
       onSubmitAnimationCompleted: () {
-        Navigator.of(context).pushReplacement(FadePageRoute(
-          builder: (context) => MapMain(initialPosition:LatLng(0, 0))));
+        Navigator.of(context).push(
+          FadePageRoute(builder: (_) => DashboardScreen()),
+        );
       },
       onRecoverPassword: (name) {
         print('Recover password info');
         print('Name: $name');
         return _recoverPassword(name);
-        // Show new password dialog
       },
     );
   }

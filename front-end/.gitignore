@@ -49,3 +49,8 @@ app.*.map.json
 ./android/app/src/main/AndroidManifest.xml
 #AppDelegate.swift contains API key
 ./ios/Runner/AppDelegate.swift
+#gradle
+./android/app/wrapper
+./gradlew.bat
+./gradlew
+./local.properties
