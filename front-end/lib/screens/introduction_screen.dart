@@ -8,6 +8,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/login/login_screen.dart';
+import 'package:khedni_maak/widgets/error_widget.dart';
 
 class IntroductionView extends StatefulWidget {
   static const routeName = '/';
@@ -113,14 +114,10 @@ class _IntroductionViewState extends State<IntroductionView> {
             ),
           );
         else if (snap.data == null || snap.data.statusCode == 500) {
-          return Center(
-            child: Text(
-              "Error occurred",
-              style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+          return ErrorWidgetDisplay(
+            title: 'Error',
+            subTitle: 'Error',
+            imagePath: 'error.png',
           );
         } else {
           List screens = json.decode(snap.data.body);

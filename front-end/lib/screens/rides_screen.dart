@@ -10,6 +10,7 @@ import 'package:khedni_maak/config/Secrets.dart';
 import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/config/globals.dart' as globals;
 import 'package:khedni_maak/config/palette.dart';
+import 'package:khedni_maak/widgets/error_widget.dart';
 import 'package:khedni_maak/widgets/from_to_three_dots.dart';
 import 'package:khedni_maak/widgets/stat_card.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -326,14 +327,10 @@ class _RidesScreenState extends State<RidesScreen> {
         if (snap.connectionState == ConnectionState.waiting)
           return const Center(child: CircularProgressIndicator());
         else if (snap.data == null) {
-          return Center(
-            child: Text(
-              "Error occurred",
-              style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+          return ErrorWidgetDisplay(
+            title: 'Error',
+            subTitle: 'Error',
+            imagePath: 'error.png',
           );
         } else {
           List routes = json.decode(snap.data.body);
@@ -341,32 +338,10 @@ class _RidesScreenState extends State<RidesScreen> {
           List filteredRoutes = _filterRoutesStatus(routes);
 
           if (filteredRoutes != null && filteredRoutes.isEmpty)
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset(
-                    'assets/images/truck.png',
-                    width: 100,
-                    height: 100,
-                  ),
-                  Text(
-                    "There is no current rides available",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Please wait for someone to add a new ride",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
+            return ErrorWidgetDisplay(
+              title: 'There is no current rides available',
+              subTitle: 'Please wait for someone to add a new ride',
+              imagePath: 'truck.png',
             );
           else
             return _buildRoutesList(filteredRoutes);
