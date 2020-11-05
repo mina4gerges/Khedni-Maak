@@ -8,12 +8,13 @@ import 'package:khedni_maak/config/Secrets.dart';
 final String serverToken = Secrets.FCMServer_Token;
 final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
 
-Future sendAndRetrieveMessage(
-    String title, String body, String topicName) async {
-
-  String toParam = topicName != ''
+Future sendAndRetrieveMessage(String title, String body, String topicName,
+    String routeId) async {
+  String toParam = topicName != null
       ? '/topics/$topicName'
       : await firebaseMessaging.getToken();
+
+  print("notification param $toParam");
 
   return await http.post(
     'https://fcm.googleapis.com/fcm/send',
@@ -29,8 +30,9 @@ Future sendAndRetrieveMessage(
           'click_action': 'FLUTTER_NOTIFICATION_CLICK',
           'id': '1',
           'status': 'done',
-          // 'body': title,
-          // 'title': body
+          'body': title,
+          'title': body,
+          "routeId":routeId
         },
         'to': toParam,
       },

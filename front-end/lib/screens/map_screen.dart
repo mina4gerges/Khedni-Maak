@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -8,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:khedni_maak/config/palette.dart';
+import 'package:khedni_maak/firebase_notification/firebase_send_notification.dart';
 import 'package:khedni_maak/google_map/providers/place_provider.dart';
 import 'package:khedni_maak/google_map/src/utils/uuid.dart';
 import 'package:khedni_maak/login/custom_route.dart';
@@ -190,6 +192,7 @@ class _MapScreenState extends State<MapScreen> {
   GlobalKey appBarKey = GlobalKey();
   PlaceProvider provider;
   Map<PolylineId, Polyline> polylines;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
@@ -305,6 +308,22 @@ class _MapScreenState extends State<MapScreen> {
     provider.switchMapType();
   }
 
+  void sentNotification(Map addRouteResponse) {
+
+    String routeId = addRouteResponse['routeId'];
+    String notificationTopic = 'route-$routeId';
+    _firebaseMessaging.subscribeToTopic(notificationTopic);
+
+    String notificationBody = 'From ${addRouteResponse['fromSelectedPlace']} to ${addRouteResponse['toSelectedPlace']}';
+
+    sendAndRetrieveMessage("New ride !", notificationBody, "all-users",routeId).then((value) => {
+          if (value.statusCode == 200)
+            print("notification sent successfully")
+          else
+            print('failed to sent notification')
+        });
+  }
+
   _navigateToAddRouteScreen() {
     Navigator.push(
       context,
@@ -338,14 +357,17 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   _handleAddRouteResponse(addRouteResponse) async {
-    //should send notification
-
     _displaySnackBar(
       addRouteResponse['status'],
       addRouteResponse['status'] == 'success'
           ? "Route added"
           : 'Failed to add a new route',
     );
+
+    // TODO:send notification
+    if (addRouteResponse['status'] == 'success') {
+      sentNotification(addRouteResponse);
+    }
 
     await _createPolyLines(addRouteResponse['fromSelectedPlace'],
         addRouteResponse['toSelectedPlace']);

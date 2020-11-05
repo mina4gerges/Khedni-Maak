@@ -629,6 +629,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     );
 
     Navigator.pop(context, {
+      "routeId":json.decode(response.body)['id'],
       "status": response.statusCode == 200 ? 'success' : 'failed',
       "fromSelectedPlace": fromSelectedPlace,
       "toSelectedPlace": toSelectedPlace,
