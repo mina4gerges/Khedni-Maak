@@ -78,7 +78,7 @@ class _IntroductionViewState extends State<IntroductionView> {
   }
 
   _startTime() async {
-    var _duration = new Duration(seconds: 2);
+    var _duration = new Duration(seconds: 4);
     return new Timer(
         _duration,
         () => setState(() {
