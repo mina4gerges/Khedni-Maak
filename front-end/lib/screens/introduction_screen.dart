@@ -71,11 +71,23 @@ class _IntroductionViewState extends State<IntroductionView> {
   _displayPages(List screens) {
     List<PageViewModel> finalScreens = [];
 
+    if (screens.length == 0) screens = _setDefaultIntroScreens();
+
     for (int i = 0; i < screens.length; i++) {
       finalScreens.add(_displayPage(screens[i]));
     }
 
     return finalScreens;
+  }
+
+  List _setDefaultIntroScreens() {
+    Map<String, String> screen = new Map<String, String>();
+
+    screen["title"] = "Sharing rides";
+    screen["body"] = "You can share your car with other";
+    screen["image"] = "introduction1";
+
+    return [screen];
   }
 
   _startTime() async {
