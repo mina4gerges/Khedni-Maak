@@ -46,6 +46,7 @@ class BuildPicCard extends StatelessWidget {
                 'assets/images/$pic',
                 width: screenHeight * 0.17,
               ),
+              SizedBox(width:20),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
