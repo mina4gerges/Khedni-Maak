@@ -112,7 +112,7 @@ class _IntroductionViewState extends State<IntroductionView> {
               ),
             ),
           );
-        else if (snap.data == null) {
+        else if (snap.data == null || snap.data.statusCode ==500) {
           return Center(
             child: Text(
               "Error occurred",
