@@ -30,11 +30,13 @@ class RidesScreen extends StatefulWidget {
 }
 
 class _RidesScreenState extends State<RidesScreen> {
+  Future _routesFuture;
   bool isLoadingData = true;
 
   @override
   void initState() {
     super.initState();
+    _routesFuture = _getRoutes();
   }
 
   @override
@@ -236,6 +238,9 @@ class _RidesScreenState extends State<RidesScreen> {
     _displaySnackBar(isSuccess ? "success" : "failed",
         isSuccess ? "Route deleted" : "Route not deleted");
 
+    setState(() {
+      _routesFuture = _getRoutes();
+    });
   }
 
   _displaySnackBar(String status, String text) {
@@ -316,7 +321,7 @@ class _RidesScreenState extends State<RidesScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _getRoutes(),
+      future: _routesFuture,
       builder: (context, snap) {
         if (snap.connectionState == ConnectionState.waiting)
           return const Center(child: CircularProgressIndicator());

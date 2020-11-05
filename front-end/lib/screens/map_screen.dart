@@ -325,6 +325,8 @@ class _MapScreenState extends State<MapScreen> {
           status == 'success' ? Palette.successGradient : Palette.errorGradient,
       title: status == 'success' ? 'Success' : 'Error',
       message: text,
+      margin: EdgeInsets.all(8),
+      borderRadius: 8,
       icon: Icon(
         status == 'success' ? Icons.check : Icons.error,
         size: 28.0,
