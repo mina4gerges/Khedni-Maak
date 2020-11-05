@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
-import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/config/constant.dart';
+import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/login/login_screen.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 

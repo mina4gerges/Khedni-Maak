@@ -1,7 +1,5 @@
-String introductionScreenBaseUrl = "http://10.0.2.2:5000/data";
-
 String googleMapAPI = '';
 
-String baseUrl = "http://10.0.2.2:8090";
-String baseUrlRoutes = "http://192.168.8.121:9292";
-// String baseUrl = "http://192.168.1.103:8090";
+String baseUrl = "http://35.180.35.89:8090";
+String baseUrlRoutes = "http://35.180.35.89:9292";
+String baseUrlIntroductionScreen = "http://10.0.2.2:5000";
