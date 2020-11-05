@@ -29,9 +29,9 @@ dependencies:
   #  introduction screen dependency
   introduction_screen: ^1.0.9
   #  dependency user for map
-#  google_maps_flutter: ^0.5.30
+  #  google_maps_flutter: ^0.5.30
   google_maps_flutter: ^1.0.3
-#  geolocator: ^6.0.0+4
+  #  geolocator: ^6.0.0+4
   geolocator: ^6.0.0+4
   permission_handler: ^5.0.1+1
   google_maps_webservice: ^0.0.18
@@ -149,3 +149,4 @@ flutter:
           weight: 600
         - asset: assets/fonts/Quicksand-Bold.ttf
           weight: 700
+

@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
+import 'package:introduction_screen/introduction_screen.dart';
 import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/login/login_screen.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroductionView extends StatefulWidget {
   static const routeName = '/';
@@ -112,7 +112,7 @@ class _IntroductionViewState extends State<IntroductionView> {
               ),
             ),
           );
-        else if (snap.data == null || snap.data.statusCode ==500) {
+        else if (snap.data == null || snap.data.statusCode == 500) {
           return Center(
             child: Text(
               "Error occurred",
