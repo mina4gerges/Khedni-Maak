@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } else if (response.statusCode == 400)
       return json.decode(response.body)["message"];
     else
-      return "Unknown error";
+      return "Error occurred";
   }
 
   Future<String> _signUpUser(SignUpData data) async {
@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } else if (response.statusCode == 400)
       return json.decode(response.body)["message"];
     else
-      return "Unknown error";
+      return "Error occurred";
   }
 
   Future<String> _recoverPassword(String name) {

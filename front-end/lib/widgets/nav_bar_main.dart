@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khedni_maak/config/Secrets.dart';
 import 'package:khedni_maak/config/palette.dart';
-import 'package:khedni_maak/screens/rides_screen.dart';
+import 'package:khedni_maak/screens/history_screen.dart';
 import 'package:khedni_maak/screens/map_screen.dart';
+import 'package:khedni_maak/screens/notification_screen.dart';
+import 'package:khedni_maak/screens/rides_screen.dart';
 import 'package:khedni_maak/utils/nav_bar/nav_bar.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -54,7 +56,7 @@ class _NavBarMainState extends State<NavBarMain> {
           moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
               {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
         ),
-        Text('hi from driver notification'),
+        NotificationScreen()
       ];
 
       //Declare app bar titles
@@ -77,8 +79,8 @@ class _NavBarMainState extends State<NavBarMain> {
           moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
               {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
         ),
-        Text('hi from rider History'),
-        Text('hi from rider notification'),
+        HistoryScreen(),
+        NotificationScreen()
       ];
 
       //Declare app bar titles
@@ -102,7 +104,7 @@ class _NavBarMainState extends State<NavBarMain> {
     //Wrap our custom navbar + contentView with the app Scaffold
     return Scaffold(
       appBar: CustomAppBar(title: Text(_appBarTitles[_selectedNavIndex])),
-      backgroundColor: Color(0xffE6E6E6),
+      backgroundColor: Color(0xffF2F1EF),
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -144,7 +146,7 @@ class _NavBarMainState extends State<NavBarMain> {
           moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
               {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
         ),
-        Text('hi from driver notification'),
+        NotificationScreen()
       ];
     });
   }
@@ -162,7 +164,7 @@ class _NavBarMainState extends State<NavBarMain> {
             moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
                 {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
           ),
-          Text('hi from driver notification'),
+          NotificationScreen()
         ];
       }
       //user is rider
@@ -174,8 +176,8 @@ class _NavBarMainState extends State<NavBarMain> {
             moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
                 {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
           ),
-          Text('hi from rider History'),
-          Text('hi from rider notification'),
+          HistoryScreen(),
+          NotificationScreen()
         ];
       }
       //This will be passed into the NavBar and change it's selected state, also controls the active content page

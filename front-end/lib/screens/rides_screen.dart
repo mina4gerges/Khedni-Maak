@@ -342,11 +342,30 @@ class _RidesScreenState extends State<RidesScreen> {
 
           if (filteredRoutes != null && filteredRoutes.isEmpty)
             return Center(
-              child: Text(
-                "No rides available",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/images/truck.png',
+                    width: 100,
+                    height: 100,
+                  ),
+                  Text(
+                    "There is no current rides available",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Please wait for someone to add a new ride",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
             );
           else
