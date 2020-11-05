@@ -599,7 +599,10 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       return;
     }
 
-    String startingTime = "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} ${departureOnTime.hour}:${departureOnTime.minute}";
+    String month = "${DateTime.now().month}".length == 1 ? "0${DateTime.now().month}": "${DateTime.now().month}";
+    String day = "${DateTime.now().day}".length == 1 ? "0${DateTime.now().day}": "${DateTime.now().day}";
+
+    String startingTime = "${DateTime.now().year}-$month-$day ${departureOnTime.hour}:${departureOnTime.minute}";
 
     final http.Response response = await http.post(
       '$baseUrlRoutes/addRoute',
