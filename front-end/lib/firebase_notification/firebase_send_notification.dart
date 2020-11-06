@@ -8,8 +8,8 @@ import 'package:khedni_maak/config/Secrets.dart';
 final String serverToken = Secrets.FCMServer_Token;
 final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
 
-Future sendAndRetrieveMessage(String title, String body, String topicName,
-    String routeId) async {
+Future sendAndRetrieveMessage(
+    String title, String body, String topicName, String routeId) async {
   String toParam = topicName != null
       ? '/topics/$topicName'
       : await firebaseMessaging.getToken();
@@ -24,15 +24,15 @@ Future sendAndRetrieveMessage(String title, String body, String topicName,
     },
     body: jsonEncode(
       <String, dynamic>{
-        'notification': <String, dynamic>{'body': title, 'title': body},
+        'notification': <String, dynamic>{'body': body, 'title': title},
         'priority': 'high',
         'data': <String, dynamic>{
           'click_action': 'FLUTTER_NOTIFICATION_CLICK',
           'id': '1',
           'status': 'done',
-          'body': title,
-          'title': body,
-          "routeId":routeId
+          'body': body,
+          'title': title,
+          "routeId": routeId
         },
         'to': toParam,
       },

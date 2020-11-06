@@ -16,6 +16,7 @@ import 'package:khedni_maak/login/custom_route.dart';
 import 'package:khedni_maak/screens/add_route_screen.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:provider/provider.dart';
+
 import '../google_map/src/google_map_place_picker.dart';
 import '../google_map/src/models/pick_result.dart';
 
@@ -309,19 +310,20 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void sentNotification(Map addRouteResponse) {
-
-    String routeId = addRouteResponse['routeId'];
+    String routeId = "${addRouteResponse['routeId']}";
     String notificationTopic = 'route-$routeId';
     _firebaseMessaging.subscribeToTopic(notificationTopic);
 
-    String notificationBody = 'From ${addRouteResponse['fromSelectedPlace']} to ${addRouteResponse['toSelectedPlace']}';
+    String notificationBody =
+        'From ${addRouteResponse['fromSelectedPlace'].formattedAddress} to ${addRouteResponse['toSelectedPlace'].formattedAddress}';
 
-    sendAndRetrieveMessage("New ride !", notificationBody, "all-users",routeId).then((value) => {
-          if (value.statusCode == 200)
-            print("notification sent successfully")
-          else
-            print('failed to sent notification')
-        });
+    sendAndRetrieveMessage("New ride !", notificationBody, "all-users", routeId)
+        .then((value) => {
+              if (value.statusCode == 200)
+                print("notification sent successfully")
+              else
+                print('failed to sent notification')
+            });
   }
 
   _navigateToAddRouteScreen() {

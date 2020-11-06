@@ -25,7 +25,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     configureFireBase();
   }
 
-  void configureFireBase(){
+  void configureFireBase() {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
