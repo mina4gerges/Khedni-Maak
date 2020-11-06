@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:khedni_maak/widgets/pic_card.dart';
-import 'package:khedni_maak/login/custom_route.dart';
-import 'package:khedni_maak/widgets/nav_bar_main.dart';
-import 'package:khedni_maak/widgets/dashboard_header.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:khedni_maak/login/custom_route.dart';
+import 'package:khedni_maak/widgets/dashboard_header.dart';
+import 'package:khedni_maak/widgets/nav_bar_main.dart';
+import 'package:khedni_maak/widgets/pic_card.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key key}) : super(key: key);
