@@ -1,21 +1,16 @@
-import 'dart:math';
-
+import 'package:badges/badges.dart';
 import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khedni_maak/config/Secrets.dart';
-import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/screens/history_screen.dart';
 import 'package:khedni_maak/screens/map_screen.dart';
 import 'package:khedni_maak/screens/notification_screen.dart';
 import 'package:khedni_maak/screens/rides_screen.dart';
-import 'package:khedni_maak/utils/nav_bar/nav_bar.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class NavBarMain extends StatefulWidget {
-  static const routeName = '/auth/DashboardScreen/navBar';
-
   NavBarMain({
     Key key,
     @required this.source,
@@ -28,160 +23,78 @@ class NavBarMain extends StatefulWidget {
 }
 
 class _NavBarMainState extends State<NavBarMain> {
-  List<NavBarItemData> _navBarItems;
-  List<Widget> _viewsByIndex;
-  List<String> _appBarTitles;
+  int currentIndex = 0;
 
-  int _selectedNavIndex = 0;
+  _onTabChange(int newIndex) {
+    setState(() {
+      currentIndex = newIndex;
+    });
+  }
 
-  @override
-  void initState() {
-    super.initState();
+  _tabView() {
+    if (currentIndex == 0) {
+      if (widget.source == 'driver')
+        return MapScreen(
+            apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0));
 
-    //user is driver
-    if (widget.source == 'driver') {
-      //Declare some buttons for our tab bar
-      _navBarItems = <NavBarItemData>[
-        NavBarItemData("Map", FlevaIcons.map_outline, 100, Palette.secondColor),
-        NavBarItemData("Rides", OMIcons.list, 100, Palette.thirdColor),
-        NavBarItemData(
-            "Notification", OMIcons.notifications, 135, Palette.fourthColor),
-      ];
-
-      //Create the views which will be mapped to the indices for our nav btns
-      _viewsByIndex = <Widget>[
-        MapScreen(apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0)),
-        RidesScreen(
+      return RidesScreen(source: 'rider'
+          //   moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+          //   {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+          );
+    } else if (currentIndex == 1) {
+      if (widget.source == 'driver')
+        return RidesScreen(
           source: 'driver',
-          moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
-              {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
-        ),
-        NotificationScreen()
-      ];
-
-      //Declare app bar titles
-      _appBarTitles = <String>["Map", "My Rides", "Notification"];
-    }
-    //user is rider
-    else {
-      //Declare some buttons for our tab bar
-      _navBarItems = <NavBarItemData>[
-        NavBarItemData("Rides", OMIcons.list, 100, Palette.secondColor),
-        NavBarItemData("History", OMIcons.history, 110, Palette.thirdColor),
-        NavBarItemData(
-            "Notification", OMIcons.notifications, 135, Palette.fourthColor),
-      ];
-
-      //Create the views which will be mapped to the indices for our nav btns
-      _viewsByIndex = <Widget>[
-        RidesScreen(
-          source: 'rider',
-          moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
-              {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
-        ),
-        HistoryScreen(),
-        NotificationScreen()
-      ];
-
-      //Declare app bar titles
-      _appBarTitles = <String>["Available Rides", "History", "Notification"];
+          // moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
+          // {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+        );
+      return HistoryScreen();
+    } else {
+      return NotificationScreen();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    //Create custom navBar, pass in a list of buttons, and listen for tap event
-    var navBar = NavBar(
-      items: _navBarItems,
-      itemTapped: _handleNavBtnTapped,
-      currentIndex: _selectedNavIndex,
-    );
-
-    //Display the correct child view for the current index
-    var contentView =
-        _viewsByIndex[min(_selectedNavIndex, _viewsByIndex.length - 1)];
-
-    //Wrap our custom navbar + contentView with the app Scaffold
     return Scaffold(
-      appBar: CustomAppBar(title: Text(_appBarTitles[_selectedNavIndex])),
-      backgroundColor: Color(0xffF2F1EF),
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          //Wrap the current page in an AnimatedSwitcher for an easy cross-fade effect
-          child: AnimatedSwitcher(
-            duration: Duration(milliseconds: 350),
-            //Pass the current accent color down as a theme, so our overscroll indicator matches the btn color
-            child: contentView,
-          ),
-        ),
-      ),
-      bottomNavigationBar: navBar, //Pass our custom navBar into the scaffold
+      bottomNavigationBar: _bottomNavigationBar(),
+      appBar: CustomAppBar(title: Text('test')),
+      backgroundColor: Color(0xffE6E6E6),
+      body: _tabView(),
     );
   }
 
-  void _goToMap() {
-    setState(() {
-      _selectedNavIndex = 0;
-    });
-  }
-
-  void _moveToPolyLines(Map<PolylineId, Polyline> polylines, double lngFrom,
-      double latFrom, double lngTo, double latTo) {
-    _goToMap();
-
-    setState(() {
-      _viewsByIndex = <Widget>[
-        MapScreen(
-          apiKey: Secrets.API_KEY,
-          initialPosition: LatLng(0, 0),
-          polylines: polylines,
-          lngFrom: lngFrom,
-          latFrom: latFrom,
-          lngTo: lngTo,
-          latTo: latTo,
+  Widget _bottomNavigationBar() {
+    return BottomNavigationBar(
+      currentIndex: currentIndex,
+      onTap: (newIndex) => {_onTabChange(newIndex)},
+      items: [
+        BottomNavigationBarItem(
+          label: widget.source == 'driver' ? 'Map' : 'Available Rides',
+          icon: Icon(widget.source == 'driver'
+              ? FlevaIcons.map_outline
+              : OMIcons.list),
         ),
-        RidesScreen(
-          source: widget.source,
-          moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
-              {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+        BottomNavigationBarItem(
+          label: widget.source == 'driver' ? 'My Rides' : 'History',
+          icon:
+              Icon(widget.source == 'driver' ? OMIcons.list : OMIcons.history),
         ),
-        NotificationScreen()
-      ];
-    });
-  }
-
-  void _handleNavBtnTapped(int index) {
-    //Save the new index and trigger a rebuild
-    setState(() {
-      //user is driver
-      if (widget.source == 'driver') {
-        //Create the views which will be mapped to the indices for our nav btns
-        _viewsByIndex = <Widget>[
-          MapScreen(apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0)),
-          RidesScreen(
-            source: 'driver',
-            moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
-                {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
+        BottomNavigationBarItem(
+          label: 'Notification',
+          icon: Badge(
+            shape: BadgeShape.circle,
+            borderRadius: BorderRadius.circular(100),
+            child: Icon(OMIcons.notifications),
+            badgeContent: Container(
+              height: 5,
+              width: 5,
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+            ),
           ),
-          NotificationScreen()
-        ];
-      }
-      //user is rider
-      else {
-        //Create the views which will be mapped to the indices for our nav btns
-        _viewsByIndex = <Widget>[
-          RidesScreen(
-            source: 'rider',
-            moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
-                {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
-          ),
-          HistoryScreen(),
-          NotificationScreen()
-        ];
-      }
-      //This will be passed into the NavBar and change it's selected state, also controls the active content page
-      _selectedNavIndex = index;
-    });
+        ),
+      ],
+    );
   }
 }
