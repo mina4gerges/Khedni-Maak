@@ -317,7 +317,16 @@ class _MapScreenState extends State<MapScreen> {
     String notificationBody =
         'From ${addRouteResponse['fromSelectedPlace'].formattedAddress} to ${addRouteResponse['toSelectedPlace'].formattedAddress}';
 
-    sendAndRetrieveMessage("New ride !", notificationBody, "all-users", routeId)
+    Map routesInfo = new Map();
+
+    if (addRouteResponse != null) {
+      routesInfo['routeId'] = "${addRouteResponse['routeId']}";
+      routesInfo['driverUsername'] = addRouteResponse['driverUsername'];
+      routesInfo['from'] = addRouteResponse['fromSelectedPlace'].formattedAddress;
+      routesInfo['to'] = addRouteResponse['toSelectedPlace'].formattedAddress;
+    }
+
+    sendAndRetrieveMessage("New ride !", notificationBody, "all-users", routesInfo)
         .then((value) => {
               if (value.statusCode == 200)
                 print("notification sent successfully")

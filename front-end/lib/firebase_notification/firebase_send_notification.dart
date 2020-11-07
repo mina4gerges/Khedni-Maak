@@ -9,12 +9,10 @@ final String serverToken = Secrets.FCMServer_Token;
 final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
 
 Future sendAndRetrieveMessage(
-    String title, String body, String topicName, String routeId) async {
+    String title, String body, String topicName, Map routesInfo) async {
   String toParam = topicName != null
       ? '/topics/$topicName'
       : await firebaseMessaging.getToken();
-
-  print("notification param $toParam");
 
   return await http.post(
     'https://fcm.googleapis.com/fcm/send',
@@ -31,8 +29,7 @@ Future sendAndRetrieveMessage(
           'id': '1',
           'status': 'done',
           'body': body,
-          'title': title,
-          "routeId": routeId
+          "routesInfo": jsonEncode(routesInfo),
         },
         'to': toParam,
       },

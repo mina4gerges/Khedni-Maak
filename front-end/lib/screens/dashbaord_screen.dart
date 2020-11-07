@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:khedni_maak/context/notification_provider.dart';
 import 'package:khedni_maak/login/custom_route.dart';
 import 'package:khedni_maak/widgets/dashboard_header.dart';
 import 'package:khedni_maak/widgets/nav_bar_main.dart';
 import 'package:khedni_maak/widgets/pic_card.dart';
+import 'package:provider/provider.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key key}) : super(key: key);
@@ -15,6 +20,8 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  NotificationProvider notificationsProvider;
 
   void initState() {
     super.initState();
@@ -28,34 +35,88 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void configureFireBase() {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
+        Map routesInfo = jsonDecode(message["data"]["routesInfo"]);
 
-        // final notification = message['notification'];
+        if (message["data"] == null || routesInfo == null) {
+          return;
+        }
 
-        // setState(() {
-        //   messages.add(Message(
-        //       title: notification['title'], body: notification['body']));
-        // });
+        String driverUsername = routesInfo['driverUsername'];
+
+        if (driverUsername == globals.userFullName) {
+          return;
+        }
+
+        String from = routesInfo['from'];
+        String to = routesInfo['to'];
+        String routeId = "${routesInfo['routeId']}";
+
+        List newNotifications = notificationsProvider.getNotifications;
+
+        newNotifications.add({
+          "to": to,
+          "from": from,
+          "routeId": routeId,
+          "driverUsername": driverUsername
+        });
+
+        notificationsProvider.setNotifications(newNotifications);
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
+        Map routesInfo = jsonDecode(message["data"]["routesInfo"]);
 
-        // final notification = message['data'];
+        if (message["data"] == null || routesInfo == null) {
+          return;
+        }
 
-        // setState(() {
-        //   messages.add(Message(
-        //       title: notification['title'], body: notification['body']));
-        // });
+        String driverUsername = routesInfo['driverUsername'];
+
+        if (driverUsername == globals.userFullName) {
+          return;
+        }
+
+        String from = routesInfo['from'];
+        String to = routesInfo['to'];
+        String routeId = "${routesInfo['routeId']}";
+
+        List newNotifications = notificationsProvider.getNotifications;
+
+        newNotifications.add({
+          "to": to,
+          "from": from,
+          "routeId": routeId,
+          "driverUsername": driverUsername
+        });
+
+        notificationsProvider.setNotifications(newNotifications);
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
+        Map routesInfo = jsonDecode(message["data"]["routesInfo"]);
 
-        // final notification = message['data'];
+        if (message["data"] == null || routesInfo == null) {
+          return;
+        }
 
-        // setState(() {
-        //   messages.add(Message(
-        //       title: notification['title'], body: notification['body']));
-        // });
+        String driverUsername = routesInfo['driverUsername'];
+
+        if (driverUsername == globals.userFullName) {
+          return;
+        }
+
+        String from = routesInfo['from'];
+        String to = routesInfo['to'];
+        String routeId = "${routesInfo['routeId']}";
+
+        List newNotifications = notificationsProvider.getNotifications;
+
+        newNotifications.add({
+          "to": to,
+          "from": from,
+          "routeId": routeId,
+          "driverUsername": driverUsername
+        });
+
+        notificationsProvider.setNotifications(newNotifications);
       },
     );
   }
@@ -70,6 +131,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    notificationsProvider = Provider.of<NotificationProvider>(context);
+
     const Key centerKey = ValueKey('bottom-sliver-list');
     final screenHeight = MediaQuery.of(context).size.height;
 

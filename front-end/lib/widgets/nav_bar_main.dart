@@ -3,12 +3,14 @@ import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khedni_maak/config/Secrets.dart';
+import 'package:khedni_maak/context/notification_provider.dart';
 import 'package:khedni_maak/screens/history_screen.dart';
 import 'package:khedni_maak/screens/map_screen.dart';
 import 'package:khedni_maak/screens/notification_screen.dart';
 import 'package:khedni_maak/screens/rides_screen.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:provider/provider.dart';
 
 class NavBarMain extends StatefulWidget {
   NavBarMain({
@@ -56,15 +58,21 @@ class _NavBarMainState extends State<NavBarMain> {
 
   @override
   Widget build(BuildContext context) {
+    List notifications =
+        Provider.of<NotificationProvider>(context).getNotifications;
+
     return Scaffold(
-      bottomNavigationBar: _bottomNavigationBar(),
+      bottomNavigationBar: _bottomNavigationBar(notifications),
       appBar: CustomAppBar(title: Text('test')),
       backgroundColor: Color(0xffE6E6E6),
       body: _tabView(),
     );
   }
 
-  Widget _bottomNavigationBar() {
+
+
+  Widget _bottomNavigationBar(List notifications) {
+
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: (newIndex) => {_onTabChange(newIndex)},
@@ -82,17 +90,18 @@ class _NavBarMainState extends State<NavBarMain> {
         ),
         BottomNavigationBarItem(
           label: 'Notification',
-          icon: Badge(
-            shape: BadgeShape.circle,
-            borderRadius: BorderRadius.circular(100),
-            child: Icon(OMIcons.notifications),
-            badgeContent: Container(
-              height: 5,
-              width: 5,
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-            ),
-          ),
+          icon: notifications.length == 0
+              ? Icon(OMIcons.notifications)
+              : Badge(
+                  padding: EdgeInsets.all(4),
+                  child: Icon(OMIcons.notifications),
+                  badgeContent: Container(
+                    child: Text(
+                      "${notifications.length}",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
         ),
       ],
     );
