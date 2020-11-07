@@ -3,6 +3,7 @@ import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khedni_maak/config/Secrets.dart';
+import 'package:khedni_maak/context/nav_bar_provider.dart';
 import 'package:khedni_maak/context/notification_provider.dart';
 import 'package:khedni_maak/screens/history_screen.dart';
 import 'package:khedni_maak/screens/map_screen.dart';
@@ -25,16 +26,12 @@ class NavBarMain extends StatefulWidget {
 }
 
 class _NavBarMainState extends State<NavBarMain> {
-  int currentIndex = 0;
-
-  _onTabChange(int newIndex) {
-    setState(() {
-      currentIndex = newIndex;
-    });
+  _onTabChange(int newIndex, NavbarProvider navBarProvider) {
+    navBarProvider.setTabIndex(newIndex);
   }
 
-  _tabView() {
-    if (currentIndex == 0) {
+  _tabView(NavbarProvider navBarProvider) {
+    if (navBarProvider.getTabIndex == 0) {
       if (widget.source == 'driver')
         return MapScreen(
             apiKey: Secrets.API_KEY, initialPosition: LatLng(0, 0));
@@ -43,7 +40,7 @@ class _NavBarMainState extends State<NavBarMain> {
           //   moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
           //   {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
           );
-    } else if (currentIndex == 1) {
+    } else if (navBarProvider.getTabIndex == 1) {
       if (widget.source == 'driver')
         return RidesScreen(
           source: 'driver',
@@ -51,37 +48,39 @@ class _NavBarMainState extends State<NavBarMain> {
           // {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
         );
       return HistoryScreen();
-    } else {
-      return NotificationScreen();
-    }
+    } else
+      return NotificationScreen(source: widget.source);
   }
 
-  _getAppBarTitle() {
+  _getAppBarTitle(NavbarProvider navBarProvider) {
     List driverAppBarTitle = ["Map", "My Rides", "Notification"];
     List riderAppBarTitle = ["Available Rides", "History", "Notification"];
 
     return widget.source == 'driver'
-        ? driverAppBarTitle[currentIndex]
-        : riderAppBarTitle[currentIndex];
+        ? driverAppBarTitle[navBarProvider.getTabIndex]
+        : riderAppBarTitle[navBarProvider.getTabIndex];
   }
 
   @override
   Widget build(BuildContext context) {
+    NavbarProvider navBarProvider = Provider.of<NavbarProvider>(context);
+
     List notifications =
         Provider.of<NotificationProvider>(context).getNotifications;
 
     return Scaffold(
-      bottomNavigationBar: _bottomNavigationBar(notifications),
-      appBar: CustomAppBar(title: Text(_getAppBarTitle())),
+      bottomNavigationBar: _bottomNavigationBar(notifications, navBarProvider),
+      appBar: CustomAppBar(title: Text(_getAppBarTitle(navBarProvider))),
       backgroundColor: Color(0xffE6E6E6),
-      body: _tabView(),
+      body: _tabView(navBarProvider),
     );
   }
 
-  Widget _bottomNavigationBar(List notifications) {
+  Widget _bottomNavigationBar(
+      List notifications, NavbarProvider navBarProvider) {
     return BottomNavigationBar(
-      currentIndex: currentIndex,
-      onTap: (newIndex) => {_onTabChange(newIndex)},
+      currentIndex: navBarProvider.getTabIndex,
+      onTap: (newIndex) => {_onTabChange(newIndex, navBarProvider)},
       items: [
         BottomNavigationBarItem(
           label: widget.source == 'driver' ? 'Map' : 'Available Rides',

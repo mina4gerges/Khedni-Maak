@@ -4,6 +4,7 @@ import 'package:khedni_maak/screens/map_screen.dart';
 import 'package:khedni_maak/screens/rides_screen.dart';
 import 'package:provider/provider.dart';
 import 'config/Secrets.dart';
+import 'context/nav_bar_provider.dart';
 import 'context/notification_provider.dart';
 import 'login/login_screen.dart';
 import 'widgets/nav_bar_main.dart';
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(
           value: NotificationProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: NavbarProvider(),
         ),
       ],
       child: MaterialApp(
