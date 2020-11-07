@@ -633,6 +633,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       "status": response.statusCode == 200 ? 'success' : 'failed',
       "fromSelectedPlace": fromSelectedPlace,
       "toSelectedPlace": toSelectedPlace,
+      "driverUsername": globals.userFullName,
       "latStart": fromSelectedPlace.geometry.location.lat,
       "lngStart": fromSelectedPlace.geometry.location.lng,
       "latEnd": toSelectedPlace.geometry.location.lat,
@@ -764,8 +765,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
             FromToThreeDots(),
             SizedBox(width: 10.0),
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 13.0),
                 Text(
