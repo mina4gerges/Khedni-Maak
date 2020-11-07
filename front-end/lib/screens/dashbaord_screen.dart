@@ -42,82 +42,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
         }
 
         String driverUsername = routesInfo['driverUsername'];
+        String requestFrom = routesInfo['requestFrom'];
 
-        if (driverUsername == globals.userFullName) {
-          return;
+        if (requestFrom == "driver") {
+          String from = routesInfo['from'];
+          String to = routesInfo['to'];
+          String routeId = "${routesInfo['routeId']}";
+
+          List newNotificationsAddRoute =
+              notificationsProvider.getNotificationsAddRoute;
+
+          newNotificationsAddRoute.add({
+            "to": to,
+            "from": from,
+            "routeId": routeId,
+            "driverUsername": driverUsername
+          });
+
+          notificationsProvider
+              .setNotificationsAddRoute(newNotificationsAddRoute);
         }
-
-        String from = routesInfo['from'];
-        String to = routesInfo['to'];
-        String routeId = "${routesInfo['routeId']}";
-
-        List newNotifications = notificationsProvider.getNotifications;
-
-        newNotifications.add({
-          "to": to,
-          "from": from,
-          "routeId": routeId,
-          "driverUsername": driverUsername
-        });
-
-        notificationsProvider.setNotifications(newNotifications);
       },
-      onLaunch: (Map<String, dynamic> message) async {
-        Map routesInfo = jsonDecode(message["data"]["routesInfo"]);
-
-        if (message["data"] == null || routesInfo == null) {
-          return;
-        }
-
-        String driverUsername = routesInfo['driverUsername'];
-
-        if (driverUsername == globals.userFullName) {
-          return;
-        }
-
-        String from = routesInfo['from'];
-        String to = routesInfo['to'];
-        String routeId = "${routesInfo['routeId']}";
-
-        List newNotifications = notificationsProvider.getNotifications;
-
-        newNotifications.add({
-          "to": to,
-          "from": from,
-          "routeId": routeId,
-          "driverUsername": driverUsername
-        });
-
-        notificationsProvider.setNotifications(newNotifications);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        Map routesInfo = jsonDecode(message["data"]["routesInfo"]);
-
-        if (message["data"] == null || routesInfo == null) {
-          return;
-        }
-
-        String driverUsername = routesInfo['driverUsername'];
-
-        if (driverUsername == globals.userFullName) {
-          return;
-        }
-
-        String from = routesInfo['from'];
-        String to = routesInfo['to'];
-        String routeId = "${routesInfo['routeId']}";
-
-        List newNotifications = notificationsProvider.getNotifications;
-
-        newNotifications.add({
-          "to": to,
-          "from": from,
-          "routeId": routeId,
-          "driverUsername": driverUsername
-        });
-
-        notificationsProvider.setNotifications(newNotifications);
-      },
+      onLaunch: (Map<String, dynamic> message) async {},
+      onResume: (Map<String, dynamic> message) async {},
     );
   }
 

@@ -7,7 +7,8 @@ import 'package:khedni_maak/context/nav_bar_provider.dart';
 import 'package:khedni_maak/context/notification_provider.dart';
 import 'package:khedni_maak/screens/history_screen.dart';
 import 'package:khedni_maak/screens/map_screen.dart';
-import 'package:khedni_maak/screens/notification_screen.dart';
+import 'package:khedni_maak/screens/notification_driver_screen.dart';
+import 'package:khedni_maak/screens/notification_rider_screen.dart';
 import 'package:khedni_maak/screens/rides_screen.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -49,7 +50,11 @@ class _NavBarMainState extends State<NavBarMain> {
         );
       return HistoryScreen();
     } else
-      return NotificationScreen(source: widget.source);
+    if (widget.source == 'driver')
+      return NotificationDriverScreen(source: widget.source);
+    else
+      return NotificationRiderScreen(source: widget.source);
+
   }
 
   _getAppBarTitle(NavbarProvider navBarProvider) {
@@ -65,11 +70,11 @@ class _NavBarMainState extends State<NavBarMain> {
   Widget build(BuildContext context) {
     NavbarProvider navBarProvider = Provider.of<NavbarProvider>(context);
 
-    List notifications =
-        Provider.of<NotificationProvider>(context).getNotifications;
+    List notificationsAddRoute =
+        Provider.of<NotificationProvider>(context).getNotificationsAddRoute;
 
     return Scaffold(
-      bottomNavigationBar: _bottomNavigationBar(notifications, navBarProvider),
+      bottomNavigationBar: _bottomNavigationBar(notificationsAddRoute, navBarProvider),
       appBar: CustomAppBar(title: Text(_getAppBarTitle(navBarProvider))),
       backgroundColor: Color(0xffE6E6E6),
       body: _tabView(navBarProvider),
@@ -77,7 +82,7 @@ class _NavBarMainState extends State<NavBarMain> {
   }
 
   Widget _bottomNavigationBar(
-      List notifications, NavbarProvider navBarProvider) {
+      List notificationsAddRoute, NavbarProvider navBarProvider) {
     return BottomNavigationBar(
       currentIndex: navBarProvider.getTabIndex,
       onTap: (newIndex) => {_onTabChange(newIndex, navBarProvider)},
@@ -95,14 +100,14 @@ class _NavBarMainState extends State<NavBarMain> {
         ),
         BottomNavigationBarItem(
           label: 'Notification',
-          icon: notifications.length == 0
+          icon: notificationsAddRoute.length == 0
               ? Icon(OMIcons.notifications)
               : Badge(
                   padding: EdgeInsets.all(4),
                   child: Icon(OMIcons.notifications),
                   badgeContent: Container(
                     child: Text(
-                      "${notifications.length}",
+                      "${notificationsAddRoute.length}",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

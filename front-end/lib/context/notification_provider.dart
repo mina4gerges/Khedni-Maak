@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 
 class NotificationProvider extends ChangeNotifier {
-  List _notifications = [];
+  List _notificationsAddRoute = [];
 
-  List get getNotifications => _notifications;
+  List get getNotificationsAddRoute => _notificationsAddRoute;
 
-  void setNotifications(List notification) {
-    _notifications = notification;
+  void setNotificationsAddRoute(List notificationAddRoute) {
+    _notificationsAddRoute = notificationAddRoute;
+    notifyListeners();
+  }
+
+  List _notificationsRiderRequest = [];
+
+  List get getNotificationsRiderRequest => _notificationsRiderRequest;
+
+  void setNotificationsRiderRequest(List notificationsRiderRequest) {
+    _notificationsRiderRequest = notificationsRiderRequest;
     notifyListeners();
   }
 }

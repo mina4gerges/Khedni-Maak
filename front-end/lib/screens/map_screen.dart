@@ -320,6 +320,7 @@ class _MapScreenState extends State<MapScreen> {
     Map routesInfo = new Map();
 
     if (addRouteResponse != null) {
+      routesInfo['requestFrom'] = "driver";
       routesInfo['routeId'] = "${addRouteResponse['routeId']}";
       routesInfo['driverUsername'] = addRouteResponse['driverUsername'];
       routesInfo['from'] = addRouteResponse['fromSelectedPlace'].formattedAddress;
@@ -375,7 +376,6 @@ class _MapScreenState extends State<MapScreen> {
           : 'Failed to add a new route',
     );
 
-    // TODO:send notification
     if (addRouteResponse['status'] == 'success') {
       sentNotification(addRouteResponse);
     }
