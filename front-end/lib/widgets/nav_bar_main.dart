@@ -56,6 +56,15 @@ class _NavBarMainState extends State<NavBarMain> {
     }
   }
 
+  _getAppBarTitle() {
+    List driverAppBarTitle = ["Map", "My Rides", "Notification"];
+    List riderAppBarTitle = ["Available Rides", "History", "Notification"];
+
+    return widget.source == 'driver'
+        ? driverAppBarTitle[currentIndex]
+        : riderAppBarTitle[currentIndex];
+  }
+
   @override
   Widget build(BuildContext context) {
     List notifications =
@@ -63,16 +72,13 @@ class _NavBarMainState extends State<NavBarMain> {
 
     return Scaffold(
       bottomNavigationBar: _bottomNavigationBar(notifications),
-      appBar: CustomAppBar(title: Text('test')),
+      appBar: CustomAppBar(title: Text(_getAppBarTitle())),
       backgroundColor: Color(0xffE6E6E6),
       body: _tabView(),
     );
   }
 
-
-
   Widget _bottomNavigationBar(List notifications) {
-
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: (newIndex) => {_onTabChange(newIndex)},
