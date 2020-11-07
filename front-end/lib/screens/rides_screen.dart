@@ -179,7 +179,6 @@ class _RidesScreenState extends State<RidesScreen> {
             : BuildStatCard(
                 body: _getCardBody(route),
                 color: Colors.white,
-                onCarTap: () => {_onCardTab(route)},
               );
       },
     );
