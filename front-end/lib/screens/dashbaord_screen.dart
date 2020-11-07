@@ -45,6 +45,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         String requestFrom = routesInfo['requestFrom'];
 
         if (requestFrom == "driver") {
+          if (driverUsername == globals.userFullName) {
+            return;
+          }
           String from = routesInfo['from'];
           String to = routesInfo['to'];
           String routeId = "${routesInfo['routeId']}";

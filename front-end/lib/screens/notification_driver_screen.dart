@@ -60,10 +60,9 @@ class NotificationDriverScreen extends StatelessWidget {
 
         return Container(
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-          color: Colors.blueAccent,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.white60, Colors.white],
+              colors: [Colors.blue[400], Colors.blue[600]],
             ),
           ),
           child: Column(

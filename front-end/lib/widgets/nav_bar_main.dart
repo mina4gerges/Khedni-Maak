@@ -49,12 +49,12 @@ class _NavBarMainState extends State<NavBarMain> {
           // {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
         );
       return HistoryScreen();
-    } else
-    if (widget.source == 'driver')
-      return NotificationDriverScreen(source: widget.source);
-    else
-      return NotificationRiderScreen(source: widget.source);
-
+    } else {
+      if (widget.source == 'driver')
+        return NotificationDriverScreen(source: widget.source);
+      else
+        return NotificationRiderScreen(source: widget.source);
+    }
   }
 
   _getAppBarTitle(NavbarProvider navBarProvider) {
@@ -70,19 +70,25 @@ class _NavBarMainState extends State<NavBarMain> {
   Widget build(BuildContext context) {
     NavbarProvider navBarProvider = Provider.of<NavbarProvider>(context);
 
-    List notificationsAddRoute =
-        Provider.of<NotificationProvider>(context).getNotificationsAddRoute;
+    NotificationProvider notificationProvider =
+        Provider.of<NotificationProvider>(context);
+
+    List notificationsAddRoute = notificationProvider.getNotificationsAddRoute;
+
+    List notificationsRiderRequest =
+        notificationProvider.getNotificationsRiderRequest;
 
     return Scaffold(
-      bottomNavigationBar: _bottomNavigationBar(notificationsAddRoute, navBarProvider),
+      bottomNavigationBar: _bottomNavigationBar(
+          notificationsAddRoute, notificationsRiderRequest, navBarProvider),
       appBar: CustomAppBar(title: Text(_getAppBarTitle(navBarProvider))),
       backgroundColor: Color(0xffE6E6E6),
       body: _tabView(navBarProvider),
     );
   }
 
-  Widget _bottomNavigationBar(
-      List notificationsAddRoute, NavbarProvider navBarProvider) {
+  Widget _bottomNavigationBar(List notificationsAddRoute,
+      List notificationsRiderRequest, NavbarProvider navBarProvider) {
     return BottomNavigationBar(
       currentIndex: navBarProvider.getTabIndex,
       onTap: (newIndex) => {_onTabChange(newIndex, navBarProvider)},
@@ -98,21 +104,37 @@ class _NavBarMainState extends State<NavBarMain> {
           icon:
               Icon(widget.source == 'driver' ? OMIcons.list : OMIcons.history),
         ),
-        BottomNavigationBarItem(
-          label: 'Notification',
-          icon: notificationsAddRoute.length == 0
-              ? Icon(OMIcons.notifications)
-              : Badge(
-                  padding: EdgeInsets.all(4),
-                  child: Icon(OMIcons.notifications),
-                  badgeContent: Container(
-                    child: Text(
-                      "${notificationsAddRoute.length}",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-        ),
+        widget.source == 'driver'
+            ? BottomNavigationBarItem(
+                label: 'Notification',
+                icon: notificationsRiderRequest.length == 0
+                    ? Icon(OMIcons.notifications)
+                    : Badge(
+                        padding: EdgeInsets.all(4),
+                        child: Icon(OMIcons.notifications),
+                        badgeContent: Container(
+                          child: Text(
+                            "${notificationsRiderRequest.length}",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+              )
+            : BottomNavigationBarItem(
+                label: 'Notification',
+                icon: notificationsAddRoute.length == 0
+                    ? Icon(OMIcons.notifications)
+                    : Badge(
+                        padding: EdgeInsets.all(4),
+                        child: Icon(OMIcons.notifications),
+                        badgeContent: Container(
+                          child: Text(
+                            "${notificationsAddRoute.length}",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+              ),
       ],
     );
   }
