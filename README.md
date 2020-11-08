@@ -55,10 +55,16 @@
         **Flutter** est Google UI toolkit permettant de créer de superbes applications compilées de manière native pour 
         mobile, Web et ordinateur à partir d'une seule base de code.
         
-        <h5>Comment installer <b>Flutter</b> ?</h5>
+        **Comment installer Flutter ?**
         1. Installer <a href="https://storage.googleapis.com/flutter_infra/releases/stable/windows/flutter_windows_1.22.3-stable.zip">flutter_windows+11.22.3-stable.zip</a>
         
         2. Extraire lee zip file et le metre dans (C:\src\flutter)
+        3. Update PATH environment variable.
+            Cliquer sur start, dans la barre de recherche saisissez "env" et selctionner modifier les variable d'environnement pour votre compte.
+            Si l'entrée existe, ajoutez le chemin complet à flutter\bin en utilisant; comme séparateur des valeurs existantes.
+            Si l’entrée n’existe pas, créez une nouvelle variable utilisateur nommée Path avec le chemin complet vers flutter\bin comme valeur.
+        4. Assurer que Flutter est bien installer, dans command line (cmd), saisissez 'flutter doctor'. Cette commande verifie votre envirenement et affiche u rapport sur                l'etat de votre instllation Flutter. Verifier attentivement la sortie pour d'autres logiciels que vous pourriez avoir besoin d'installer ou d'autres taches a                  effectuer, par exemple l'installation de l'Androird ou vsCode...
+        
         
    
    2. <h4 name="backEndInstallation">Back end installation</h4>
