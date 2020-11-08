@@ -57,6 +57,7 @@
         
         <h6>Comment installer __Flutter__ ?</h6>
         1. Installer <a href="https://storage.googleapis.com/flutter_infra/releases/stable/windows/flutter_windows_1.22.3-stable.zip">flutter_windows+11.22.3-stable.zip</a>
+        
         2. Extraire lee zip file et le metre dans (C:\src\flutter)
         
    
