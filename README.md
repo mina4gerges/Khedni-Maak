@@ -49,15 +49,15 @@
 -  <h2 name="installation">Installation</h2>
 
    1. <h4 name="frontEndInstallation">Front end installation</h4>
-        "Khedni Maak" est une application mobile, donc elle doit être accessible au utilisateur qui utilise le **IOS** ou le 
-        **Android**. Pour gagner du temp et de ne ma pas écrire un code pour **IOS** et un autre code pour **Android**, de meme pour 
-        suivre la technologie on a decide de developer notre projet en utilisant **Flutter**. 
-        **Flutter** est Google UI toolkit permettant de créer de superbes applications compilées de manière native pour 
+        "Khedni Maak" est une application mobile, donc elle doit être accessible au utilisateur qui utilise le __IOS__ ou le 
+        __Android__. Pour gagner du temp et de ne ma pas écrire un code pour __IOS__ et un autre code pour __Android__, de meme pour 
+        suivre la technologie on a decide de developer notre projet en utilisant __Flutter__. 
+        __Flutter__ est Google UI toolkit permettant de créer de superbes applications compilées de manière native pour 
         mobile, Web et ordinateur à partir d'une seule base de code.
         
-        <h6 name="frontEndInstallation">Comment installer **Flutter** ?</h6>
-        - Installer <a href="https://storage.googleapis.com/flutter_infra/releases/stable/windows/flutter_windows_1.22.3-stable.zip">flutter_windows+11.22.3-stable.zip</a>
-        - Extraire lee zip file et le metre dans (C:\src\flutter)
+        <h6>Comment installer __Flutter__ ?</h6>
+        1. Installer <a href="https://storage.googleapis.com/flutter_infra/releases/stable/windows/flutter_windows_1.22.3-stable.zip">flutter_windows+11.22.3-stable.zip</a>
+        2. Extraire lee zip file et le metre dans (C:\src\flutter)
         
    
    2. <h4 name="backEndInstallation">Back end installation</h4>
