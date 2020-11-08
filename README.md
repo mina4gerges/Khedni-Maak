@@ -43,9 +43,9 @@
     a l'aide d'autre personne
     
 -  <h2 name="developpeurs">Développeurs</h2>
-    1. Mina Gerges mina.gerges@isae.edu.lb
-    
-    2. Samer Barhouche samer.barhouche@isae.edu.lb
+   1. Mina Gerges mina.gerges@isae.edu.lb()
+
+   2. Samer Barhouche samer.barhouche@isae.edu.lb()
     
 -  <h2 name="installation">Installation</h2>
 
