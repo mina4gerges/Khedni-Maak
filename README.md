@@ -13,6 +13,9 @@
    2. [Back end installation](#backEndInstallation)
 4. [Documentation](#documentation)
 5. [Exemples et screenshots](#exemplesEtScreenshots)
+   1. [All users screens](#allUsersScreens)
+   2. [Driver screens](#rriverScreens)
+   3. [Rider screens](#riderScreens)
 6. [Architecture](#architecture)
 7. [Technologie utilise](#technologieUtilise)
 8. [Problème Rencontré](#problemeRencontre)
@@ -139,7 +142,22 @@
    
    2. <h3 name="backEndInstallation">Back end installation</h3>
    
-    
+-  <h2 name="Documentation">Documentation</h2>
 
+-  <h2 name="exemplesEtScreenshots">Exemples et screenshots</h2>
 
+   1. <h3 name="allUsersScreens">All users screens</h3>
+   
+         Login Screen            |  Dashboard Screen
+      :-------------------------:|:-------------------------:
+      ![login Screen](front-end/screenshots/loginScreen.PNG?raw=true)  |  ![dashboard Screen](front-end/screenshots/dashboardScreen.PNG?raw=true)
+   
+   2. <h3 name="driverScreens">Driver screens</h3>
 
+      ![login Screen](front-end/screenshots/driverMapScreen.PNG?raw=true)
+   
+   3. <h3 name="riderScreens">Rider screens</h3>
+   
+      ![rider Available Rides Screen](front-end/screenshots/riderAvailableRidesScreen.PNG?raw=true)
+   
+     
