@@ -45,7 +45,7 @@ class _IntroductionViewState extends State<IntroductionView> {
   Widget _buildImage(String assetName) {
     return Align(
       alignment: Alignment.bottomCenter,
-      child: Image.asset('assets/images/$assetName.jpg', width: 350.0),
+      child: Image.asset('assets/images/$assetName.png', width: 350.0),
     );
   }
 
