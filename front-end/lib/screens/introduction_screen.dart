@@ -126,10 +126,17 @@ class _IntroductionViewState extends State<IntroductionView> {
             ),
           );
         else if (snap.data == null || snap.data.statusCode == 500) {
-          return ErrorWidgetDisplay(
-            title: 'Error',
-            subTitle: 'Error',
-            imagePath: 'error.png',
+          return new Scaffold(
+            backgroundColor: Colors.white,
+            body: new Center(
+              child: ErrorWidgetDisplay(
+                title: 'Opps',
+                subTitle: 'An error occurred',
+                imagePath: 'error.png',
+                imageWidth: 200.0,
+                imageHeight: 200.0,
+              ),
+            ),
           );
         } else {
           List screens = json.decode(snap.data.body);

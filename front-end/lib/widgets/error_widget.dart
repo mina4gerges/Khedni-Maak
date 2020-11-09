@@ -1,18 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ErrorWidgetDisplay extends StatelessWidget{
-
+class ErrorWidgetDisplay extends StatelessWidget {
   ErrorWidgetDisplay({
     Key key,
     this.title,
     this.subTitle,
     this.imagePath,
+    this.imageWidth = 100.0,
+    this.imageHeight = 100.0,
   }) : super(key: key);
 
   final String title;
   final String subTitle;
   final String imagePath;
+  final double imageWidth;
+  final double imageHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +25,8 @@ class ErrorWidgetDisplay extends StatelessWidget{
         children: <Widget>[
           Image.asset(
             'assets/images/$imagePath',
-            width: 100,
-            height: 100,
+            width: imageWidth,
+            height: imageHeight,
           ),
           Text(
             title,
@@ -44,5 +47,4 @@ class ErrorWidgetDisplay extends StatelessWidget{
       ),
     );
   }
-
 }
