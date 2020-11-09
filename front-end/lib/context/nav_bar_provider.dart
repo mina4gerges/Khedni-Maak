@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NavbarProvider extends ChangeNotifier {
-  int _tabIndex = 2;
+  int _tabIndex = 0;
 
   int get getTabIndex => _tabIndex;
 
