@@ -1,8 +1,6 @@
 <div><h1>Khedni Maak</h1></div>
    
-![Logo](https://github.com/mina4gerges/Khedni-Maak/tree/master/front-end/assets/images/truck.png)
-Format: ![Alt Logo](url)
-
+<div style="text-align:center"><img src="https://github.com/mina4gerges/Khedni-Maak/tree/master/front-end/assets/images/truck.png" /></div>
 
 1. [Introduction et idee generale](#ideeGenerale)
 2. [Développeurs](#developpeurs)
