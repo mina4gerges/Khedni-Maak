@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,8 @@ import 'package:khedni_maak/widgets/error_widget.dart';
 import 'package:provider/provider.dart';
 
 class NotificationDriverScreen extends StatelessWidget {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   NotificationDriverScreen({
     Key key,
     this.source,
@@ -22,6 +25,9 @@ class NotificationDriverScreen extends StatelessWidget {
         notificationProvider.getNotificationsRiderRequest;
 
     _removeNotification(String routeId) {
+
+      _firebaseMessaging.unsubscribeFromTopic('route-$routeId');
+
       for (int i = 0; i < notificationsRiderRequest.length; i++) {
         Map notification = notificationsRiderRequest[i];
 
@@ -55,7 +61,7 @@ class NotificationDriverScreen extends StatelessWidget {
         final route = notificationsRiderRequest[index];
         String from = route['from'];
         String to = route['to'];
-        // String driverUsername = route['driverUsername'];
+        String riderUsername = route['riderUsername'];
         String routeId = route['routeId'];
 
         return Container(
@@ -71,7 +77,7 @@ class NotificationDriverScreen extends StatelessWidget {
               SizedBox(height: 5.0),
               Row(
                 children: [
-                  Text("XXXXXX request to go with you !"),
+                  Text("$riderUsername request to go with you !"),
                 ],
               ),
               SizedBox(height: 5.0),

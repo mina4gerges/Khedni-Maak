@@ -10,6 +10,7 @@ import 'package:khedni_maak/config/Secrets.dart';
 import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/config/globals.dart' as globals;
 import 'package:khedni_maak/config/palette.dart';
+import 'package:khedni_maak/firebase_notification/firebase_send_notification.dart';
 import 'package:khedni_maak/widgets/error_widget.dart';
 import 'package:khedni_maak/widgets/from_to_three_dots.dart';
 import 'package:khedni_maak/widgets/stat_card.dart';
@@ -86,9 +87,27 @@ class _RidesScreenState extends State<RidesScreen> {
   }
 
   _sendRequest(Map route) {
-    //TODO send notification
-    _displaySnackBar(
-        'success', "Request sent successfully to ${route["driverUsername"]}");
+    String notificationBody = '${globals.userFullName} sent a new request.';
+
+    Map routesInfo = new Map();
+
+    String routeId = route['routeId'];
+
+    routesInfo['routeId'] = routeId;
+    routesInfo['requestFrom'] = "rider";
+    routesInfo['from'] = route['source'];
+    routesInfo['to'] = route['destination'];
+    routesInfo['riderUsername'] = globals.userFullName;
+
+    sendAndRetrieveMessage(
+            "New Request !", notificationBody, "route-$routeId", routesInfo)
+        .then((value) => {
+              if (value.statusCode == 200)
+                _displaySnackBar('success',
+                    "Request sent successfully to ${route["driverUsername"]}")
+              else
+                _displaySnackBar('failed', "Failed to send notification")
+            });
   }
 
   _getRouteSingleInfo(String title, String body) {
@@ -249,6 +268,8 @@ class _RidesScreenState extends State<RidesScreen> {
           status == 'success' ? Palette.successGradient : Palette.errorGradient,
       title: status == 'success' ? 'Success' : 'Error',
       message: text,
+      margin: EdgeInsets.all(8),
+      borderRadius: 8,
       icon: Icon(
         status == 'success' ? Icons.check : Icons.error,
         size: 28.0,

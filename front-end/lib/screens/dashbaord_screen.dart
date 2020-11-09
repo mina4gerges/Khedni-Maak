@@ -41,29 +41,42 @@ class _DashboardScreenState extends State<DashboardScreen> {
           return;
         }
 
-        String driverUsername = routesInfo['driverUsername'];
         String requestFrom = routesInfo['requestFrom'];
 
         if (requestFrom == "driver") {
+          String driverUsername = routesInfo['driverUsername'];
+
           if (driverUsername == globals.userFullName) {
             return;
           }
-          String from = routesInfo['from'];
-          String to = routesInfo['to'];
-          String routeId = "${routesInfo['routeId']}";
 
           List newNotificationsAddRoute =
               notificationsProvider.getNotificationsAddRoute;
 
           newNotificationsAddRoute.add({
-            "to": to,
-            "from": from,
-            "routeId": routeId,
+            "to": routesInfo['to'],
+            "from": routesInfo['from'],
+            "routeId": routesInfo['routeId'],
             "driverUsername": driverUsername
           });
 
           notificationsProvider
               .setNotificationsAddRoute(newNotificationsAddRoute);
+        }
+        else if(requestFrom == "rider"){
+
+          List newNotificationsAddRoute =
+              notificationsProvider.getNotificationsAddRoute;
+
+          newNotificationsAddRoute.add({
+            "to": routesInfo['to'],
+            "from": routesInfo['from'],
+            "routeId": routesInfo['routeId'],
+            "riderUsername": routesInfo['riderUsername']
+          });
+
+          notificationsProvider
+              .setNotificationsRiderRequest(newNotificationsAddRoute);
         }
       },
       onLaunch: (Map<String, dynamic> message) async {},
