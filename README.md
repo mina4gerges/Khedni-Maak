@@ -1,12 +1,12 @@
 
 1. [Introduction et idee generale](#ideeGenerale)
 2. [Développeurs](#developpeurs)
-   - [Installation Flutter](#installationFlutter)
-   - [Installation Android](#installationAndroid)
-   - [Configurer votre appareil Android](#configurerVotreAppareilAndroid)
-   - [Emulator Android, procédez comme suit](#emulatorAndroid)
 3. [Installation](#installation)
    - [Front end installation](#frontEndInstallation)
+      - [Installation Flutter](#installationFlutter)
+      - [Installation Android](#installationAndroid)
+      - [Configurer votre appareil Android](#configurerVotreAppareilAndroid)
+      - [Emulator Android, procédez comme suit](#emulatorAndroid)
    - [Back end installation](#backEndInstallation)
 4. [Documentation](#documentation)
 5. [Exemples et screenshots](#exemplesEtScreenshots)
@@ -60,7 +60,7 @@
         Flutter est Google UI toolkit permettant de créer de superbes applications compilées de manière native pour 
         mobile, Web et ordinateur à partir d'une seule base de code.
         
-        1. <h4 name="installationFlutter">Installation Flutter ?</h4>
+        1. <h4 name="installationFlutter">Installation Flutter</h4>
         
             - Installer <a href="https://storage.googleapis.com/flutter_infra/releases/stable/windows/flutter_windows_1.22.3-stable.zip">flutter_windows+11.22.3-stable.zip</a>.
             
