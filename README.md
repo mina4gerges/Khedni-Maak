@@ -44,6 +44,7 @@
     
 -  <h2 name="developpeurs">Développeurs</h2>
     1. Mina gerges mina.gerges@isae.edu.lb
+    
     2. Samer Barhouche samer.barhouche@isae.edu.lb
     
 -  <h2 name="installation">Installation</h2>
@@ -115,7 +116,7 @@
         7. Dans Android Virtual Device Manager, cliquez sur **Run** dans la barre d'outils. L'émulateur démarre et 
         affiche le canevas par défaut pour la version du système d'exploitation et l'appareil sélectionnés.
       
-    <h5 style="color:red">Pour plus d'information a propos l'instalatuin de Flutter: <a href="https://flutter.dev/docs/get-started/install/windows">Flutter installation</a></h5>  
+   <h4 style="color:'red'">Pour plus d'information a propos l'installation de Flutter: <a href="https://flutter.dev/docs/get-started/install/windows">Flutter installation</a></h4>  
         
    
    2. <h4 name="backEndInstallation">Back end installation</h4>
