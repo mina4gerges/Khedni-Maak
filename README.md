@@ -1,6 +1,10 @@
 
 1. [Introduction et idee generale](#ideeGenerale)
 2. [Développeurs](#developpeurs)
+   - [Installation Flutter](#installationFlutter)
+   - [Installation Android](#installationAndroid)
+   - [Configurer votre appareil Android](#configurerVotreAppareilAndroid)
+   - [Emulator Android, procédez comme suit](#emulatorAndroid)
 3. [Installation](#installation)
    - [Front end installation](#frontEndInstallation)
    - [Back end installation](#backEndInstallation)
@@ -43,20 +47,20 @@
     a l'aide d'autre personne
     
 -  <h2 name="developpeurs">Développeurs</h2>
-    a.Mina gerges mina.gerges@isae.edu.lb.
+    a. Mina gerges mina.gerges@isae.edu.lb.
     
-    b.Samer Barhouche samer.barhouche@isae.edu.lb.
+    b. Samer Barhouche samer.barhouche@isae.edu.lb.
     
 -  <h2 name="installation">Installation</h2>
 
-   1. <h4 name="frontEndInstallation">Front end installation</h4>
+   1. <h3 name="frontEndInstallation">Front end installation</h3>
         "Khedni Maak" est une application mobile, donc elle doit être accessible au utilisateur qui utilise l’IOS ou 
         l’Android. Pour gagner du temp et de ne ma pas écrire un code pour IOS et un autre code pour Android, de meme pour 
         suivre la technologie on a decide de developer notre projet en utilisant Flutter. 
         Flutter est Google UI toolkit permettant de créer de superbes applications compilées de manière native pour 
         mobile, Web et ordinateur à partir d'une seule base de code.
         
-        1. <h3>Installation Flutter ?</h3>
+        1. <h4 name="installationFlutter">Installation Flutter ?</h4>
         
             - Installer <a href="https://storage.googleapis.com/flutter_infra/releases/stable/windows/flutter_windows_1.22.3-stable.zip">flutter_windows+11.22.3-stable.zip</a>.
             
@@ -75,7 +79,7 @@
                 **Verifier attentivement la sortie pour d'autres logiciels que vous pourriez avoir besoin d'installer ou 
                 d'autres taches a effectuer, par exemple l'installation de l'Android ou vsCode**...
             
-        2. <h3>Installation Android</h3>
+        2. <h4 name="installationAndroid">Installation Android</h4>
         
             **Note :** Flutter requis une installation complete de **Android Studio** pour fournir ses dependence de plate-forme
             Android et pour installer et utiliser les emulator.Cependant, vous pouvez utiliser Flutter dans certain nomber d'éditeurs.
@@ -86,7 +90,7 @@
                SDK Android,, les outils de ligne de commande du SDK Android et les outils de construction du SDK Android, 
                qui sont requis par Flutter lors du développement pour Android.
            
-        3. <h3>Configurer votre appareil Android</h3>
+        3. <h4 name="configurerVotreAppareilAndroid">Configurer votre appareil Android</h4>
     
             Pour vous préparer à exécuter et tester votre application Flutter sur un 
             appareil Android, vous avez besoin d'un appareil Android exécutant Android 4.1 (niveau d'API 16) ou supérieur.
@@ -104,7 +108,7 @@
             Si vous souhaitez que Flutter utilise une installation différente du SDK Android, vous devez définir la variable 
             d'environnement ANDROID_SDK_ROOT sur ce répertoire d'installation. Configurer l'émulateur Android.
               
-        4. <h3>Emulator Android, procédez comme suit</h3>
+        4. <h4 name="emulatorAndroid">Emulator Android, procédez comme suit</h4>
               
             - Activez <a href="https://developer.android.com/studio/run/emulator-acceleration">VM acceleration</a> sur votre machine.
             
@@ -130,7 +134,7 @@
         <h4 style="color: red;">Pour plus d'information a propos l'installation de Flutter: <a href="https://flutter.dev/docs/get-started/install/windows">Flutter installation</a></h4>  
         
    
-   2. <h4 name="backEndInstallation">Back end installation</h4>
+   2. <h3 name="backEndInstallation">Back end installation</h3>
    
     
 
