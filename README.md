@@ -56,7 +56,7 @@
         Flutter est Google UI toolkit permettant de créer de superbes applications compilées de manière native pour 
         mobile, Web et ordinateur à partir d'une seule base de code.
         
-        1.**Installation Flutter ?**
+        <h3>Installation Flutter ?</h3>
         
         a. Installer <a href="https://storage.googleapis.com/flutter_infra/releases/stable/windows/flutter_windows_1.22.3-stable.zip">flutter_windows+11.22.3-stable.zip</a>.
         
@@ -75,7 +75,7 @@
             **Verifier attentivement la sortie pour d'autres logiciels que vous pourriez avoir besoin d'installer ou 
             d'autres taches a effectuer, par exemple l'installation de l'Android ou vsCode**...
             
-        2.**Installation Android**
+        <h3>Installation Android</h3>
         
         **Note :** Flutter requis une installation complete de **Android Studio** pour fournir ses dependence de plate-forme
         Android et pour installer et utiliser les emulator.Cependant, vous pouvez utiliser Flutter dans certain nomber d'éditeurs.
@@ -86,7 +86,7 @@
            SDK Android,, les outils de ligne de commande du SDK Android et les outils de construction du SDK Android, 
            qui sont requis par Flutter lors du développement pour Android.
            
-        3.**Configurer votre appareil Android** 
+        <h3>Configurer votre appareil Android</h3>
     
         Pour vous préparer à exécuter et tester votre application Flutter sur un 
         appareil Android, vous avez besoin d'un appareil Android exécutant Android 4.1 (niveau d'API 16) ou supérieur.
@@ -104,7 +104,7 @@
         Si vous souhaitez que Flutter utilise une installation différente du SDK Android, vous devez définir la variable 
         d'environnement ANDROID_SDK_ROOT sur ce répertoire d'installation. Configurer l'émulateur Android.
               
-        4.**Emulator Android, procédez comme suit** 
+        <h3>Emulator Android, procédez comme suit</h3>
               
         a. Activez <a href="https://developer.android.com/studio/run/emulator-acceleration">VM acceleration</a> sur votre machine.
         
