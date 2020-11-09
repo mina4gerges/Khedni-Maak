@@ -56,76 +56,76 @@
         Flutter est Google UI toolkit permettant de créer de superbes applications compilées de manière native pour 
         mobile, Web et ordinateur à partir d'une seule base de code.
         
-        <h3>Installation Flutter ?</h3>
+        1. <h3>Installation Flutter ?</h3>
         
-        a. Installer <a href="https://storage.googleapis.com/flutter_infra/releases/stable/windows/flutter_windows_1.22.3-stable.zip">flutter_windows+11.22.3-stable.zip</a>.
-        
-        b. Extraire lee zip file et le metre dans **(C:\src\flutter)**.
-        
-        c. Update PATH environment variable.
-            Cliquer sur start, dans la barre de recherche saisissez **"env"** et sectionner modifier les variables 
-            d'environnement pour votre compte.
-            Si l'entrée existe, ajoutez le chemin complet à **flutter\bin** en utilisant; comme séparateur des valeurs 
-            existantes.
-            Si l’entrée n’existe pas, créez une nouvelle variable utilisateur nommé Path avec le chemin complet vers 
-            **flutter\bin** comme valeur.
+            - Installer <a href="https://storage.googleapis.com/flutter_infra/releases/stable/windows/flutter_windows_1.22.3-stable.zip">flutter_windows+11.22.3-stable.zip</a>.
             
-        d. Assurer que Flutter est bien installer, dans command line (cmd), saisissez '**flutter doctor**'. Cette 
-            commande verifier votre environment et affiche u rapport sur l'État de votre installation Flutter. 
-            **Verifier attentivement la sortie pour d'autres logiciels que vous pourriez avoir besoin d'installer ou 
-            d'autres taches a effectuer, par exemple l'installation de l'Android ou vsCode**...
+            - Extraire lee zip file et le metre dans **(C:\src\flutter)**.
             
-        <h3>Installation Android</h3>
+            - Update PATH environment variable.
+                Cliquer sur start, dans la barre de recherche saisissez **"env"** et sectionner modifier les variables 
+                d'environnement pour votre compte.
+                Si l'entrée existe, ajoutez le chemin complet à **flutter\bin** en utilisant; comme séparateur des valeurs 
+                existantes.
+                Si l’entrée n’existe pas, créez une nouvelle variable utilisateur nommé Path avec le chemin complet vers 
+                **flutter\bin** comme valeur.
+                
+            - Assurer que Flutter est bien installer, dans command line (cmd), saisissez '**flutter doctor**'. Cette 
+                commande verifier votre environment et affiche u rapport sur l'État de votre installation Flutter. 
+                **Verifier attentivement la sortie pour d'autres logiciels que vous pourriez avoir besoin d'installer ou 
+                d'autres taches a effectuer, par exemple l'installation de l'Android ou vsCode**...
+            
+        2. <h3>Installation Android</h3>
         
-        **Note :** Flutter requis une installation complete de **Android Studio** pour fournir ses dependence de plate-forme
-        Android et pour installer et utiliser les emulator.Cependant, vous pouvez utiliser Flutter dans certain nomber d'éditeurs.
-        
-        a. Installer Android Studio <a href="https://developer.android.com/studio">Android Studio</a>.
-        
-        b. Demarrez Android Studio et suivez l'assistant de configuration d'Android Stuido. Cela installe le dernier 
-           SDK Android,, les outils de ligne de commande du SDK Android et les outils de construction du SDK Android, 
-           qui sont requis par Flutter lors du développement pour Android.
+            **Note :** Flutter requis une installation complete de **Android Studio** pour fournir ses dependence de plate-forme
+            Android et pour installer et utiliser les emulator.Cependant, vous pouvez utiliser Flutter dans certain nomber d'éditeurs.
+            
+            - Installer Android Studio <a href="https://developer.android.com/studio">Android Studio</a>.
+            
+            - Demarrez Android Studio et suivez l'assistant de configuration d'Android Stuido. Cela installe le dernier 
+               SDK Android,, les outils de ligne de commande du SDK Android et les outils de construction du SDK Android, 
+               qui sont requis par Flutter lors du développement pour Android.
            
-        <h3>Configurer votre appareil Android</h3>
+        3. <h3>Configurer votre appareil Android</h3>
     
-        Pour vous préparer à exécuter et tester votre application Flutter sur un 
-        appareil Android, vous avez besoin d'un appareil Android exécutant Android 4.1 (niveau d'API 16) ou supérieur.
-               
-        a. Activez **Developer options** et le **USB debugging** sur votre appareil. Des instructions détaillées 
-        sont disponibles dans la <a href="https://developer.android.com/studio/debug/dev-options">Documentation Android</a>. 
-        
-        b. Windows uniquement: installez le <a href="https://developer.android.com/studio/run/win-usb">Google USB Driver</a>.
-        
-        c. À l'aide d'un câble USB, branchez votre téléphone sur votre ordinateur. Si vous y êtes invité sur votre 
-        appareil, autorisez votre ordinateur à accéder à votre appareil. 
-        
-        d. Dans le terminal, exécutez la commande **Flutter devices** pour vérifier que Flutter reconnaît votre appareil 
-        Android connecté. Par défaut, Flutter utilise la version du SDK Android sur laquelle est basé votre outil adb. 
-        Si vous souhaitez que Flutter utilise une installation différente du SDK Android, vous devez définir la variable 
-        d'environnement ANDROID_SDK_ROOT sur ce répertoire d'installation. Configurer l'émulateur Android.
+            Pour vous préparer à exécuter et tester votre application Flutter sur un 
+            appareil Android, vous avez besoin d'un appareil Android exécutant Android 4.1 (niveau d'API 16) ou supérieur.
+                   
+            - Activez **Developer options** et le **USB debugging** sur votre appareil. Des instructions détaillées 
+            sont disponibles dans la <a href="https://developer.android.com/studio/debug/dev-options">Documentation Android</a>. 
+            
+            - Windows uniquement: installez le <a href="https://developer.android.com/studio/run/win-usb">Google USB Driver</a>.
+            
+            - À l'aide d'un câble USB, branchez votre téléphone sur votre ordinateur. Si vous y êtes invité sur votre 
+            appareil, autorisez votre ordinateur à accéder à votre appareil. 
+            
+            - Dans le terminal, exécutez la commande **Flutter devices** pour vérifier que Flutter reconnaît votre appareil 
+            Android connecté. Par défaut, Flutter utilise la version du SDK Android sur laquelle est basé votre outil adb. 
+            Si vous souhaitez que Flutter utilise une installation différente du SDK Android, vous devez définir la variable 
+            d'environnement ANDROID_SDK_ROOT sur ce répertoire d'installation. Configurer l'émulateur Android.
               
-        <h3>Emulator Android, procédez comme suit</h3>
+        4. <h3>Emulator Android, procédez comme suit</h3>
               
-        a. Activez <a href="https://developer.android.com/studio/run/emulator-acceleration">VM acceleration</a> sur votre machine.
-        
-        b. Lancez **Android Studio**, cliquez sur l'icône **AVD Manager** et sélectionnez **Create Virtual Device…**.
-        Dans les anciennes versions d'Android Studio, vous devriez plutôt lancer Android Studio> Outils> Android> 
-        AVD Manager et sélectionner Créer un appareil virtuel…. (Le sous-menu Android n'est présent que dans un projet Android.)
-        Si vous n'avez pas de projet ouvert, vous pouvez choisir Configurer> AVD Manager et sélectionner Créer un périphérique virtuel…
-        
-        c. Choisissez une définition de périphérique et sélectionnez **Next**.
-        
-        d. Sélectionnez une ou plusieurs images système pour les versions d'Android que vous souhaitez émuler, puis 
-        sélectionnez Suivant. Une image x86 ou x86_64 est recommandée. 
-        
-        e. Sous **Emulated Performance**, sélectionnez **Hardware - GLES 2.0** pour activer <a href="https://developer.android.com/studio/run/emulator-acceleration">hardware acceleration</a>
-        
-        f. Vérifiez que la configuration AVD est correcte et sélectionnez **Finish**.
-      
-        Pour plus de détails sur les étapes ci-dessus, voir <a href="https://developer.android.com/studio/run/managing-avds">Managing AVDs.</a>
-      
-        g. Dans Android Virtual Device Manager, cliquez sur **Run** dans la barre d'outils. L'émulateur démarre et 
-        affiche le canevas par défaut pour la version du système d'exploitation et l'appareil sélectionnés.
+            - Activez <a href="https://developer.android.com/studio/run/emulator-acceleration">VM acceleration</a> sur votre machine.
+            
+            - Lancez **Android Studio**, cliquez sur l'icône **AVD Manager** et sélectionnez **Create Virtual Device…**.
+            Dans les anciennes versions d'Android Studio, vous devriez plutôt lancer Android Studio> Outils> Android> 
+            AVD Manager et sélectionner Créer un appareil virtuel…. (Le sous-menu Android n'est présent que dans un projet Android.)
+            Si vous n'avez pas de projet ouvert, vous pouvez choisir Configurer> AVD Manager et sélectionner Créer un périphérique virtuel…
+            
+            - Choisissez une définition de périphérique et sélectionnez **Next**.
+            
+            - Sélectionnez une ou plusieurs images système pour les versions d'Android que vous souhaitez émuler, puis 
+            sélectionnez Suivant. Une image x86 ou x86_64 est recommandée. 
+            
+            - Sous **Emulated Performance**, sélectionnez **Hardware - GLES 2.0** pour activer <a href="https://developer.android.com/studio/run/emulator-acceleration">hardware acceleration</a>
+            
+            - Vérifiez que la configuration AVD est correcte et sélectionnez **Finish**.
+          
+            Pour plus de détails sur les étapes ci-dessus, voir <a href="https://developer.android.com/studio/run/managing-avds">Managing AVDs.</a>
+          
+            - Dans Android Virtual Device Manager, cliquez sur **Run** dans la barre d'outils. L'émulateur démarre et 
+            affiche le canevas par défaut pour la version du système d'exploitation et l'appareil sélectionnés.
       
         <h4 style="color: red;">Pour plus d'information a propos l'installation de Flutter: <a href="https://flutter.dev/docs/get-started/install/windows">Flutter installation</a></h4>  
         
