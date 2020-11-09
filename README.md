@@ -43,17 +43,16 @@
     a l'aide d'autre personne
     
 -  <h2 name="developpeurs">Développeurs</h2>
-   1. Mina Gerges mina.gerges@isae.edu.lb()
-
-   2. Samer Barhouche samer.barhouche@isae.edu.lb()
+    1. Mina gerges mina.gerges@isae.edu.lb
+    2. Samer Barhouche samer.barhouche@isae.edu.lb
     
 -  <h2 name="installation">Installation</h2>
 
    1. <h4 name="frontEndInstallation">Front end installation</h4>
-        "Khedni Maak" est une application mobile, donc elle doit être accessible au utilisateur qui utilise le **IOS** ou le 
-        **Android**. Pour gagner du temp et de ne ma pas écrire un code pour **IOS** et un autre code pour **Android**, de meme pour 
-        suivre la technologie on a decide de developer notre projet en utilisant **Flutter**. 
-        **Flutter** est Google UI toolkit permettant de créer de superbes applications compilées de manière native pour 
+        "Khedni Maak" est une application mobile, donc elle doit être accessible au utilisateur qui utilise l’IOS ou 
+        l’Android. Pour gagner du temp et de ne ma pas écrire un code pour IOS et un autre code pour Android, de meme pour 
+        suivre la technologie on a decide de developer notre projet en utilisant Flutter. 
+        Flutter est Google UI toolkit permettant de créer de superbes applications compilées de manière native pour 
         mobile, Web et ordinateur à partir d'une seule base de code.
         
         **Comment installer Flutter ?**
@@ -61,10 +60,16 @@
         
         2. Extraire lee zip file et le metre dans **(C:\src\flutter)**
         3. Update PATH environment variable.
-            Cliquer sur start, dans la barre de recherche saisissez **"env"** et selctionner modifier les variable d'environnement pour votre compte.
-            Si l'entrée existe, ajoutez le chemin complet à **flutter\bin** en utilisant; comme séparateur des valeurs existantes.
-            Si l’entrée n’existe pas, créez une nouvelle variable utilisateur nommée Path avec le chemin complet vers **flutter\bin** comme valeur.
-        4. Assurer que Flutter est bien installer, dans command line (cmd), saisissez '**flutter doctor**'. Cette commande verifie votre envirenement et affiche u rapport sur                l'etat de votre instllation Flutter. **Verifier attentivement la sortie pour d'autres logiciels que vous pourriez avoir besoin d'installer ou d'autres taches a                  effectuer, par exemple l'installation de l'Androird ou vsCode**...
+            Cliquer sur start, dans la barre de recherche saisissez **"env"** et sectionner modifier les variables 
+            d'environnement pour votre compte.
+            Si l'entrée existe, ajoutez le chemin complet à **flutter\bin** en utilisant; comme séparateur des valeurs 
+            existantes.
+            Si l’entrée n’existe pas, créez une nouvelle variable utilisateur nommé Path avec le chemin complet vers 
+            **flutter\bin** comme valeur.
+        4. Assurer que Flutter est bien installer, dans command line (cmd), saisissez '**flutter doctor**'. Cette 
+            commande verifier votre environment et affiche u rapport sur l'État de votre installation Flutter. 
+            **Verifier attentivement la sortie pour d'autres logiciels que vous pourriez avoir besoin d'installer ou 
+            d'autres taches a effectuer, par exemple l'installation de l'Android ou vsCode**...
         
         
    
