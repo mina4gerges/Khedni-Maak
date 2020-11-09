@@ -71,51 +71,51 @@
             **Verifier attentivement la sortie pour d'autres logiciels que vous pourriez avoir besoin d'installer ou 
             d'autres taches a effectuer, par exemple l'installation de l'Android ou vsCode**...
             
-        **Installation Android ?**
+        **Installation Android**
         
-            **Note :** Flutter requis une installation complete de **Android Studio** pour fournir ses dependence de plate-forme
-            Android et pour installer et utiliser les emulator.Cependant, vous pouvez utiliser Flutter dans certain nomber d'éditeurs.
-            
-            1. Installer Android Studio <a href="https://developer.android.com/studio">Android Studio</a>
-            2. Demarrez Android Studio et suivez l'assistant de configuration d'Android Stuido. Cela installe le dernier 
-               SDK Android,, les outils de ligne de commande du SDK Android et les outils de construction du SDK Android, 
-               qui sont requis par Flutter lors du développement pour Android.
-               
+        **Note :** Flutter requis une installation complete de **Android Studio** pour fournir ses dependence de plate-forme
+        Android et pour installer et utiliser les emulator.Cependant, vous pouvez utiliser Flutter dans certain nomber d'éditeurs.
+        
+        1. Installer Android Studio <a href="https://developer.android.com/studio">Android Studio</a>
+        2. Demarrez Android Studio et suivez l'assistant de configuration d'Android Stuido. Cela installe le dernier 
+           SDK Android,, les outils de ligne de commande du SDK Android et les outils de construction du SDK Android, 
+           qui sont requis par Flutter lors du développement pour Android.
+           
         **Configurer votre appareil Android** 
-        
-           Pour vous préparer à exécuter et tester votre application Flutter sur un 
-           appareil Android, vous avez besoin d'un appareil Android exécutant Android 4.1 (niveau d'API 16) ou supérieur.
+    
+        Pour vous préparer à exécuter et tester votre application Flutter sur un 
+        appareil Android, vous avez besoin d'un appareil Android exécutant Android 4.1 (niveau d'API 16) ou supérieur.
                
-            1. Activez **Developer options** et le **USB debugging** sur votre appareil. Des instructions détaillées 
-                sont disponibles dans la <a href="https://developer.android.com/studio/debug/dev-options">Documentation Android</a>. 
-            2. Windows uniquement: installez le <a href="https://developer.android.com/studio/run/win-usb">Google USB Driver</a>.
-            3. À l'aide d'un câble USB, branchez votre téléphone sur votre ordinateur. Si vous y êtes invité sur votre 
-                appareil, autorisez votre ordinateur à accéder à votre appareil. 
-            4. Dans le terminal, exécutez la commande 
-                **Flutter devices** pour vérifier que Flutter reconnaît votre appareil Android connecté. Par défaut, Flutter 
-                utilise la version du SDK Android sur laquelle est basé votre outil adb. Si vous souhaitez que Flutter 
-                utilise une installation différente du SDK Android, vous devez définir la variable d'environnement 
-                ANDROID_SDK_ROOT sur ce répertoire d'installation. Configurer l'émulateur Android
+        1. Activez **Developer options** et le **USB debugging** sur votre appareil. Des instructions détaillées 
+            sont disponibles dans la <a href="https://developer.android.com/studio/debug/dev-options">Documentation Android</a>. 
+        2. Windows uniquement: installez le <a href="https://developer.android.com/studio/run/win-usb">Google USB Driver</a>.
+        3. À l'aide d'un câble USB, branchez votre téléphone sur votre ordinateur. Si vous y êtes invité sur votre 
+            appareil, autorisez votre ordinateur à accéder à votre appareil. 
+        4. Dans le terminal, exécutez la commande 
+            **Flutter devices** pour vérifier que Flutter reconnaît votre appareil Android connecté. Par défaut, Flutter 
+            utilise la version du SDK Android sur laquelle est basé votre outil adb. Si vous souhaitez que Flutter 
+            utilise une installation différente du SDK Android, vous devez définir la variable d'environnement 
+            ANDROID_SDK_ROOT sur ce répertoire d'installation. Configurer l'émulateur Android
               
         **Emulator Android, procédez comme suit** 
               
-              1. Activez <a href="https://developer.android.com/studio/run/emulator-acceleration">VM acceleration</a> sur votre machine.
-              2. Lancez **Android Studio**, cliquez sur l'icône **AVD Manager** et sélectionnez **Create Virtual Device…**
-              Dans les anciennes versions d'Android Studio, vous devriez plutôt lancer Android Studio> Outils> Android> 
-              AVD Manager et sélectionner Créer un appareil virtuel…. (Le sous-menu Android n'est présent que dans un projet Android.)
-              Si vous n'avez pas de projet ouvert, vous pouvez choisir Configurer> AVD Manager et sélectionner Créer un périphérique virtuel…
-              3. Choisissez une définition de périphérique et sélectionnez **Next**.
-              4. Sélectionnez une ou plusieurs images système pour les versions d'Android que vous souhaitez émuler, puis 
-              sélectionnez Suivant. Une image x86 ou x86_64 est recommandée. 
-              5. Sous **Emulated Performance**, sélectionnez **Hardware - GLES 2.0** pour activer <a href="https://developer.android.com/studio/run/emulator-acceleration">hardware acceleration</a>
-              6. Vérifiez que la configuration AVD est correcte et sélectionnez **Finish**.
-              
-                Pour plus de détails sur les étapes ci-dessus, voir <a href="https://developer.android.com/studio/run/managing-avds">Managing AVDs.</a>
-              
-              7. Dans Android Virtual Device Manager, cliquez sur **Run** dans la barre d'outils. L'émulateur démarre et 
-              affiche le canevas par défaut pour la version du système d'exploitation et l'appareil sélectionnés.
-              
-            <h5 style="color:red">Pour plus d'information a propos l'instalatuin de Flutter: <a href="https://flutter.dev/docs/get-started/install/windows">Flutter installation</a></h5>  
+        1. Activez <a href="https://developer.android.com/studio/run/emulator-acceleration">VM acceleration</a> sur votre machine.
+        2. Lancez **Android Studio**, cliquez sur l'icône **AVD Manager** et sélectionnez **Create Virtual Device…**
+        Dans les anciennes versions d'Android Studio, vous devriez plutôt lancer Android Studio> Outils> Android> 
+        AVD Manager et sélectionner Créer un appareil virtuel…. (Le sous-menu Android n'est présent que dans un projet Android.)
+        Si vous n'avez pas de projet ouvert, vous pouvez choisir Configurer> AVD Manager et sélectionner Créer un périphérique virtuel…
+        3. Choisissez une définition de périphérique et sélectionnez **Next**.
+        4. Sélectionnez une ou plusieurs images système pour les versions d'Android que vous souhaitez émuler, puis 
+        sélectionnez Suivant. Une image x86 ou x86_64 est recommandée. 
+        5. Sous **Emulated Performance**, sélectionnez **Hardware - GLES 2.0** pour activer <a href="https://developer.android.com/studio/run/emulator-acceleration">hardware acceleration</a>
+        6. Vérifiez que la configuration AVD est correcte et sélectionnez **Finish**.
+      
+            Pour plus de détails sur les étapes ci-dessus, voir <a href="https://developer.android.com/studio/run/managing-avds">Managing AVDs.</a>
+      
+        7. Dans Android Virtual Device Manager, cliquez sur **Run** dans la barre d'outils. L'émulateur démarre et 
+        affiche le canevas par défaut pour la version du système d'exploitation et l'appareil sélectionnés.
+      
+    <h5 style="color:red">Pour plus d'information a propos l'instalatuin de Flutter: <a href="https://flutter.dev/docs/get-started/install/windows">Flutter installation</a></h5>  
         
    
    2. <h4 name="backEndInstallation">Back end installation</h4>
