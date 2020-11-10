@@ -59,16 +59,17 @@ class NotificationDriverScreen extends StatelessWidget {
 
     _onAcceptRequest(Map route, String source) {
       String routeId = route['routeId'];
-      String riderUsername = route['riderUsername'];
 
       _firebaseMessaging.unsubscribeFromTopic('request-$routeId');
-
-      List<String> passengers = new List<String>();
-      passengers.add(riderUsername);
 
       // TODO: Send notification to inform the rider about the request status
 
       if (source == 'accept') {
+        String riderUsername = route['riderUsername'];
+
+        List<String> passengers = new List<String>();
+        passengers.add(riderUsername);
+
         _updateRoutePassenger(routeId, passengers).then((value) => {
               if (value.statusCode == 200)
                 {
