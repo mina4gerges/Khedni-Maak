@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
@@ -17,6 +16,7 @@ import 'package:khedni_maak/widgets/custom_app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:khedni_maak/config/globals.dart' as globals;
+import 'package:khedni_maak/widgets/display_flash_bar.dart';
 import 'package:khedni_maak/widgets/from_to_three_dots.dart';
 
 class AddRouteScreen extends StatefulWidget {
@@ -575,29 +575,11 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     return errorMsg;
   }
 
-  _displaySnackBar(String status, String text) {
-    Flushbar(
-      backgroundGradient:
-          status == 'success' ? Palette.successGradient : Palette.errorGradient,
-      title: status == 'success' ? 'Success' : 'Error',
-      message: text,
-      margin: EdgeInsets.all(8),
-      borderRadius: 8,
-      icon: Icon(
-        status == 'success' ? Icons.check : Icons.error,
-        size: 28.0,
-        color: Colors.white,
-      ),
-      duration: const Duration(seconds: 5),
-      onTap: (flushBar) => flushBar.dismiss(),
-    )..show(context);
-  }
-
   _addRoute() async {
     String errorMsg = _addRouteValidate();
 
     if (errorMsg != '') {
-      _displaySnackBar('inputsEmpty', errorMsg);
+      DisplayFlashBar.displayFlashBar('inputsEmpty', errorMsg,context);
       return;
     }
 

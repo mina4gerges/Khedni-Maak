@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,6 +13,7 @@ import 'package:khedni_maak/google_map/providers/place_provider.dart';
 import 'package:khedni_maak/google_map/src/utils/uuid.dart';
 import 'package:khedni_maak/login/custom_route.dart';
 import 'package:khedni_maak/screens/add_route_screen.dart';
+import 'package:khedni_maak/widgets/display_flash_bar.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -349,31 +349,12 @@ class _MapScreenState extends State<MapScreen> {
       },
     );
   }
-
-  _displaySnackBar(String status, String text) {
-    Flushbar(
-      backgroundGradient:
-          status == 'success' ? Palette.successGradient : Palette.errorGradient,
-      title: status == 'success' ? 'Success' : 'Error',
-      message: text,
-      margin: EdgeInsets.all(8),
-      borderRadius: 8,
-      icon: Icon(
-        status == 'success' ? Icons.check : Icons.error,
-        size: 28.0,
-        color: Colors.white,
-      ),
-      duration: const Duration(seconds: 3),
-      onTap: (flushBar) => flushBar.dismiss(),
-    )..show(context);
-  }
-
   _handleAddRouteResponse(addRouteResponse) async {
-    _displaySnackBar(
+    DisplayFlashBar.displayFlashBar(
       addRouteResponse['status'],
       addRouteResponse['status'] == 'success'
           ? "Route added"
-          : 'Failed to add a new route',
+          : 'Failed to add a new route',context
     );
 
     if (addRouteResponse['status'] == 'success') {
