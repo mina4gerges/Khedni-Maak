@@ -1,4 +1,4 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import 'package:khedni_maak/widgets/error_widget.dart';
 import 'package:provider/provider.dart';
 
 class NotificationDriverScreen extends StatelessWidget {
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   NotificationDriverScreen({
     Key key,
@@ -29,7 +29,8 @@ class NotificationDriverScreen extends StatelessWidget {
         notificationProvider.getNotificationsRiderRequest;
 
     _removeNotification(String routeId) {
-      _firebaseMessaging.unsubscribeFromTopic('route-$routeId');
+      // Unsubscribe to topic to stop receiving request on this route
+      // _firebaseMessaging.unsubscribeFromTopic('route-$routeId');
 
       for (int i = 0; i < notificationsRiderRequest.length; i++) {
         Map notification = notificationsRiderRequest[i];
@@ -52,6 +53,58 @@ class NotificationDriverScreen extends StatelessWidget {
       _removeNotification(routeId);
 
       DisplayFlashBar.displayFlashBar('success', 'Request rejected', context);
+    }
+
+    Future<void> _openConfirmModal(
+        String title, String routeId, String source) async {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text(title),
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  RaisedButton(
+                    onPressed: () => {
+                      Navigator.pop(context),
+                      source == 'accept'
+                          ? _onAcceptRequest(routeId)
+                          : _onDeclineRequest(routeId),
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Colors.green[600],
+                    textColor: Colors.white,
+                    child: Row(
+                      children: [
+                        Icon(Icons.check),
+                        Text("Yes"),
+                      ],
+                    ),
+                  ),
+                  RaisedButton(
+                    onPressed: () => {Navigator.pop(context)},
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Colors.yellow[600],
+                    textColor: Colors.white,
+                    child: Row(
+                      children: [
+                        Icon(Icons.check),
+                        Text("Cancel"),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        },
+      );
     }
 
     if (notificationsRiderRequest.length == 0)
@@ -127,7 +180,11 @@ class NotificationDriverScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       RaisedButton(
-                        onPressed: () => _onAcceptRequest(routeId),
+                        onPressed: () => _openConfirmModal(
+                          "Are you sure do you want to accept request ?",
+                          routeId,
+                          'accept',
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -141,7 +198,11 @@ class NotificationDriverScreen extends StatelessWidget {
                         ),
                       ),
                       RaisedButton(
-                        onPressed: () => _onDeclineRequest(routeId),
+                        onPressed: () => _openConfirmModal(
+                          "Are you sure do you want to reject request ?",
+                          routeId,
+                          'reject',
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
