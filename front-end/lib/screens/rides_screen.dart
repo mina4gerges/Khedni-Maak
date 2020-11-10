@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:fleva_icons/fleva_icons.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,6 +10,7 @@ import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/config/globals.dart' as globals;
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/firebase_notification/firebase_send_notification.dart';
+import 'package:khedni_maak/widgets/display_flash_bar.dart';
 import 'package:khedni_maak/widgets/error_widget.dart';
 import 'package:khedni_maak/widgets/from_to_three_dots.dart';
 import 'package:khedni_maak/widgets/stat_card.dart';
@@ -91,22 +91,24 @@ class _RidesScreenState extends State<RidesScreen> {
 
     Map routesInfo = new Map();
 
-    String routeId = route['routeId'];
+    String routeId = "${route['id']}";
+    // String routeId = "55";
 
     routesInfo['routeId'] = routeId;
     routesInfo['requestFrom'] = "rider";
     routesInfo['from'] = route['source'];
     routesInfo['to'] = route['destination'];
     routesInfo['riderUsername'] = globals.userFullName;
+    routesInfo['requestDateTime'] = DateTime.now().toString();
 
     sendAndRetrieveMessage(
             "New Request !", notificationBody, "route-$routeId", routesInfo)
         .then((value) => {
               if (value.statusCode == 200)
-                _displaySnackBar('success',
-                    "Request sent successfully to ${route["driverUsername"]}")
+                DisplayFlashBar.displayFlashBar('success',
+                    "Request sent successfully to ${route["driverUsername"]}",context)
               else
-                _displaySnackBar('failed', "Failed to send notification")
+                DisplayFlashBar.displayFlashBar('failed', "Failed to send notification",context)
             });
   }
 
@@ -254,30 +256,12 @@ class _RidesScreenState extends State<RidesScreen> {
 
     bool isSuccess = response.statusCode == 200;
 
-    _displaySnackBar(isSuccess ? "success" : "failed",
-        isSuccess ? "Route deleted" : "Route not deleted");
+    DisplayFlashBar.displayFlashBar(isSuccess ? "success" : "failed",
+        isSuccess ? "Route deleted" : "Route not deleted",context);
 
     setState(() {
       _routesFuture = _getRoutes();
     });
-  }
-
-  _displaySnackBar(String status, String text) {
-    Flushbar(
-      backgroundGradient:
-          status == 'success' ? Palette.successGradient : Palette.errorGradient,
-      title: status == 'success' ? 'Success' : 'Error',
-      message: text,
-      margin: EdgeInsets.all(8),
-      borderRadius: 8,
-      icon: Icon(
-        status == 'success' ? Icons.check : Icons.error,
-        size: 28.0,
-        color: Colors.white,
-      ),
-      duration: const Duration(seconds: 3),
-      onTap: (flushBar) => flushBar.dismiss(),
-    )..show(context);
   }
 
 //filter routes with status 1 (available)
