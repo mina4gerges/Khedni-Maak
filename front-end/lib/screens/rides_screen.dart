@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -34,6 +35,7 @@ class RidesScreen extends StatefulWidget {
 class _RidesScreenState extends State<RidesScreen> {
   Future _routesFuture;
   bool isLoadingData = true;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
@@ -244,6 +246,9 @@ class _RidesScreenState extends State<RidesScreen> {
   }
 
   _removeRide(int routeId) async {
+    // Unsubscribe to topic to stop receiving request on this route
+    _firebaseMessaging.unsubscribeFromTopic('route-$routeId');
+
     final http.Response response = await http.put(
       '$baseUrlRoutes/updateStatus',
       headers: <String, String>{

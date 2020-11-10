@@ -1,4 +1,3 @@
-// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:khedni_maak/widgets/error_widget.dart';
 import 'package:provider/provider.dart';
 
 class NotificationDriverScreen extends StatelessWidget {
-  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   NotificationDriverScreen({
     Key key,
@@ -29,9 +27,6 @@ class NotificationDriverScreen extends StatelessWidget {
         notificationProvider.getNotificationsRiderRequest;
 
     _removeNotification(String routeId) {
-      // Unsubscribe to topic to stop receiving request on this route
-      // _firebaseMessaging.unsubscribeFromTopic('route-$routeId');
-
       for (int i = 0; i < notificationsRiderRequest.length; i++) {
         Map notification = notificationsRiderRequest[i];
 
