@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:khedni_maak/config/constant.dart';
 import 'package:khedni_maak/context/notification_provider.dart';
 import 'package:khedni_maak/functions/functions.dart';
 import 'package:khedni_maak/widgets/display_flash_bar.dart';
@@ -27,6 +31,20 @@ class NotificationDriverScreen extends StatelessWidget {
     List notificationsRiderRequest =
         notificationProvider.getNotificationsRiderRequest;
 
+    Future _updateRoutePassenger(
+        String routeId, List<String> passengers) async {
+      return await http.put(
+        '$baseUrlRoutes/update',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'id': int.parse(routeId),
+          'passengers': passengers
+        }),
+      );
+    }
+
     _removeNotification(String routeId) {
       for (int i = 0; i < notificationsRiderRequest.length; i++) {
         Map notification = notificationsRiderRequest[i];
@@ -39,27 +57,47 @@ class NotificationDriverScreen extends StatelessWidget {
           .setNotificationsRiderRequest(notificationsRiderRequest);
     }
 
-    _onAcceptRequest(String routeId) {
-      _removeNotification(routeId);
+    _onAcceptRequest(Map route, String source) {
+      String routeId = route['routeId'];
+      String riderUsername = route['riderUsername'];
 
-      // TODO: Send notification to inform the rider about the request status
-      // TODO: update passenger using api route
       _firebaseMessaging.unsubscribeFromTopic('request-$routeId');
 
-      DisplayFlashBar.displayFlashBar('success', 'Request accepted', context);
-    }
-
-    _onDeclineRequest(String routeId) {
-      _removeNotification(routeId);
+      List<String> passengers = new List<String>();
+      passengers.add(riderUsername);
 
       // TODO: Send notification to inform the rider about the request status
-      _firebaseMessaging.unsubscribeFromTopic('request-$routeId');
 
-      DisplayFlashBar.displayFlashBar('success', 'Request rejected', context);
+      if (source == 'accept') {
+        _updateRoutePassenger(routeId, passengers).then((value) => {
+              if (value.statusCode == 200)
+                {
+                  DisplayFlashBar.displayFlashBar(
+                    'success',
+                    "Request accepted. A confirmation is sent to $riderUsername",
+                    context,
+                  ),
+                  _removeNotification(routeId)
+                }
+              else
+                DisplayFlashBar.displayFlashBar(
+                  'danger',
+                  'Request status is not sent to $riderUsername',
+                  context,
+                )
+            });
+      } else {
+        DisplayFlashBar.displayFlashBar(
+          'success',
+          "Request rejected",
+          context,
+        );
+        _removeNotification(routeId);
+      }
     }
 
     Future<void> _openConfirmModal(
-        String title, String routeId, String source) async {
+        String title, Map route, String source) async {
       await showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -72,9 +110,7 @@ class NotificationDriverScreen extends StatelessWidget {
                   RaisedButton(
                     onPressed: () => {
                       Navigator.pop(context),
-                      source == 'accept'
-                          ? _onAcceptRequest(routeId)
-                          : _onDeclineRequest(routeId),
+                      _onAcceptRequest(route, source)
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -125,7 +161,6 @@ class NotificationDriverScreen extends StatelessWidget {
         String from = route['from'];
         String to = route['to'];
         String riderUsername = route['riderUsername'];
-        String routeId = route['routeId'];
         String requestDateTime = route['requestDateTime'];
         String requestDateTimeStamp =
             Functions.timeAgoSinceDate(requestDateTime);
@@ -185,7 +220,7 @@ class NotificationDriverScreen extends StatelessWidget {
                       RaisedButton(
                         onPressed: () => _openConfirmModal(
                           "Are you sure do you want to accept request ?",
-                          routeId,
+                          route,
                           'accept',
                         ),
                         shape: RoundedRectangleBorder(
@@ -203,7 +238,7 @@ class NotificationDriverScreen extends StatelessWidget {
                       RaisedButton(
                         onPressed: () => _openConfirmModal(
                           "Are you sure do you want to reject request ?",
-                          routeId,
+                          route,
                           'reject',
                         ),
                         shape: RoundedRectangleBorder(
