@@ -43,6 +43,7 @@ class NotificationDriverScreen extends StatelessWidget {
       _removeNotification(routeId);
 
       // TODO: Send notification to inform the rider about the request status
+      // TODO: update passenger using api route
       _firebaseMessaging.unsubscribeFromTopic('request-$routeId');
 
       DisplayFlashBar.displayFlashBar('success', 'Request accepted', context);
