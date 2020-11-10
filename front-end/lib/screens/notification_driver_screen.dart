@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import 'package:khedni_maak/widgets/error_widget.dart';
 import 'package:provider/provider.dart';
 
 class NotificationDriverScreen extends StatelessWidget {
-
   NotificationDriverScreen({
     Key key,
     this.source,
@@ -19,6 +19,7 @@ class NotificationDriverScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
     NotificationProvider notificationProvider =
         Provider.of<NotificationProvider>(context);
@@ -41,11 +42,17 @@ class NotificationDriverScreen extends StatelessWidget {
     _onAcceptRequest(String routeId) {
       _removeNotification(routeId);
 
+      // TODO: Send notification to inform the rider about the request status
+      _firebaseMessaging.unsubscribeFromTopic('request-$routeId');
+
       DisplayFlashBar.displayFlashBar('success', 'Request accepted', context);
     }
 
     _onDeclineRequest(String routeId) {
       _removeNotification(routeId);
+
+      // TODO: Send notification to inform the rider about the request status
+      _firebaseMessaging.unsubscribeFromTopic('request-$routeId');
 
       DisplayFlashBar.displayFlashBar('success', 'Request rejected', context);
     }

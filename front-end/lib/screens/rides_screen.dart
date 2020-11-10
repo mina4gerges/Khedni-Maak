@@ -94,6 +94,8 @@ class _RidesScreenState extends State<RidesScreen> {
     Map routesInfo = new Map();
 
     String routeId = "${route['id']}";
+    _firebaseMessaging.subscribeToTopic('request-$routeId');
+
     // String routeId = "55";
 
     routesInfo['routeId'] = routeId;
