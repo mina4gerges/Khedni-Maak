@@ -90,11 +90,11 @@ class NotificationDriverScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    color: Colors.yellow[600],
+                    color: Colors.yellow[800],
                     textColor: Colors.white,
                     child: Row(
                       children: [
-                        Icon(Icons.check),
+                        Icon(FlevaIcons.close),
                         Text("Cancel"),
                       ],
                     ),
