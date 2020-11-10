@@ -53,7 +53,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           List newNotificationsAddRoute =
               notificationsProvider.getNotificationsAddRoute;
 
-          newNotificationsAddRoute.add({
+          // Insert element at the beginning of the list
+          newNotificationsAddRoute.insert(0,{
             "to": routesInfo['to'],
             "from": routesInfo['from'],
             "routeId": routesInfo['routeId'],
@@ -65,18 +66,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
         }
         else if(requestFrom == "rider"){
 
-          List newNotificationsAddRoute =
-              notificationsProvider.getNotificationsAddRoute;
+          List newNotificationsRiderRequest =
+              notificationsProvider.getNotificationsRiderRequest;
 
-          newNotificationsAddRoute.add({
+          // Insert element at the beginning of the list
+          newNotificationsRiderRequest.insert(0,{
             "to": routesInfo['to'],
             "from": routesInfo['from'],
             "routeId": routesInfo['routeId'],
-            "riderUsername": routesInfo['riderUsername']
+            "riderUsername": routesInfo['riderUsername'],
+            "requestDateTime": routesInfo['requestDateTime'],
           });
 
           notificationsProvider
-              .setNotificationsRiderRequest(newNotificationsAddRoute);
+              .setNotificationsRiderRequest(newNotificationsRiderRequest);
         }
       },
       onLaunch: (Map<String, dynamic> message) async {},
