@@ -81,4 +81,24 @@ class Functions {
       return 'Just now';
     }
   }
+
+  //filter routes with status 1 (available)
+ static List filterRoutesStatus(List routes,String userFullName,String source) {
+    //show only driver route
+    if (source == 'driver')
+      return routes
+          .where((route) =>
+      route["status"] == 1 &&
+          route['driverUsername'] == userFullName)
+          .toList();
+    //show all routes different then loginUserName
+    else
+      return routes
+          .where((route) =>
+      route["passengers"].indexOf(userFullName) == -1 &&
+          route["status"] == 1 &&
+          route['driverUsername'] != userFullName)
+          .toList();
+  }
+
 }
