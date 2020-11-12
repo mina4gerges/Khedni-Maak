@@ -23,9 +23,10 @@
       - [Backend Installation ](#binstallation)
       - [Cloud Deployment ](#cloudDeployment)
       - [API ](#API)
-7. [Documentation](#documentation)
-8. [Problème Rencontré](#problemeRencontre)
-9. [Conclusion](#conclusion)
+7. [Faire Run](#faireRun)
+8. [Documentation](#documentation)
+9. [Problème Rencontré](#problemeRencontre)
+10. [Conclusion](#conclusion)
 
 -  <h2 name="ideeGenerale">Introduction et idee generale</h2>
 
@@ -395,6 +396,15 @@
 
                   /var/www/html/img
 
+-  <h2 name="faireRun">Faire Run</h2>
+   
+   Apres l'instalation complete:
+   
+      - Demarer l'emulator Android sur votre PC ou connecter votre telphone Android.
+      - Utilisez CMD pour acceder au projet: **cd khedni-maak**
+      - Changez le directory pour acceder a "front-end": **cd front-end**
+      - Utilizez la commande : **flutter run** pour demarer le projet
+   
 
 -  <h2 name="Documentation">Documentation</h2>
 
