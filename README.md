@@ -4,11 +4,12 @@
 
 1. [Introduction et idee generale](#ideeGenerale)
 2. [Développeurs](#developpeurs)
-3. [Architecture](#architecture)
+3. [Technologie utilise](#technologieUtilise)
+4. [Architecture](#architecture)
     1. [Diagramme de cas d'utilisation](#architecture)
     2. [Cas d'utilisation "Choisir Driver"](#choisirDriver)
     3. [Cas d'utilisation "Choisir Rider"](#choisirRider)
-4. [Installation](#installation)
+5. [Installation](#installation)
    1. [Front end installation](#frontEndInstallation)
       - [Installation Flutter](#installationFlutter)
       - [Installation Android](#installationAndroid)
@@ -18,15 +19,13 @@
       - [Backend Installation ](#binstallation)
       - [Cloud Deployment ](#cloudDeployment)
       - [API ](#API)
-5. [Documentation](#documentation)
-6. [Exemples et screenshots](#exemplesEtScreenshots)
+6. [Documentation](#documentation)
+7. [Exemples et screenshots](#exemplesEtScreenshots)
    1. [All users screens](#allUsersScreens)
    2. [Driver screens](#rriverScreens)
    3. [Rider screens](#riderScreens)
-7. [Technologie utilise](#technologieUtilise)
 8. [Problème Rencontré](#problemeRencontre)
 9. [Conclusion](#conclusion)
-
 
 -  <h2 name="ideeGenerale">Introduction et idee generale</h2>
 
@@ -62,6 +61,26 @@
     a. Mina gerges mina.gerges@isae.edu.lb.
     
     b. Samer Barhouche samer.barhouche@isae.edu.lb.
+    
+-  <h2 name="technologieUtilise">Technologie utilise</h2>
+
+    - **Flutter** developer par google pour l'application mobile (https://flutter.dev/)
+    
+    - **Firebase** pour les notifications (https://firebase.google.com/)
+    
+    - **Google API** pour tous ce qui concerne "Map" (https://console.developers.google.com/)
+    
+    - **Flask** (Python 3.8) microservice pour "Introduction Screen" (https://flask.palletsprojects.com/en/1.1.x/)
+    
+    - **Spring Boot** (Java) microservice pour "Login/Sign up" et "Routes" (https://spring.io/)
+    
+    - **MongoDB** base de donne le microservice "Login/Signup" (https://www.mongodb.com/)
+    
+    - **MySql** base de donne le microservice "Routes" et "Introduction Screen" (https://www.mysql.com/)
+    
+    - **AWS** pour le hosting des microservice (https://aws.amazon.com/)
+    
+    - **Docker** container (https://www.docker.com/)
     
 -  <h2 name="architecture">Architecture</h2>
 
@@ -371,26 +390,6 @@
    
       ![rider Available Rides Screen](front-end/screenshots/riderAvailableRidesScreen.PNG?raw=true)
       
--  <h2 name="technologieUtilise">Technologie utilise</h2>
-
-    - **Flutter** developer par google pour l'application mobile (https://flutter.dev/)
-    
-    - **Firebase** pour les notifications (https://firebase.google.com/)
-    
-    - **Google API** pour tous ce qui concerne "Map" (https://console.developers.google.com/)
-    
-    - **Flask** (Python 3.8) microservice pour "Introduction Screen" (https://flask.palletsprojects.com/en/1.1.x/)
-    
-    - **Spring Boot** (Java) microservice pour "Login/Sign up" et "Routes" (https://spring.io/)
-    
-    - **MongoDB** base de donne le microservice "Login/Signup" (https://www.mongodb.com/)
-    
-    - **MySql** base de donne le microservice "Routes" et "Introduction Screen" (https://www.mysql.com/)
-    
-    - **AWS** pour le hosting des microservice (https://aws.amazon.com/)
-    
-    - **Docker** container (https://www.docker.com/)
-    
 -  <h2 name="problemeRencontre">Problème Rencontré</h2>
 
 -  <h2 name="conclusion">Conclusion</h2>
