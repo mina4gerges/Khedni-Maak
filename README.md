@@ -217,17 +217,17 @@
               
               2) **It is important to place the linux instance in a public subnet where it will be reachable to the public and assign a static ip to it. In our case, the public ip is: 35.180.35.89**
               
-              3) **Generate a new private key to use in order to login with SSH into this linux server and impose the correct access permissions to this key using 
+              3) **Generate a new private key to use in order to login with SSH into this linux server and impose the correct access permissions to this key using** 
 
                   chmod 400 khedni_private_key.pem
 
 
-              4) **Store the key in a secret location on the local machine. Navigate there and ssh to the server 
+              4) **Store the key in a secret location on the local machine. Navigate there and ssh to the server **
 
                   Ssh -I khedni_private_key.pem ec2-user@35.180.35.89
 
 
-              5) **Once in the server, Install Git and Docker
+              5) **Once in the server, Install Git and Docker**
 
                   sudo yum update -y
                   sudo amazon-linux-extras install docker
@@ -237,11 +237,11 @@
                   sudo reboot -n
 
 
-              6) **Install java 8
+              6) **Install java 8**
                   sudo yum install java
 
 
-              7) **Install maven
+              7) **Install maven**
 
                   wget http://mirror.olnevhost.net/pub/apache/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
                   tar xvf apache-maven-3.0.5-bin.tar.gz
@@ -255,7 +255,7 @@
 
 
 
-              8) **Clone and checkout into the master branch 
+              8) **Clone and checkout into the master branch **
 
                   mkdir microservices
                   cd microservices
@@ -263,7 +263,7 @@
                   git checkout master
 
 
-              9) **Create production database
+              9) **Create production database**
 
                   a) **MySQL**: Create MySQL instance using Amazon RDS 
 
@@ -288,7 +288,7 @@
                   sudo systemctl start mongod
 
 
-            10) **Build jars
+            10) **Build jars**
 
                   cd back-end/Microservice-Routes/
                   ./mvnw install 
@@ -302,7 +302,7 @@
 
 
 
-            11) **Create docker images 
+            11) **Create docker images **
 
                   We have previously configured Dockerfiles in each project in order to run these microservices independently as Docker containers.
 
@@ -322,7 +322,7 @@
 
 
             
-            12) **Launch docker containers from these images and expose application ports 
+            12) **Launch docker containers from these images and expose application ports **
 
                   docker run -d -p 8761:8761 server
                   docker run -d -p 9292:9292 microservice-routes
@@ -330,7 +330,7 @@
 
                   These commands will run three containers from the images we recently created and expose the corresponding ports. Also, using -d flag will make docker run in a detached mode. (the container will start and run in the background)
                   
-             13) **Install apache web server to serve images 
+             13) **Install apache web server to serve images **
              
                   sudo yum install -y httpd
                   sudo service httpd start
