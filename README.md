@@ -197,6 +197,10 @@
             - Sous **Emulated Performance**, sélectionnez **Hardware - GLES 2.0** pour activer <a href="https://developer.android.com/studio/run/emulator-acceleration">hardware acceleration</a>
             
             - Vérifiez que la configuration AVD est correcte et sélectionnez **Finish**.
+            
+            - Assurez que emulator est bien installez: **C:\Users\USER.NAME\AppData\Local\Android\Sdk\emulator>**, vous devez voir list des emulator installer.
+            
+            ![driver Map Screen](front-end/screenshots/emulator.PNG?raw=true)
           
             Pour plus de détails sur les étapes ci-dessus, voir <a href="https://developer.android.com/studio/run/managing-avds">Managing AVDs.</a>
           
