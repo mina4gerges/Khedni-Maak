@@ -357,5 +357,24 @@
    3. <h3 name="riderScreens">Rider screens</h3>
    
       ![rider Available Rides Screen](front-end/screenshots/riderAvailableRidesScreen.PNG?raw=true)
+      
+-  <h2 name="architecture">Architecture</h2>
+      
+-  <h2 name="technologieUtilise">Technologie utilise</h2>
+
+    - **Flutter** developer par google pour l'application mobile (https://flutter.dev/)
+    
+    - **Firebase** pour les notifications (https://firebase.google.com/)
+    
+    - **Google API** pour tous ce qui concerne "Map" (https://console.developers.google.com/)
+    
+    - **Flask** (Python 3.8) microservice pour "Introduction Screen" (https://flask.palletsprojects.com/en/1.1.x/)
+    
+    - **Spring Boot** (Java) microservice pour "Login/Sign up" et "Routes" (https://spring.io/)
+    
+    - **MongoDB** base de donne le microservice "Login/Signup" (https://www.mongodb.com/)
+    
+    - **MySql** base de donne le microservice "Routes" et "Introduction Screen" (https://www.mysql.com/)
+
    
      
