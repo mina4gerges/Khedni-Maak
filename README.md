@@ -141,6 +141,16 @@
         
    
    2. <h3 name="backEndInstallation">Back end installation</h3>
+      1. <h4 clone into the full directory </h4>
+      Git clone https://github.com/mina4gerges/Khedni-Maak.git
+
+      2. <h4 navigate to the backend folder </h4>
+
+      3. <h4 Go to eclipse and import as maven folder </h4>
+      It is important to import the eureka server first then the microservices
+
+
+      4. <h4 After successful import, eclipse will start downloading the jars from the Maven Repos </h4>
    
 -  <h2 name="Documentation">Documentation</h2>
 
