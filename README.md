@@ -384,9 +384,13 @@
    
    2. <h3 name="driverScreens">Driver screens</h3>
 
-         Map Screen              |   Adding new Route        |  New Added Route Display on Map |  All driver routes
-      :-------------------------:|:-------------------------:|:-------------------------------:|:-------------------------:
-      ![driver Map Screen](front-end/screenshots/driverMapScreen.PNG?raw=true)  |  ![driver Add Route Screen](front-end/screenshots/driverAddRouteScreen.PNG?raw=true)  |  ![driver New Route Dispaly On Map](front-end/screenshots/driverNewRouteDispalyOnMap.PNG?raw=true)  |  ![driver Rides Screen](front-end/screenshots/driverRidesScreen.PNG?raw=true)    
+         Map Screen              |   Adding new Route        
+      :-------------------------:|:-------------------------:
+      ![driver Map Screen](front-end/screenshots/driverMapScreen.PNG?raw=true)  |  ![driver Add Route Screen](front-end/screenshots/driverAddRouteScreen.PNG?raw=true)   
+   
+         New Added Route Display on Map |  All driver routes        |  Driver Notification
+      :--------------------------------:|:-------------------------:|:-------------------------:
+      ![driver New Route Display On Map](front-end/screenshots/driverNewRouteDispalyOnMap.PNG?raw=true)  |  ![driver Rides Screen](front-end/screenshots/driverRidesScreen.PNG?raw=true)  |  ![driver Notification](front-end/screenshots/driverNotification.PNG?raw=true) 
    
    3. <h3 name="riderScreens">Rider screens</h3>
    
