@@ -4,7 +4,11 @@
 
 1. [Introduction et idee generale](#ideeGenerale)
 2. [Développeurs](#developpeurs)
-3. [Installation](#installation)
+3. [Architecture](#architecture)
+    1. [Diagramme de cas d'utilisation](#architecture)
+    2. [Cas d'utilisation "Choisir Driver"](#choisirDriver)
+    3. [Cas d'utilisation "Choisir Rider"](#choisirRider)
+4. [Installation](#installation)
    1. [Front end installation](#frontEndInstallation)
       - [Installation Flutter](#installationFlutter)
       - [Installation Android](#installationAndroid)
@@ -14,12 +18,11 @@
       - [Backend Installation ](#binstallation)
       - [Cloud Deployment ](#cloudDeployment)
       - [API ](#API)
-4. [Documentation](#documentation)
-5. [Exemples et screenshots](#exemplesEtScreenshots)
+5. [Documentation](#documentation)
+6. [Exemples et screenshots](#exemplesEtScreenshots)
    1. [All users screens](#allUsersScreens)
    2. [Driver screens](#rriverScreens)
    3. [Rider screens](#riderScreens)
-6. [Architecture](#architecture)
 7. [Technologie utilise](#technologieUtilise)
 8. [Problème Rencontré](#problemeRencontre)
 9. [Conclusion](#conclusion)
@@ -59,6 +62,16 @@
     a. Mina gerges mina.gerges@isae.edu.lb.
     
     b. Samer Barhouche samer.barhouche@isae.edu.lb.
+    
+-  <h2 name="architecture">Architecture</h2>
+
+    1. <h3 name="diagrammeDeCasDutilisation">Diagramme de cas d'utilisation</h3>
+    
+        ![use case](Use-case.png?raw=true)
+    
+    2. <h3 name="choisirDriver">Cas d'utilisation "Choisir Driver"</h3>
+    
+    3. <h3 name="choisirRider">Cas d'utilisation "Choisir Rider"</h3>
     
 -  <h2 name="installation">Installation</h2>
 
@@ -357,12 +370,6 @@
    3. <h3 name="riderScreens">Rider screens</h3>
    
       ![rider Available Rides Screen](front-end/screenshots/riderAvailableRidesScreen.PNG?raw=true)
-      
--  <h2 name="architecture">Architecture</h2>
-
-    1. <h3 name="useCase">Use Case</h3>
-    
-        ![use case](Use-case.png?raw=true)
       
 -  <h2 name="technologieUtilise">Technologie utilise</h2>
 
