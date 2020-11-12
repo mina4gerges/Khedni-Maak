@@ -251,7 +251,7 @@
 
                   After the development phase, we have deployed our microservices to the AWS cloud in order to use them with a 		  production environment.
 
-
+                  ![eclipse1](back-end/Screenshots/eclipse1.png?raw=true)
 
                   As you can see, if you are running our microservices locally, you need to uncomment the localhost entries for spring.datasource.url and      eureka.client.serviceUrl.defaultZone and comment the production entries.
 
@@ -283,6 +283,8 @@
               1) **Provision a Linux instance using Ec2 (Elastic cloud compute) service. Since this will behave as a production instance and we will be installing    docker on it, I have decided that we need it to be a t3.medium type. (2vcpu, 4gb memory, 5gbps network bandwidth…)**
               
               2) **It is important to place the linux instance in a public subnet where it will be reachable to the public and assign a static ip to it. In our case, the public ip is: 35.180.35.89**
+              
+              ![aws1](back-end/Screenshots/aws1.png?raw=true)
               
               3) **Generate a new private key to use in order to login with SSH into this linux server and impose the correct access permissions to this key using** 
 
@@ -386,7 +388,7 @@
 
                   This will create three docker images: routes-microservice, users-microservice and server 
 
-
+                  ![docker](back-end/Screenshots/docker1.png?raw=true)
 
             
             12) **Launch docker containers from these images and expose application ports**
@@ -396,6 +398,8 @@
                   docker run -d -p 8090:8090 users-microservice
 
                   These commands will run three containers from the images we recently created and expose the corresponding ports. Also, using -d flag will make docker run in a detached mode. (the container will start and run in the background)
+                  
+                  ![docker](back-end/Screenshots/docker2.png?raw=true)
                   
              13) **Install apache web server to serve images**
              
