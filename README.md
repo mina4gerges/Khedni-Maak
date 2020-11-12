@@ -134,6 +134,8 @@
             
             - Extraire lee zip file et le metre dans **(C:\src\flutter)**.
             
+            ![flutter-location](front-end/screenshots/flutter-location.PNG?raw=true)
+            
             - Update PATH environment variable.
                 Cliquer sur start, dans la barre de recherche saisissez **"env"** et sectionner modifier les variables 
                 d'environnement pour votre compte.
@@ -141,6 +143,8 @@
                 existantes.
                 Si l’entrée n’existe pas, créez une nouvelle variable utilisateur nommé Path avec le chemin complet vers 
                 **flutter\bin** comme valeur.
+                
+                ![environment](front-end/screenshots/environment.PNG?raw=true)
                 
             - Assurer que Flutter est bien installer, dans command line (cmd), saisissez '**flutter doctor**'. Cette 
                 commande verifier votre environment et affiche u rapport sur l'État de votre installation Flutter. 
