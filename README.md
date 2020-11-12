@@ -173,7 +173,7 @@
             - À l'aide d'un câble USB, branchez votre téléphone sur votre ordinateur. Si vous y êtes invité sur votre 
             appareil, autorisez votre ordinateur à accéder à votre appareil. 
             
-            - Dans le terminal, exécutez la commande **Flutter devices** pour vérifier que Flutter reconnaît votre appareil 
+            - Dans le terminal, exécutez la commande **flutter devices** pour vérifier que Flutter reconnaît votre appareil 
             Android connecté. Par défaut, Flutter utilise la version du SDK Android sur laquelle est basé votre outil adb. 
             Si vous souhaitez que Flutter utilise une installation différente du SDK Android, vous deviez devinerai la variable 
             d'environnement ANDROID_SDK_ROOT sur ce répertoire d'installation. Configurer l'émulateur Android.
