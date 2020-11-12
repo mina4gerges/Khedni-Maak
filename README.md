@@ -3,7 +3,7 @@
 ![Logo](front-end/assets/images/truck.png?raw=true)
 
 1. [Introduction et idee generale](#ideeGenerale)
-2. [Screenshots](#screenshots)
+2. [Application Screens](#applicationScreens)
    1. [All users screens](#allUsersScreens)
    2. [Driver screens](#driverScreens)
    3. [Rider screens](#riderScreens)
@@ -57,7 +57,7 @@
     Khedni Maak application mobile pour aide les personnes qui non pas une voiture à se déplace d'un endroit à un autre 
     a l'aide d'autre personne
     
--  <h2 name="screenshots">Screenshots</h2>
+-  <h2 name="applicationScreens">Application Screens</h2>
 
    1. <h3 name="allUsersScreens">All users screens</h3>
    
