@@ -394,7 +394,9 @@
    
    3. <h3 name="riderScreens">Rider screens</h3>
    
-      ![rider Available Rides Screen](front-end/screenshots/riderAvailableRidesScreen.PNG?raw=true)
+        Available Rides Screen          |  History Screen           
+      :--------------------------------:|:-------------------------:
+      ![rider Available Rides Screen](front-end/screenshots/riderAvailableRidesScreen.PNG?raw=true)  |  ![rider History Screen](front-end/screenshots/riderHistoryScreen.PNG?raw=true)
       
 -  <h2 name="problemeRencontre">Problème Rencontré</h2>
 

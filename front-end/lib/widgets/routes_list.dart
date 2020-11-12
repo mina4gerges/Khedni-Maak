@@ -14,6 +14,7 @@ import 'from_to_three_dots.dart';
 class RoutesList extends StatelessWidget {
   RoutesList({
     Key key,
+    this.navSource,
     @required this.routes,
     @required this.source,
     this.removeRide,
@@ -22,6 +23,7 @@ class RoutesList extends StatelessWidget {
 
   final List routes;
   final String source;
+  final String navSource;
   final Function(int routeId) removeRide;
   final Function(Map route) onCardTab;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -57,6 +59,7 @@ class RoutesList extends StatelessWidget {
             ],
           ),
           _displayActionButton(route, context),
+          _displayApprovalStatus(route, context),
         ],
       ),
     );
@@ -129,7 +132,7 @@ class RoutesList extends StatelessWidget {
   }
 
   _displayActionButton(Map route, BuildContext context) {
-    return source == 'rider'
+    return source == 'rider' && navSource != 'history'
         ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -164,6 +167,38 @@ class RoutesList extends StatelessWidget {
             ],
           )
         : Container();
+  }
+
+  _displayApprovalStatus(Map route, BuildContext context) {
+    //history screen
+    if (source == 'rider' && navSource == 'history') {
+      return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        RaisedButton(
+          onPressed: () => launch("tel://${route["driverPhone"]}"),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          color: Palette.primaryColor,
+          textColor: Colors.white,
+          child: Row(
+            children: [
+              Icon(FlevaIcons.phone_call_outline),
+              Text(route["driverUsername"]),
+            ],
+          ),
+        ),
+        Text(
+          "Request Approved",
+          style: TextStyle(
+            color: Palette.fourthColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+      ]);
+    }
+
+    return Container();
   }
 
   _sendRequest(Map route, BuildContext context) {

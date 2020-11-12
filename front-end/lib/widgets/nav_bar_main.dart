@@ -48,7 +48,7 @@ class _NavBarMainState extends State<NavBarMain> {
           // moveToPolyLines: (polyLines, lngFrom, latFrom, lngTo, latTo) =>
           // {_moveToPolyLines(polyLines, lngFrom, latFrom, lngTo, latTo)},
         );
-      return HistoryScreen();
+      return HistoryScreen(source: 'rider', navSource: 'history');
     } else {
       if (widget.source == 'driver')
         return NotificationDriverScreen(source: widget.source);

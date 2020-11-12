@@ -2,28 +2,28 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:khedni_maak/config/constant.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
 import 'package:khedni_maak/functions/functions.dart';
 import 'package:khedni_maak/widgets/error_widget.dart';
-import 'package:http/http.dart' as http;
 import 'package:khedni_maak/widgets/routes_list.dart';
-import 'package:khedni_maak/config/globals.dart' as globals;
 
 class HistoryScreen extends StatefulWidget {
-
   HistoryScreen({
     Key key,
+    this.navSource,
     @required this.source,
   }) : super(key: key);
 
   final String source;
+  final String navSource;
 
   @override
   _HistoryScreenState createState() => _HistoryScreenState();
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-
   Future _routesFuture;
   bool isLoadingData = true;
 
@@ -58,8 +58,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
         } else {
           List routes = json.decode(snap.data.body);
 
-          List filteredRoutes = Functions.getHistoryList(
-              routes, globals.userFullName);
+          List filteredRoutes =
+              Functions.getHistoryList(routes, globals.userFullName);
 
           if (filteredRoutes != null && filteredRoutes.isEmpty)
             return ErrorWidgetDisplay(
@@ -69,9 +69,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
             );
           else
             return RoutesList(
-              routes: filteredRoutes,
-              source: widget.source,
-            );
+                routes: filteredRoutes,
+                source: widget.source,
+                navSource: widget.navSource);
         }
       },
     );
