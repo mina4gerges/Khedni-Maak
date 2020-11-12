@@ -3,13 +3,17 @@
 ![Logo](front-end/assets/images/truck.png?raw=true)
 
 1. [Introduction et idee generale](#ideeGenerale)
-2. [Développeurs](#developpeurs)
-3. [Technologie utilise](#technologieUtilise)
-4. [Architecture](#architecture)
+2. [Screenshots](#screenshots)
+   1. [All users screens](#allUsersScreens)
+   2. [Driver screens](#rriverScreens)
+   3. [Rider screens](#riderScreens)
+3. [Développeurs](#developpeurs)
+4. [Technologie utilise](#technologieUtilise)
+5. [Architecture](#architecture)
     1. [Diagramme de cas d'utilisation](#architecture)
     2. [Cas d'utilisation "Choisir Driver"](#choisirDriver)
     3. [Cas d'utilisation "Choisir Rider"](#choisirRider)
-5. [Installation](#installation)
+6. [Installation](#installation)
    1. [Front end installation](#frontEndInstallation)
       - [Installation Flutter](#installationFlutter)
       - [Installation Android](#installationAndroid)
@@ -19,11 +23,7 @@
       - [Backend Installation ](#binstallation)
       - [Cloud Deployment ](#cloudDeployment)
       - [API ](#API)
-6. [Documentation](#documentation)
-7. [Exemples et screenshots](#exemplesEtScreenshots)
-   1. [All users screens](#allUsersScreens)
-   2. [Driver screens](#rriverScreens)
-   3. [Rider screens](#riderScreens)
+7. [Documentation](#documentation)
 8. [Problème Rencontré](#problemeRencontre)
 9. [Conclusion](#conclusion)
 
@@ -56,6 +56,30 @@
     
     Khedni Maak application mobile pour aide les personnes qui non pas une voiture à se déplace d'un endroit à un autre 
     a l'aide d'autre personne
+    
+-  <h2 name="screenshots">Screenshots</h2>
+
+   1. <h3 name="allUsersScreens">All users screens</h3>
+   
+         Introduction Screen     |   Login Screen            |  Dashboard Screen
+      :-------------------------:|:-------------------------:|:-------------------------:
+      ![Introduction Screen](front-end/screenshots/introductionScreen.PNG?raw=true)  |  ![dashboard Screen](front-end/screenshots/dashboardScreen.PNG?raw=true)  |  ![login Screen](front-end/screenshots/loginScreen.PNG?raw=true)  
+   
+   2. <h3 name="driverScreens">Driver screens</h3>
+
+         Map Screen              |   Adding new Route        
+      :-------------------------:|:-------------------------:
+      ![driver Map Screen](front-end/screenshots/driverMapScreen.PNG?raw=true)  |  ![driver Add Route Screen](front-end/screenshots/driverAddRouteScreen.PNG?raw=true)   
+   
+         New Added Route Display on Map |  All driver routes        |  Driver Notification
+      :--------------------------------:|:-------------------------:|:-------------------------:
+      ![driver New Route Display On Map](front-end/screenshots/driverNewRouteDispalyOnMap.PNG?raw=true)  |  ![driver Rides Screen](front-end/screenshots/driverRidesScreen.PNG?raw=true)  |  ![driver Notification](front-end/screenshots/driverNotification.PNG?raw=true) 
+   
+   3. <h3 name="riderScreens">Rider screens</h3>
+   
+        Available Rides Screen          |  History Screen           
+      :--------------------------------:|:-------------------------:
+      ![rider Available Rides Screen](front-end/screenshots/riderAvailableRidesScreen.PNG?raw=true)  |  ![rider History Screen](front-end/screenshots/riderHistoryScreen.PNG?raw=true)
     
 -  <h2 name="developpeurs">Développeurs</h2>
     a. Mina gerges mina.gerges@isae.edu.lb.
@@ -374,30 +398,6 @@
 
 -  <h2 name="Documentation">Documentation</h2>
 
--  <h2 name="exemplesEtScreenshots">Exemples et screenshots</h2>
-
-   1. <h3 name="allUsersScreens">All users screens</h3>
-   
-         Introduction Screen     |   Login Screen            |  Dashboard Screen
-      :-------------------------:|:-------------------------:|:-------------------------:
-      ![Introduction Screen](front-end/screenshots/introductionScreen.PNG?raw=true)  |  ![dashboard Screen](front-end/screenshots/dashboardScreen.PNG?raw=true)  |  ![login Screen](front-end/screenshots/loginScreen.PNG?raw=true)  
-   
-   2. <h3 name="driverScreens">Driver screens</h3>
-
-         Map Screen              |   Adding new Route        
-      :-------------------------:|:-------------------------:
-      ![driver Map Screen](front-end/screenshots/driverMapScreen.PNG?raw=true)  |  ![driver Add Route Screen](front-end/screenshots/driverAddRouteScreen.PNG?raw=true)   
-   
-         New Added Route Display on Map |  All driver routes        |  Driver Notification
-      :--------------------------------:|:-------------------------:|:-------------------------:
-      ![driver New Route Display On Map](front-end/screenshots/driverNewRouteDispalyOnMap.PNG?raw=true)  |  ![driver Rides Screen](front-end/screenshots/driverRidesScreen.PNG?raw=true)  |  ![driver Notification](front-end/screenshots/driverNotification.PNG?raw=true) 
-   
-   3. <h3 name="riderScreens">Rider screens</h3>
-   
-        Available Rides Screen          |  History Screen           
-      :--------------------------------:|:-------------------------:
-      ![rider Available Rides Screen](front-end/screenshots/riderAvailableRidesScreen.PNG?raw=true)  |  ![rider History Screen](front-end/screenshots/riderHistoryScreen.PNG?raw=true)
-      
 -  <h2 name="problemeRencontre">Problème Rencontré</h2>
 
 -  <h2 name="conclusion">Conclusion</h2>
