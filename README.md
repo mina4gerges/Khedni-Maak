@@ -375,6 +375,10 @@
     - **MongoDB** base de donne le microservice "Login/Signup" (https://www.mongodb.com/)
     
     - **MySql** base de donne le microservice "Routes" et "Introduction Screen" (https://www.mysql.com/)
+    
+    - **AWS** pour le hosting des microservice (https://aws.amazon.com/)
+    
+    - **Docker** container (https://www.docker.com/)
 
    
      
