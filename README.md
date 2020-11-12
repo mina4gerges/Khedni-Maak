@@ -141,63 +141,63 @@
         
    
    2. <h3 name="backEndInstallation">Back end installation</h3>
-      - clone into the full directory
-      Git clone https://github.com/mina4gerges/Khedni-Maak.git
+      
+      1) **clone into the full directory**
 
-      - navigate to the backend folder 
+         Git clone https://github.com/mina4gerges/Khedni-Maak.git
 
-      - Go to eclipse and import as maven folder 
-      It is important to import the eureka server first then the microservices
+      2) **navigate to the backend folder**
 
+      3) **Go to eclipse and import as maven folder**
 
-      - After successful import, eclipse will start downloading the jars from the Maven Repos
+         It is important to import the eureka server first then the microservices
 
+      4) **After successful import, eclipse will start downloading the jars from the Maven Repos**
 
-      - First install and run the server microservice using maven install
-      This will generate a .jar file as configured in the pom.xml file 
+      5) **First install and run the server microservice using maven install**
 
-      java -jar target/server-0.0.1-SNAPSHOT.jar
-      The eureka server will start in port 8761
+         This will generate a .jar file as configured in the pom.xml file
 
+         java -jar target/server-0.0.1-SNAPSHOT.jar
 
-      - Import the two other projects using Import Maven Project from Eclipse
+         The eureka server will start in port 8761
 
-      - Wait for the projects to download missing jars from the Maven repo
+      6) **Import the two other projects using Import Maven Project from Eclipse**
 
-      - Enable the local config
-      Case Routes Microservice
+      7) **Wait for the projects to download missing jars from the Maven repo**
 
-      Make sure to comment the production connection and switch to the localhost in the ressources/application.properties 
+      8) **Enable the local config**
 
-      After the development phase, we have deployed our microservices to the AWS cloud in order to use them with a production environment. 
+         #Case Routes Microservice
 
-       
+         Make sure to comment the production connection and switch to the localhost in the ressources/application.properties
 
-      As you can see, if you are running our microservices locally, you need to uncomment the localhost entries for spring.datasource.url and eureka.client.serviceUrl.defaultZone and comment the production entries.
-
-       
-      Proceed with the same concept for the Users Microservice
-
-
-      - install the projects using
-       maven install 
-
-      - launch the projects using 
-
-       java -jar Microservice-Users/target/khednimaak-users-0.0.1-SNAPSHOT.jar
-       java -jar Microservice-Routes/target/khednimaak-routes-0.0.1-SNAPSHOT.jar
+         After the development phase, we have deployed our microservices to the AWS cloud in order to use them with a 		  production environment.
 
 
 
-      - Check the terminal for any error in the logs 
+         As you can see, if you are running our microservices locally, you need to uncomment the localhost entries for spring.datasource.url and   eureka.client.serviceUrl.defaultZone and comment the production entries.
 
+         Proceed with the same concept for the Users Microservice
 
-      - Using your web browser, navigate to http://localhost:8761 and look for the two microservices: Routes, Users.
-      If all went well, these two should appear as registered clients in your Eureka Server 
+      9) **install the projects using**
 
+         maven install
 
-      - if all is ok, you can now follow the API Documentation to use our REST API.
-   
+      10) **launch the projects using**
+
+          java -jar Microservice-Users/target/khednimaak-users-0.0.1-SNAPSHOT.jar
+
+          java -jar Microservice-Routes/target/khednimaak-routes-0.0.1-SNAPSHOT.jar
+
+      11) **Check the terminal for any error in the logs**
+
+      12) **Using your web browser, navigate to [http://localhost:8761](http://localhost:8761) and look for the two microservices: Routes, Users.**
+
+          If all went well, these two should appear as registered clients in your Eureka Server
+
+      13) **if all is ok, you can now follow the API Documentation to use our REST API.**
+
 -  <h2 name="Documentation">Documentation</h2>
 
 -  <h2 name="exemplesEtScreenshots">Exemples et screenshots</h2>
