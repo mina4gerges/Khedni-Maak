@@ -11,7 +11,7 @@
       - [Configurer votre appareil Android](#configurerVotreAppareilAndroid)
       - [Emulator Android, procédez comme suit](#emulatorAndroid)
    2. [Back end installation](#backEndInstallation)
-      - [Backend Installation ](#installation)
+      - [Backend Installation ](#binstallation)
       - [Cloud Deployment ](#cloudDeployment)
       - [API ](#API)
 4. [Documentation](#documentation)
@@ -150,7 +150,7 @@
         The routes microservice will allow the users to create, edit, add and delete routes. These routes will appear on the mobile app. This is a spring microservice connected to a standalone MySQL database. (not reactive). Also this service is registered with the Eureka Server.
         The server microservice is an Eureka Server, which is an application that holds the information about all client-service applications. Every Micro service will register into the Eureka server and Eureka server knows all the client applications running on each port and IP address. Eureka Server is also known as Discovery Server.
 
-        1. <h4 name="installation">Backend Installation</h4>
+        1. <h4 name="binstallation">Backend Installation</h4>
         
             1) **clone into the full directory**
 
@@ -207,6 +207,138 @@
                   If all went well, these two should appear as registered clients in your Eureka Server
 
             13) **if all is ok, you can now follow the API Documentation to use our REST API.**
+            
+            
+        2. <h4 name="cloudDeployment">Cloud Deployment</h4>
+            We have decided to use Amazon Web Services since we are familiar with it and is one of the best cloud providers. Below are the steps to make this environment work with Amazon.
+        
+        
+              1) **Provision a Linux instance using Ec2 (Elastic cloud compute) service. Since this will behave as a production instance and we will be installing    docker on it, I have decided that we need it to be a t3.medium type. (2vcpu, 4gb memory, 5gbps network bandwidth…)**
+              
+              2) **It is important to place the linux instance in a public subnet where it will be reachable to the public and assign a static ip to it. In our case, the public ip is: 35.180.35.89**
+              
+              3) **Generate a new private key to use in order to login with SSH into this linux server and impose the correct access permissions to this key using 
+
+                  chmod 400 khedni_private_key.pem
+
+
+              4) **Store the key in a secret location on the local machine. Navigate there and ssh to the server 
+
+                  Ssh -I khedni_private_key.pem ec2-user@35.180.35.89
+
+
+              5) **Once in the server, Install Git and Docker
+
+                  sudo yum update -y
+                  sudo amazon-linux-extras install docker
+                  sudo service docker start
+                  sudo usermod -a -G docker ec2-user
+                  sudo systemctl enable docker
+                  sudo reboot -n
+
+
+              6) **Install java 8
+                  sudo yum install java
+
+
+              7) **Install maven
+
+                  wget http://mirror.olnevhost.net/pub/apache/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
+                  tar xvf apache-maven-3.0.5-bin.tar.gz
+                  mv apache-maven-3.0.5  /usr/local/apache-maven
+                  sudo mv apache-maven-3.0.5  /usr/local/apache-maven
+                  export M2_HOME=/usr/local/apache-maven
+                  export M2=$M2_HOME/bin
+                  export PATH=$M2:$PATH
+                  source ~/.bashrc
+                  mvn -version
+
+
+
+              8) **Clone and checkout into the master branch 
+
+                  mkdir microservices
+                  cd microservices
+                  git clone https://github.com/mina4gerges/Khedni-Maak.git
+                  git checkout master
+
+
+              9) **Create production database
+
+                  a) **MySQL**: Create MySQL instance using Amazon RDS 
+
+
+                  b) **MongoDB**: Create mongodb instance on the Linux instance 
+
+                    grep ^NAME  /etc/*release : it should be Amazon Linux 
+                    Create a /etc/yum.repos.d/mongodb-org-4.4.repo file so that you can install MongoDB directly using yum
+
+                  File content:
+                     [mongodb-org-4.4]
+                     name=MongoDB Repository
+                     baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
+                     gpgcheck=1
+                     enabled=1
+                     gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
+
+                  
+                  install and start mongo using these command 
+
+                  sudo yum install -y mongodb-org
+                  sudo systemctl start mongod
+
+
+            10) **Build jars
+
+                  cd back-end/Microservice-Routes/
+                  ./mvnw install 
+
+
+                  cd back-end/Microservice-Users/
+                  ./mvnw install 
+
+                  cd back-end/server/
+                  ./mvnw install 
+
+
+
+            11) **Create docker images 
+
+                  We have previously configured Dockerfiles in each project in order to run these microservices independently as Docker containers.
+
+                  cd back-end/Microservice-Routes/
+                  docker build -t routes-microservice .
+
+
+                  cd back-end/Microservice-Users/
+                  docker build -t users-microservice .
+
+
+                  cd back-end/servers/
+                  docker build -t server .
+
+                  This will create three docker images: routes-microservice, users-microservice and server 
+
+
+
+            
+            12) **Launch docker containers from these images and expose application ports 
+
+                  docker run -d -p 8761:8761 server
+                  docker run -d -p 9292:9292 microservice-routes
+                  docker run -d -p 8090:8090 users-microservice
+
+                  These commands will run three containers from the images we recently created and expose the corresponding ports. Also, using -d flag will make docker run in a detached mode. (the container will start and run in the background)
+                  
+             13) **Install apache web server to serve images 
+             
+                  sudo yum install -y httpd
+                  sudo service httpd start
+
+                  Make sure port 80 is open in the AWS EC2 security group and load the images under an image folder
+
+                  /var/www/html/img
+
 
 -  <h2 name="Documentation">Documentation</h2>
 
