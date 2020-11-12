@@ -359,6 +359,10 @@
       ![rider Available Rides Screen](front-end/screenshots/riderAvailableRidesScreen.PNG?raw=true)
       
 -  <h2 name="architecture">Architecture</h2>
+
+    1. <h3 name="useCase">Use Case</h3>
+    
+        ![use case](Use-case.png?raw=true)
       
 -  <h2 name="technologieUtilise">Technologie utilise</h2>
 
@@ -379,6 +383,10 @@
     - **AWS** pour le hosting des microservice (https://aws.amazon.com/)
     
     - **Docker** container (https://www.docker.com/)
+    
+-  <h2 name="problemeRencontre">Problème Rencontré</h2>
+
+-  <h2 name="conclusion">Conclusion</h2>
 
    
      
