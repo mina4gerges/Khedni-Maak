@@ -146,6 +146,8 @@
                 commande verifier votre environment et affiche u rapport sur l'État de votre installation Flutter. 
                 **Verifier attentivement la sortie pour d'autres logiciels que vous pourriez avoir besoin d'installer ou 
                 d'autres taches a effectuer, par exemple l'installation de l'Android ou vsCode**...
+                
+                ![driver New Route Display On Map](front-end/screenshots/flutter-doctor.PNG?raw=true)
             
         2. <h4 name="installationAndroid">Installation Android</h4>
         
@@ -171,10 +173,12 @@
             - À l'aide d'un câble USB, branchez votre téléphone sur votre ordinateur. Si vous y êtes invité sur votre 
             appareil, autorisez votre ordinateur à accéder à votre appareil. 
             
-            - Dans le terminal, exécutez la commande **Flutter devices** pour vérifier que Flutter reconnaît votre appareil 
+            - Dans le terminal, exécutez la commande **flutter devices** pour vérifier que Flutter reconnaît votre appareil 
             Android connecté. Par défaut, Flutter utilise la version du SDK Android sur laquelle est basé votre outil adb. 
             Si vous souhaitez que Flutter utilise une installation différente du SDK Android, vous deviez devinerai la variable 
             d'environnement ANDROID_SDK_ROOT sur ce répertoire d'installation. Configurer l'émulateur Android.
+            
+            ![driver New Route Display On Map](front-end/screenshots/flutter-devices.PNG?raw=true)
               
         4. <h4 name="emulatorAndroid">Emulator Android, procédez comme suit</h4>
               
