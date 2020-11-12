@@ -420,21 +420,34 @@
          - Changez le directory pour accéder a 'front end' directory: **cd front-end**
          - Utilisez la commande : **flutter run** pour démarrer le projet
          
+         ![flutter run](front-end/screenshots/flutter-run.PNG?raw=true)
+         
       - <h3 name="faireRunPartieBackEnd">Faire Run partie back-end</h3>
       
          -  Changez le directory pour accéder au 'back end' directory: **cd back-end**
          -  Changez le directory pour accéder au 'server' directory: **cd server**
             - Installer tous les dependency du server en utilisant **mvnw install**
-            - Apres l'installation des dependency, démarrez le server en utilisant : **cd target** puis **java -jar server-0.0.1-SNAPSHOT.jar** 
+            - Apres l'installation des dependency, démarrez le server en utilisant : **cd target** puis **java -jar server-0.0.1-SNAPSHOT.jar**
+            
+            ![flutter run](back-end/Screenshots/java-jar-server.PNG?raw=true)
+            
          -  Changez le directory pour accéder Au 'Microservice-Users' directory: **cd Microservice-Users**
             - Installer tous les dependency du server en utilisant **mvnw install**
             - Apres l'installation des dependency, démarrez le micro service des users en utilisant : **cd target** puis **java -jar khednimaak-users-0.0.1-SNAPSHOT.jar** 
+            
+            ![flutter run](back-end/Screenshots/java-jar-users.PNG?raw=true)
+            
          -  Changez le directory pour accéder au 'Microservice-Routes' directory: **cd Microservice-Routes**
             - Installer tous les dependency du server en utilisant **mvnw install**
             - Apres l'installation des dependency, démarrez le micro service des routes en utilisant : **cd target** puis **java -jar khednimaak-routes-0.0.1-SNAPSHOT.jar** 
+            
+            ![flutter run](back-end/Screenshots/java-jar-routes.PNG?raw=true)
+            
          -  Changez le directory pour accéder au 'Microservice-introduction-screen' directory: **cd Microservice-introduction-screen**
             - Installer tous les dependency convenable pour **flask**: **pip install flask** R.Q: bien sure il faut installer **Python** https://www.python.org/downloads/
             - Apres l'installation des dependency, démarrez le micro service des introductions screen en utilisant : **cd screens** puis **flask run** 
+            
+            ![flutter run](back-end/Screenshots/flask-run.PNG?raw=true)
    
 
 -  <h2 name="Documentation">Documentation</h2>
