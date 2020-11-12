@@ -24,6 +24,8 @@
       - [Cloud Deployment ](#cloudDeployment)
       - [API ](#API)
 7. [Faire Run](#faireRun)
+   1. [Faire Run partie front-end](#faireRunPartieFrontEnd)
+   2. [Faire Run partie back-end](#faireRunPartieBackEnd)
 8. [Documentation](#documentation)
 9. [Problème Rencontré](#problemeRencontre)
 10. [Conclusion](#conclusion)
@@ -398,12 +400,29 @@
 
 -  <h2 name="faireRun">Faire Run</h2>
    
-   Apres l'instalation complete:
-   
-      - Demarer l'emulator Android sur votre PC ou connecter votre telphone Android.
-      - Utilisez CMD pour acceder au projet: **cd khedni-maak**
-      - Changez le directory pour acceder a "front-end": **cd front-end**
-      - Utilizez la commande : **flutter run** pour demarer le projet
+   Apres l'instalation complete, Utilisez CMD pour acceder au projet: **cd khedni-maak**:
+  
+      - <h3 name="faireRunPartieFrontEnd">Faire Run partie front-end</h3>
+      
+         - Demarer l'emulator Android sur votre PC ou connecter votre telephone Android.
+         - Changez le directory pour acceder a 'front end' directory: **cd front-end**
+         - Utilizez la commande : **flutter run** pour demarer le projet
+         
+      - <h3 name="faireRunPartieBackEnd">Faire Run partie back-end</h3>
+      
+         -  Changez le directory pour acceder au 'back end' directory: **cd back-end**
+         -  Changez le directory pour acceder au 'server' directory: **cd server**
+            - Installer tous les dependency du server en utilisant **mvnw install**
+            - Apprez l'installation des dependency, demarrez le server en utilisant: **cd target** puis **java -jar server-0.0.1-SNAPSHOT.jar** 
+         -  Changez le directory pour acceder au 'Microservice-Users' directory: **cd Microservice-Users**
+            - Installer tous les dependency du server en utilisant **mvnw install**
+            - Apprez l'installation des dependency, demarrez le micor service des users en utilisant: **cd target** puis **java -jar khednimaak-users-0.0.1-SNAPSHOT.jar** 
+         -  Changez le directory pour acceder au 'Microservice-Routes' directory: **cd Microservice-Routes**
+            - Installer tous les dependency du server en utilisant **mvnw install**
+            - Apprez l'installation des dependency, demarrez le micro service des routes en utilisant: **cd target** puis **java -jar khednimaak-routes-0.0.1-SNAPSHOT.jar** 
+         -  Changez le directory pour acceder au 'Microservice-introduction-screen' directory: **cd Microservice-introduction-screen**
+            - Installer tous les dependency convenable pour **flask**: **pip install flask** R.Q: bien sure il faut installer **Python** https://www.python.org/downloads/
+            - Apprez l'installation des dependency, demarrez le micro service des introduction screen en utilisant: **cd screens** puis **flask run** 
    
 
 -  <h2 name="Documentation">Documentation</h2>
