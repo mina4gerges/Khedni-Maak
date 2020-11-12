@@ -137,7 +137,7 @@
             - Update PATH environment variable.
                 Cliquer sur start, dans la barre de recherche saisissez **"env"** et sectionner modifier les variables 
                 d'environnement pour votre compte.
-                Si l'entrée existe, ajoutez le chemin complet à **flutter\bin** en utilisant; comme séparateur des valeurs 
+                Si l'entrée existe, ajoutez le chemin complet à **flutter\bin** en utilisant ; comme séparateur des valeurs 
                 existantes.
                 Si l’entrée n’existe pas, créez une nouvelle variable utilisateur nommé Path avec le chemin complet vers 
                 **flutter\bin** comme valeur.
@@ -150,12 +150,12 @@
         2. <h4 name="installationAndroid">Installation Android</h4>
         
             **Note :** Flutter requis une installation complete de **Android Studio** pour fournir ses dependence de plate-forme
-            Android et pour installer et utiliser les emulator.Cependant, vous pouvez utiliser Flutter dans certain nomber d'éditeurs.
+            Android et pour installer et utiliser les emulator.Cependant, vous pouvez utiliser Flutter dans certain nombre d'éditeurs.
             
             - Installer Android Studio <a href="https://developer.android.com/studio">Android Studio</a>.
             
-            - Demarrez Android Studio et suivez l'assistant de configuration d'Android Stuido. Cela installe le dernier 
-               SDK Android,, les outils de ligne de commande du SDK Android et les outils de construction du SDK Android, 
+            - Démarrez Android Studio et suivez l'assistant de configuration d'Android Studio. Cela installe le dernier 
+               SDK Android, les outils de ligne de commande du SDK Android et les outils de construction du SDK Android, 
                qui sont requis par Flutter lors du développement pour Android.
            
         3. <h4 name="configurerVotreAppareilAndroid">Configurer votre appareil Android</h4>
@@ -173,7 +173,7 @@
             
             - Dans le terminal, exécutez la commande **Flutter devices** pour vérifier que Flutter reconnaît votre appareil 
             Android connecté. Par défaut, Flutter utilise la version du SDK Android sur laquelle est basé votre outil adb. 
-            Si vous souhaitez que Flutter utilise une installation différente du SDK Android, vous devez définir la variable 
+            Si vous souhaitez que Flutter utilise une installation différente du SDK Android, vous deviez devinerai la variable 
             d'environnement ANDROID_SDK_ROOT sur ce répertoire d'installation. Configurer l'émulateur Android.
               
         4. <h4 name="emulatorAndroid">Emulator Android, procédez comme suit</h4>
@@ -187,8 +187,8 @@
             
             - Choisissez une définition de périphérique et sélectionnez **Next**.
             
-            - Sélectionnez une ou plusieurs images système pour les versions d'Android que vous souhaitez émuler, puis 
-            sélectionnez Suivant. Une image x86 ou x86_64 est recommandée. 
+            - Sélectionnez une ou plusieurs images systèmes pour les versions d'Android que vous souhaitez émuler, puis 
+            sélectionnez Suivant. Une image x86 ou x86_64 êtres recommandé. 
             
             - Sous **Emulated Performance**, sélectionnez **Hardware - GLES 2.0** pour activer <a href="https://developer.android.com/studio/run/emulator-acceleration">hardware acceleration</a>
             
@@ -205,8 +205,8 @@
    2. <h3 name="backEndInstallation">Back end installation</h3>
    
         Our backend consists of three microservices: Users, Routes and Server.
-        The users microservice will consist of all the users actions: Signin, signup, list of users, generate authentication token… This is a spring microservice   connected to standalone MongoDB database and uses the new reactive spring boot technologies (Flux, Mono, Reactive Mongo, etc.. ) Also this service is registered with the Eureka Server.
-        The routes microservice will allow the users to create, edit, add and delete routes. These routes will appear on the mobile app. This is a spring microservice connected to a standalone MySQL database. (not reactive). Also this service is registered with the Eureka Server.
+        The users microservice will consist of all the users actions: SignIn, signup, list of users, generate authentication token… This is a spring microservice   connected to standalone MongoDB database and uses the new reactive spring boot technologies (Flux, Mono, Reactive Mongo, etc. ) Also this service is registered with the Eureka Server.
+        The routes microservice will allow the users to create, edit, add and delete routes. These routes will appear on the mobile app. This is a spring microservice connected to a standalone MySQL database. (not reactive). Also, this service is registered with the Eureka Server.
         The server microservice is an Eureka Server, which is an application that holds the information about all client-service applications. Every Micro service will register into the Eureka server and Eureka server knows all the client applications running on each port and IP address. Eureka Server is also known as Discovery Server.
 
         1. <h4 name="binstallation">Backend Installation</h4>
@@ -400,29 +400,29 @@
 
 -  <h2 name="faireRun">Faire Run</h2>
    
-   Apres l'instalation complete, Utilisez CMD pour acceder au projet: **cd khedni-maak**:
+   Apres l'installation complete, Utilisez CMD pour accede au projet : **cd khedni-maak**:
   
       - <h3 name="faireRunPartieFrontEnd">Faire Run partie front-end</h3>
       
-         - Demarer l'emulator Android sur votre PC ou connecter votre telephone Android.
-         - Changez le directory pour acceder a 'front end' directory: **cd front-end**
-         - Utilizez la commande : **flutter run** pour demarer le projet
+         - Démarrez emulator Android sur votre PC ou connecter votre telephone Android.
+         - Changez le directory pour accéder a 'front end' directory: **cd front-end**
+         - Utilisez la commande : **flutter run** pour démarrer le projet
          
       - <h3 name="faireRunPartieBackEnd">Faire Run partie back-end</h3>
       
-         -  Changez le directory pour acceder au 'back end' directory: **cd back-end**
-         -  Changez le directory pour acceder au 'server' directory: **cd server**
+         -  Changez le directory pour accéder au 'back end' directory: **cd back-end**
+         -  Changez le directory pour accéder au 'server' directory: **cd server**
             - Installer tous les dependency du server en utilisant **mvnw install**
-            - Apprez l'installation des dependency, demarrez le server en utilisant: **cd target** puis **java -jar server-0.0.1-SNAPSHOT.jar** 
-         -  Changez le directory pour acceder au 'Microservice-Users' directory: **cd Microservice-Users**
+            - Apres l'installation des dependency, démarrez le server en utilisant : **cd target** puis **java -jar server-0.0.1-SNAPSHOT.jar** 
+         -  Changez le directory pour accéder Au 'Microservice-Users' directory: **cd Microservice-Users**
             - Installer tous les dependency du server en utilisant **mvnw install**
-            - Apprez l'installation des dependency, demarrez le micor service des users en utilisant: **cd target** puis **java -jar khednimaak-users-0.0.1-SNAPSHOT.jar** 
-         -  Changez le directory pour acceder au 'Microservice-Routes' directory: **cd Microservice-Routes**
+            - Apres l'installation des dependency, démarrez le micro service des users en utilisant : **cd target** puis **java -jar khednimaak-users-0.0.1-SNAPSHOT.jar** 
+         -  Changez le directory pour accéder au 'Microservice-Routes' directory: **cd Microservice-Routes**
             - Installer tous les dependency du server en utilisant **mvnw install**
-            - Apprez l'installation des dependency, demarrez le micro service des routes en utilisant: **cd target** puis **java -jar khednimaak-routes-0.0.1-SNAPSHOT.jar** 
-         -  Changez le directory pour acceder au 'Microservice-introduction-screen' directory: **cd Microservice-introduction-screen**
+            - Apres l'installation des dependency, démarrez le micro service des routes en utilisant : **cd target** puis **java -jar khednimaak-routes-0.0.1-SNAPSHOT.jar** 
+         -  Changez le directory pour accéder au 'Microservice-introduction-screen' directory: **cd Microservice-introduction-screen**
             - Installer tous les dependency convenable pour **flask**: **pip install flask** R.Q: bien sure il faut installer **Python** https://www.python.org/downloads/
-            - Apprez l'installation des dependency, demarrez le micro service des introduction screen en utilisant: **cd screens** puis **flask run** 
+            - Apres l'installation des dependency, démarrez le micro service des introductions screen en utilisant : **cd screens** puis **flask run** 
    
 
 -  <h2 name="Documentation">Documentation</h2>
