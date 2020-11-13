@@ -119,28 +119,25 @@
     - <h3 name="googleMap">Google Map</h3>
         
         Lien officiel et documentation : https://console.cloud.google.com/apis/library
-    
-        - **Maps SDK for Android** Utilise pour MAP sur les telephone mobile android **GRATUIT**.
         
-        - **Maps SDK for IOS** Utilise pour MAP sur les telephone mobile IOS **GRATUIT**.
-        
-        - **Places API** Avoir les details de million de places **GRATUIT pour basic data**.
-        
-        - **Directions API** Direction entre plusieurs location **USD5.00 --> 0-100K requests/month OU USD4.00 --> 100K+ requests/month**.
-        
-        - **Geocoding API** Convertissez les adresses en coordonnées géographiques (géocodage), que vous pouvez utiliser pour placer des marqueurs ou positionner la carte **USD5.00 --> 0-100K requests/month OU USD4.00 --> 100K+ requests/month**.
-        
-        - **Distance Matrix API** Accédez à la distance et au temps de trajet pour une matrice d'origines et de destinations avec l'API Distance Matrix. **USD10.00 --> 0-100K elements/month OU USD8.00 --> 100K+ elements/month**.
+         API                     |   Utilisation / Description                           |  Price
+      :-------------------------:|:---------------------------------------------------:|:-------------------------:
+      Maps SDK for Android       |  Utilise pour MAP sur les telephone mobile android  |  Gratuit
+      Maps SDK for IOS       |  Utilise pour MAP sur les telephone mobile IOS  |  Gratuit
+      Places API  |  Avoir les details de million de places  |  Gratuit pour basic data
+      Directions API  |  Direction entre plusieurs location  |  USD5.00 --> 0-100K requests/month OU USD4.00 --> 100K+ requests/month
+      Geocoding API   |  Convertissez les adresses en coordonnées géographiques (géocodage), que vous pouvez utiliser pour placer des marqueurs ou positionner la carte  |  USD5.00 --> 0-100K requests/month OU USD4.00 --> 100K+ requests/month
+      Distance Matrix API  |  Accédez à la distance et au temps de trajet pour une matrice d'origines et de destinations avec l'API Distance Matrix  |  USD10.00 --> 0-100K elements/month OU USD8.00 --> 100K+ elements/month  
     
     - <h3 name="firebaseNotification">Firebase (Notification)</h3>
     
         Lien officiel et documentation : https://firebase.google.com/
-    
-        - **Cloud Messaging** Firebase Cloud Messaging (FCM). À l'aide de FCM, vous pouvez informer une application cliente qu'un nouvel e-mail ou d'autres données sont disponibles pour la synchronisation **GRATUIT**.
         
-        - **Firebase Installations API** Le service d'installation Firebase (FIS) fournit un ID d'installation Firebase (FID) pour chaque instance installée d'une application Firebase **GRATUIT**.
-        
-        - **Cloud Functions API** Cloud Functions est une solution de calcul légère permettant aux développeurs de créer des fonctions autonomes à usage unique qui répondent aux événements Cloud sans avoir besoin de gérer un serveur ou un environnement d'exécution. **GRATUIT**.
+         API                     |   Utilisation / Description                           |  Price
+      :-------------------------:|:---------------------------------------------------:|:-------------------------:
+      Cloud Messaging       |  Firebase Cloud Messaging (FCM). À l'aide de FCM, vous pouvez informer une application cliente qu'un nouvel e-mail ou d'autres données sont disponibles pour la synchronisation  |  Gratuit
+      Firebase Installations API       |  Le service d'installation Firebase (FIS) fournit un ID d'installation Firebase (FID) pour chaque instance installée d'une application Firebase |  Gratuit
+      Cloud Functions API       |  Cloud Functions est une solution de calcul légère permettant aux développeurs de créer des fonctions autonomes à usage unique qui répondent aux événements Cloud sans avoir besoin de gérer un serveur ou un environnement d'exécution  |  Gratuit
     
 -  <h2 name="architecture">Architecture</h2>
 
