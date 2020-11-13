@@ -9,11 +9,14 @@
    3. [Rider screens](#riderScreens)
 3. [Développeurs](#developpeurs)
 4. [Technologie utilise](#technologieUtilise)
-5. [Architecture](#architecture)
+5. [API externe utilise](#apiExterneUtilise)
+   1. [Google Map](#googleMap)
+   2. [Firebase (Notification)](#firebaseNotification)
+6. [Architecture](#architecture)
     1. [Diagramme de cas d'utilisation](#architecture)
     2. [Cas d'utilisation "Choisir Driver"](#choisirDriver)
     3. [Cas d'utilisation "Choisir Rider"](#choisirRider)
-6. [Installation](#installation)
+7. [Installation](#installation)
    1. [Front end installation](#frontEndInstallation)
       - [Installation Flutter](#installationFlutter)
       - [Installation Android](#installationAndroid)
@@ -23,12 +26,12 @@
       - [Backend Installation ](#binstallation)
       - [Cloud Deployment ](#cloudDeployment)
       - [API ](#API)
-7. [Faire Run](#faireRun)
+8. [Faire Run](#faireRun)
    1. [Faire Run partie front-end](#faireRunPartieFrontEnd)
    2. [Faire Run partie back-end](#faireRunPartieBackEnd)
-8. [Documentation](#documentation)
-9. [Problème Rencontré](#problemeRencontre)
-10. [Conclusion](#conclusion)
+9. [Documentation](#documentation)
+10. [Problème Rencontré](#problemeRencontre)
+11. [Conclusion](#conclusion)
 
 -  <h2 name="ideeGenerale">Introduction et idee generale</h2>
 
@@ -108,6 +111,36 @@
     - **AWS** pour le hosting des microservice (https://aws.amazon.com/)
     
     - **Docker** container (https://www.docker.com/)
+    
+-  <h2 name="apiExterneUtilise">API externe utilise</h2>
+
+    Les API utilise qui ne sont pas cree par nous, sont de Google. Par exemple API pour **Google Map**, **Firebase** pour les notifications.
+    
+    - <h3 name="googleMap">Google Map</h3>
+        
+        Lien officiel et documentation : https://console.cloud.google.com/apis/library
+    
+        - **Maps SDK for Android** Utilise pour MAP sur les telephone mobile android **GRATUIT**.
+        
+        - **Maps SDK for IOS** Utilise pour MAP sur les telephone mobile IOS **GRATUIT**.
+        
+        - **Places API** Avoir les details de million de places **GRATUIT pour basic data**.
+        
+        - **Directions API** Direction entre plusieurs location **USD5.00 --> 0-100K requests/month OU USD4.00 --> 100K+ requests/month**.
+        
+        - **Geocoding API** Convertissez les adresses en coordonnées géographiques (géocodage), que vous pouvez utiliser pour placer des marqueurs ou positionner la carte **USD5.00 --> 0-100K requests/month OU USD4.00 --> 100K+ requests/month**.
+        
+        - **Distance Matrix API** Accédez à la distance et au temps de trajet pour une matrice d'origines et de destinations avec l'API Distance Matrix. **USD10.00 --> 0-100K elements/month OU USD8.00 --> 100K+ elements/month**.
+    
+    - <h3 name="firebaseNotification">Firebase (Notification)</h3>
+    
+        Lien officiel et documentation : https://firebase.google.com/
+    
+        - **Cloud Messaging** Firebase Cloud Messaging (FCM). À l'aide de FCM, vous pouvez informer une application cliente qu'un nouvel e-mail ou d'autres données sont disponibles pour la synchronisation **GRATUIT**.
+        
+        - **Firebase Installations API** Le service d'installation Firebase (FIS) fournit un ID d'installation Firebase (FID) pour chaque instance installée d'une application Firebase **GRATUIT**.
+        
+        - **Cloud Functions API** Cloud Functions est une solution de calcul légère permettant aux développeurs de créer des fonctions autonomes à usage unique qui répondent aux événements Cloud sans avoir besoin de gérer un serveur ou un environnement d'exécution. **GRATUIT**.
     
 -  <h2 name="architecture">Architecture</h2>
 
