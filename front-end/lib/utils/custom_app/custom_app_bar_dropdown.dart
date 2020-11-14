@@ -2,15 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:khedni_maak/login/login_screen.dart';
 
 class CustomAppBarDropDown extends StatefulWidget {
-  CustomAppBarDropDown({
-    Key key,
-    this.icon = const Icon(Icons.menu),
-    this.color,
-  }) : super(key: key);
-
-  final Icon icon;
-  final Color color;
-
   @override
   _CustomAppBarDropDownState createState() => _CustomAppBarDropDownState();
 }
@@ -56,12 +47,12 @@ class _CustomAppBarDropDownState extends State<CustomAppBarDropDown> {
       itemBuilder: (BuildContext context) => <PopupMenuEntry<TopBarOptions>>[
         const PopupMenuItem<TopBarOptions>(
           value: TopBarOptions.profile,
-          child: ListTile(leading: Icon(Icons.person), title: Text('Profile')),
+          child: ListTile(leading: const Icon(Icons.person), title: Text('Profile'),),
         ),
         const PopupMenuDivider(),
         const PopupMenuItem<TopBarOptions>(
           value: TopBarOptions.logout,
-          child: ListTile(leading: Icon(Icons.logout), title: Text('Logout')),
+          child: ListTile(leading: const Icon(Icons.logout), title: Text('Logout'),),
         ),
       ],
     );
