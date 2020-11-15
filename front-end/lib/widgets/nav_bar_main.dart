@@ -81,7 +81,12 @@ class _NavBarMainState extends State<NavBarMain> {
     return Scaffold(
       bottomNavigationBar: _bottomNavigationBar(
           notificationsAddRoute, notificationsRiderRequest, navBarProvider),
-      appBar: CustomAppBar(title: Text(_getAppBarTitle(navBarProvider))),
+      appBar: CustomAppBar(
+          title: Text(
+            _getAppBarTitle(navBarProvider),
+          ),
+          onBackClick:()=> _onTabChange(0, navBarProvider),
+      ),
       backgroundColor: Color(0xffE6E6E6),
       body: _tabView(navBarProvider),
     );

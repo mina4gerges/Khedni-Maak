@@ -8,9 +8,11 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   CustomAppBar({
     Key key,
     this.title,
+    this.onBackClick,
   }) : super(key: key);
 
   final Widget title;
+  final VoidCallback onBackClick;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
         icon: Platform.isIOS ? const Icon(FlevaIcons.arrow_ios_back) : const Icon(FlevaIcons.arrow_back),
         iconSize: 28.0,
         onPressed: () {
+          onBackClick();
           Navigator.of(context).pop();
         },
       ),
