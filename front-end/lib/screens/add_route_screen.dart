@@ -377,8 +377,6 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   }
 
   Widget _buildSearchBar() {
-    // final screenHeight = MediaQuery.of(context).size.height;
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -386,7 +384,6 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       ),
       margin: const EdgeInsets.only(right: 20.0, left: 20.0),
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 5),
-      // height: screenHeight * 0.19,
       child: Row(
         children: <Widget>[
           FromToThreeDots(),
@@ -819,6 +816,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
 
     return Container(
       // margin: const EdgeInsets.only(top: 30.0),
+      height: screenHeight * 0.7,
       decoration: BoxDecoration(
         color: Palette.thirdColor,
         borderRadius: BorderRadius.only(
@@ -827,8 +825,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         ),
       ),
       child: Container(
-        height: screenHeight * 0.6,
-        margin: const EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 30.0),
+        margin: const EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 50.0),
         padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -872,10 +869,8 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       appBar: CustomAppBar(title: Text("Create route")),
       backgroundColor: Palette.primaryColor,
       body: SingleChildScrollView(
-        reverse: false,
         child: Container(
-          alignment: Alignment.center,
-          height: screenHeight - 80.0,
+          height: screenHeight - 76.0,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[_buildSearchBar(), _buildConfirmationCard()],
