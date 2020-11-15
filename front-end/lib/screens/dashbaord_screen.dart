@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
 import 'package:khedni_maak/context/notification_provider.dart';
 import 'package:khedni_maak/login/custom_route.dart';
 import 'package:khedni_maak/widgets/dashboard_header.dart';
 import 'package:khedni_maak/widgets/nav_bar_main.dart';
 import 'package:khedni_maak/widgets/pic_card.dart';
 import 'package:provider/provider.dart';
-import 'package:khedni_maak/config/globals.dart' as globals;
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key key}) : super(key: key);
@@ -54,27 +54,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
               notificationsProvider.getNotificationsAddRoute;
 
           // Insert element at the beginning of the list
-          newNotificationsAddRoute.insert(0,{
+          newNotificationsAddRoute.insert(0, {
             "to": routesInfo['to'],
             "from": routesInfo['from'],
             "routeId": routesInfo['routeId'],
-            "driverUsername": driverUsername
+            "driverUsername": driverUsername,
+            "requestReason": routesInfo['requestReason'],
+            "requestDateTime": routesInfo['requestDateTime'],
           });
 
           notificationsProvider
               .setNotificationsAddRoute(newNotificationsAddRoute);
-        }
-        else if(requestFrom == "rider"){
-
+        } else if (requestFrom == "rider") {
           List newNotificationsRiderRequest =
               notificationsProvider.getNotificationsRiderRequest;
 
           // Insert element at the beginning of the list
-          newNotificationsRiderRequest.insert(0,{
+          newNotificationsRiderRequest.insert(0, {
             "to": routesInfo['to'],
             "from": routesInfo['from'],
             "routeId": routesInfo['routeId'],
             "riderUsername": routesInfo['riderUsername'],
+            "requestReason": routesInfo['requestReason'],
             "requestDateTime": routesInfo['requestDateTime'],
           });
 

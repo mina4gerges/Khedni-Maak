@@ -6,7 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:khedni_maak/config/constant.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
 import 'package:khedni_maak/context/notification_provider.dart';
+import 'package:khedni_maak/firebase_notification/firebase_send_notification.dart';
 import 'package:khedni_maak/functions/functions.dart';
 import 'package:khedni_maak/widgets/display_flash_bar.dart';
 import 'package:khedni_maak/widgets/error_widget.dart';
@@ -57,12 +59,66 @@ class NotificationDriverScreen extends StatelessWidget {
           .setNotificationsRiderRequest(notificationsRiderRequest);
     }
 
+    void sentNotification(Map addRouteResponse, String requestStatus) {
+      String routeId = "${addRouteResponse['routeId']}";
+
+      String notificationBody =
+          'From ${addRouteResponse['from']} to ${addRouteResponse['to']}';
+
+      Map routesInfo = new Map();
+
+      String driverUsername = globals.userFullName;
+
+      routesInfo['requestReason'] = requestStatus;
+      routesInfo['requestFrom'] = "driver";
+      routesInfo['routeId'] = "${addRouteResponse['routeId']}";
+      routesInfo['driverUsername'] = driverUsername;
+      routesInfo['from'] = addRouteResponse['from'];
+      routesInfo['to'] = addRouteResponse['to'];
+      routesInfo['requestDateTime'] = DateTime.now().toString();
+
+      String riderUsername = routesInfo['riderUsername'];
+
+      String requestTopic = 'request-$routeId';
+
+      sendAndRetrieveMessage(
+              "$driverUsername, ${requestStatus == 'acceptRequest' ? 'accept your request' : 'reject your request'}",
+              notificationBody,
+              requestTopic,
+              routesInfo)
+          .then((value) => {
+                if (value.statusCode == 200)
+                  {
+                    if (requestStatus == 'acceptRequest')
+                      {
+                        DisplayFlashBar.displayFlashBar(
+                          'success',
+                          "Request rejected",
+                          context,
+                        )
+                      }
+                    else
+                      {
+                        DisplayFlashBar.displayFlashBar(
+                          'success',
+                          "Request rejected",
+                          context,
+                        )
+                      },
+                    _removeNotification(routeId),
+                    _firebaseMessaging.unsubscribeFromTopic(requestTopic),
+                  }
+                else
+                  DisplayFlashBar.displayFlashBar(
+                    'danger',
+                    'Request status is not sent to $riderUsername',
+                    context,
+                  )
+              });
+    }
+
     _onAcceptRequest(Map route, String source) {
       String routeId = route['routeId'];
-
-      _firebaseMessaging.unsubscribeFromTopic('request-$routeId');
-
-      // TODO: Send notification to inform the rider about the request status
 
       if (source == 'accept') {
         String riderUsername = route['riderUsername'];
@@ -72,14 +128,7 @@ class NotificationDriverScreen extends StatelessWidget {
 
         _updateRoutePassenger(routeId, passengers).then((value) => {
               if (value.statusCode == 200)
-                {
-                  DisplayFlashBar.displayFlashBar(
-                    'success',
-                    "Request accepted. A confirmation is sent to $riderUsername",
-                    context,
-                  ),
-                  _removeNotification(routeId)
-                }
+                sentNotification(route, 'acceptRequest')
               else
                 DisplayFlashBar.displayFlashBar(
                   'danger',
@@ -87,14 +136,8 @@ class NotificationDriverScreen extends StatelessWidget {
                   context,
                 )
             });
-      } else {
-        DisplayFlashBar.displayFlashBar(
-          'success',
-          "Request rejected",
-          context,
-        );
-        _removeNotification(routeId);
-      }
+      } else
+        sentNotification(route, 'rejectedRequest');
     }
 
     Future<void> _openConfirmModal(

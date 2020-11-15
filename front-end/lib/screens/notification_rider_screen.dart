@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khedni_maak/context/notification_provider.dart';
+import 'package:khedni_maak/functions/functions.dart';
 import 'package:khedni_maak/widgets/error_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -14,21 +15,12 @@ class NotificationRiderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
+
     NotificationProvider notificationProvider =
         Provider.of<NotificationProvider>(context);
 
     List notificationsAddRoute = notificationProvider.getNotificationsAddRoute;
-
-    _removeNotification(String routeId) {
-      for (int i = 0; i < notificationsAddRoute.length; i++) {
-        Map notification = notificationsAddRoute[i];
-
-        if (notification['routeId'] == routeId) {
-          notificationsAddRoute.removeAt(i);
-        }
-      }
-      notificationProvider.setNotificationsAddRoute(notificationsAddRoute);
-    }
 
     if (notificationsAddRoute.length == 0)
       return ErrorWidgetDisplay(
@@ -37,56 +29,84 @@ class NotificationRiderScreen extends StatelessWidget {
         imagePath: 'truck.png',
       );
 
-    return ListView.builder(
-      // padding: const EdgeInsets.all(5),
-      itemCount: notificationsAddRoute.length,
-      itemBuilder: (BuildContext context, int index) {
+    return AnimatedList(
+      key: listKey,
+      initialItemCount: notificationsAddRoute.length,
+      itemBuilder: (context, index, animation) {
         final route = notificationsAddRoute[index];
         String from = route['from'];
         String to = route['to'];
-        // String driverUsername = route['driverUsername'];
-        String routeId = route['routeId'];
+        String driverUsername = route['driverUsername'];
+        String requestDateTime = route['requestDateTime'];
+        String requestReason = route['requestReason'];
+        String requestDateTimeStamp = requestDateTime != null
+            ? Functions.timeAgoSinceDate(requestDateTime)
+            : 'Just now';
 
-        return Container(
-          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.blue[50], Colors.blue[50]],
-            ),
-          ),
-          child: Row(
-            children: [
-              Column(
+        print('requestReason $requestReason');
+
+        return SizeTransition(
+          axis: Axis.vertical,
+          sizeFactor: animation,
+          child: SizedBox(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.blue[50], Colors.blue[50]],
+                ),
+              ),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(height: 5.0),
-                  Row(
-                    children: [
-                      Text("XXXXXX accepted your request"),
-                    ],
+                  RichText(
+                    text: TextSpan(
+                      // text: riderUsername,
+                      style: TextStyle(color: Colors.black),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: driverUsername,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        requestReason == 'addNewRoute'
+                            ? TextSpan(
+                                text: ' added a new route',
+                              )
+                            : (requestReason == 'acceptRequest'
+                                ? TextSpan(
+                                    text: ' accept your request',
+                                  )
+                                : TextSpan(
+                                    text: ' reject your request',
+                                  )),
+                        TextSpan(
+                          text: ' From ',
+                        ),
+                        TextSpan(
+                          text: from,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        TextSpan(
+                          text: ' To ',
+                        ),
+                        TextSpan(
+                          text: to,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 5.0),
-                  Row(
-                    children: [
-                      Text("From "),
-                      Text(from),
-                      Text(" To "),
-                      Text(to),
-                    ],
+                  Text(
+                    requestDateTimeStamp,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
                   ),
-                  SizedBox(height: 5.0),
                 ],
               ),
-              Column(children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.red[400],
-                  ),
-                  onPressed: () => _removeNotification(routeId),
-                ),
-              ]),
-            ],
+            ),
           ),
         );
         //onTap:onCarTap,

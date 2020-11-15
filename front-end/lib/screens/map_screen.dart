@@ -320,14 +320,18 @@ class _MapScreenState extends State<MapScreen> {
     Map routesInfo = new Map();
 
     if (addRouteResponse != null) {
+      routesInfo['requestReason'] = "addNewRoute";
       routesInfo['requestFrom'] = "driver";
       routesInfo['routeId'] = "${addRouteResponse['routeId']}";
       routesInfo['driverUsername'] = addRouteResponse['driverUsername'];
-      routesInfo['from'] = addRouteResponse['fromSelectedPlace'].formattedAddress;
+      routesInfo['from'] =
+          addRouteResponse['fromSelectedPlace'].formattedAddress;
       routesInfo['to'] = addRouteResponse['toSelectedPlace'].formattedAddress;
+      routesInfo['requestDateTime'] = DateTime.now().toString();
     }
 
-    sendAndRetrieveMessage("New ride !", notificationBody, "all-users", routesInfo)
+    sendAndRetrieveMessage(
+            "New ride !", notificationBody, "all-users", routesInfo)
         .then((value) => {
               if (value.statusCode == 200)
                 print("notification sent successfully")
@@ -349,13 +353,14 @@ class _MapScreenState extends State<MapScreen> {
       },
     );
   }
+
   _handleAddRouteResponse(addRouteResponse) async {
     DisplayFlashBar.displayFlashBar(
-      addRouteResponse['status'],
-      addRouteResponse['status'] == 'success'
-          ? "Route added"
-          : 'Failed to add a new route',context
-    );
+        addRouteResponse['status'],
+        addRouteResponse['status'] == 'success'
+            ? "Route added"
+            : 'Failed to add a new route',
+        context);
 
     if (addRouteResponse['status'] == 'success') {
       sentNotification(addRouteResponse);
