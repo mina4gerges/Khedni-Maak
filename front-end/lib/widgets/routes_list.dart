@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:khedni_maak/config/globals.dart' as globals;
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/firebase_notification/firebase_send_notification.dart';
@@ -11,7 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'display_flash_bar.dart';
 import 'from_to_three_dots.dart';
 
-class RoutesList extends StatelessWidget {
+class RoutesList extends StatefulWidget {
   RoutesList({
     Key key,
     this.navSource,
@@ -26,7 +27,15 @@ class RoutesList extends StatelessWidget {
   final String navSource;
   final Function(int routeId) removeRide;
   final Function(Map route) onCardTab;
+
+  @override
+  _RoutesListState createState() => _RoutesListState();
+}
+
+class _RoutesListState extends State<RoutesList> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  String sendingRequestId = "";
 
   _getCardBody(Map route, BuildContext context) {
     return Container(
@@ -132,7 +141,7 @@ class RoutesList extends StatelessWidget {
   }
 
   _displayActionButton(Map route, BuildContext context) {
-    return source == 'rider' && navSource != 'history'
+    return widget.source == 'rider' && widget.navSource != 'history'
         ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -150,20 +159,25 @@ class RoutesList extends StatelessWidget {
                   ],
                 ),
               ),
-              RaisedButton(
-                onPressed: () => _sendRequest(route, context),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: Palette.fifthColor,
-                textColor: Colors.white,
-                child: Row(
-                  children: [
-                    Icon(Icons.send_sharp),
-                    Text("Send Request"),
-                  ],
-                ),
-              ),
+              sendingRequestId == "${route['id']}"
+                  ? SpinKitThreeBounce(
+                      color: Palette.fifthColor,
+                      size: 25.0,
+                    )
+                  : RaisedButton(
+                      onPressed: () => _sendRequest(route, context),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      color: Palette.fifthColor,
+                      textColor: Colors.white,
+                      child: Row(
+                        children: [
+                          Icon(Icons.send_sharp),
+                          Text("Send Request"),
+                        ],
+                      ),
+                    ),
             ],
           )
         : Container();
@@ -171,7 +185,7 @@ class RoutesList extends StatelessWidget {
 
   _displayApprovalStatus(Map route, BuildContext context) {
     //history screen
-    if (source == 'rider' && navSource == 'history') {
+    if (widget.source == 'rider' && widget.navSource == 'history') {
       return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         RaisedButton(
           onPressed: () => launch("tel://${route["driverPhone"]}"),
@@ -218,6 +232,10 @@ class RoutesList extends StatelessWidget {
     routesInfo['riderUsername'] = globals.userFullName;
     routesInfo['requestDateTime'] = DateTime.now().toString();
 
+    setState(() {
+      sendingRequestId = routeId;
+    });
+
     sendAndRetrieveMessage(
             "New Request !", notificationBody, "route-$routeId", routesInfo)
         .then((value) => {
@@ -228,7 +246,10 @@ class RoutesList extends StatelessWidget {
                     context)
               else
                 DisplayFlashBar.displayFlashBar(
-                    'failed', "Failed to send notification", context)
+                    'failed', "Failed to send notification", context),
+              setState(() {
+                sendingRequestId = "";
+              })
             });
   }
 
@@ -236,20 +257,22 @@ class RoutesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.all(5),
-      itemCount: routes != null ? routes.length : 0,
+      itemCount: widget.routes != null ? widget.routes.length : 0,
       itemBuilder: (BuildContext context, int index) {
-        final route = routes[index];
-        return source == 'driver' && removeRide != null && onCardTab != null
+        final route = widget.routes[index];
+        return widget.source == 'driver' &&
+                widget.removeRide != null &&
+                widget.onCardTab != null
             ? Dismissible(
                 key: Key("${route['id']}"),
                 onDismissed: (direction) {
-                  removeRide(route['id']);
+                  widget.removeRide(route['id']);
                 },
                 background: Container(color: Colors.red),
                 child: BuildStatCard(
                   body: _getCardBody(route, context),
                   color: Colors.white,
-                  onCarTap: () => {onCardTab(route)},
+                  onCarTap: () => {widget.onCardTab(route)},
                 ),
               )
             : BuildStatCard(

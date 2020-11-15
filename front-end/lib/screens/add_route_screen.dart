@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -56,6 +57,8 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   FocusNode _toFocusNode;
 
   BaseClient httpClient;
+
+  bool addingRoute = false;
 
   @override
   void initState() {
@@ -593,6 +596,10 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     String startingTime =
         "${DateTime.now().year}-$month-$day ${departureOnTime.hour}:${departureOnTime.minute}";
 
+    setState(() {
+      addingRoute = true;
+    });
+
     final http.Response response = await http.post(
       '$baseUrlRoutes/addRoute',
       headers: <String, String>{
@@ -614,6 +621,10 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         "driverPhone": globals.userPhoneNumber,
       }),
     );
+
+    setState(() {
+      addingRoute = false;
+    });
 
     Navigator.pop(context, {
       "routeId": json.decode(response.body)['id'],
@@ -782,18 +793,23 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        RaisedButton(
-          onPressed: _addRoute,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          color: Palette.primaryColor,
-          textColor: Colors.white,
-          child: const Text(
-            'ADD ROUTE',
-            style: TextStyle(fontSize: 15),
-          ),
-        ),
+        addingRoute
+            ? SpinKitThreeBounce(
+                color: Palette.primaryColor,
+                size: 25.0,
+              )
+            : RaisedButton(
+                onPressed: _addRoute,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                color: Palette.primaryColor,
+                textColor: Colors.white,
+                child: const Text(
+                  'ADD ROUTE',
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
       ],
     );
   }
