@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -7,15 +8,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:khedni_maak/config/Secrets.dart';
 import 'package:khedni_maak/config/constant.dart';
+import 'package:khedni_maak/config/globals.dart' as globals;
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/google_map/src/components/prediction_tile.dart';
 import 'package:khedni_maak/google_map/src/models/pick_result.dart';
 import 'package:khedni_maak/widgets/custom_app_bar.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:khedni_maak/config/globals.dart' as globals;
 import 'package:khedni_maak/widgets/display_flash_bar.dart';
 import 'package:khedni_maak/widgets/from_to_three_dots.dart';
 
@@ -374,7 +374,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
   }
 
   Widget _buildSearchBar() {
-    final screenHeight = MediaQuery.of(context).size.height;
+    // final screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
       decoration: BoxDecoration(
@@ -383,7 +383,7 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
       ),
       margin: const EdgeInsets.only(right: 20.0, left: 20.0),
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 5),
-      height: screenHeight * 0.19,
+      // height: screenHeight * 0.19,
       child: Row(
         children: <Widget>[
           FromToThreeDots(),
@@ -579,14 +579,19 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     String errorMsg = _addRouteValidate();
 
     if (errorMsg != '') {
-      DisplayFlashBar.displayFlashBar('inputsEmpty', errorMsg,context);
+      DisplayFlashBar.displayFlashBar('inputsEmpty', errorMsg, context);
       return;
     }
 
-    String month = "${DateTime.now().month}".length == 1 ? "0${DateTime.now().month}": "${DateTime.now().month}";
-    String day = "${DateTime.now().day}".length == 1 ? "0${DateTime.now().day}": "${DateTime.now().day}";
+    String month = "${DateTime.now().month}".length == 1
+        ? "0${DateTime.now().month}"
+        : "${DateTime.now().month}";
+    String day = "${DateTime.now().day}".length == 1
+        ? "0${DateTime.now().day}"
+        : "${DateTime.now().day}";
 
-    String startingTime = "${DateTime.now().year}-$month-$day ${departureOnTime.hour}:${departureOnTime.minute}";
+    String startingTime =
+        "${DateTime.now().year}-$month-$day ${departureOnTime.hour}:${departureOnTime.minute}";
 
     final http.Response response = await http.post(
       '$baseUrlRoutes/addRoute',
@@ -606,12 +611,12 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         "lngStart": fromSelectedPlace.geometry.location.lng,
         "latEnd": toSelectedPlace.geometry.location.lat,
         "lngEnd": toSelectedPlace.geometry.location.lng,
-        "driverPhone":globals.userPhoneNumber,
+        "driverPhone": globals.userPhoneNumber,
       }),
     );
 
     Navigator.pop(context, {
-      "routeId":json.decode(response.body)['id'],
+      "routeId": json.decode(response.body)['id'],
       "status": response.statusCode == 200 ? 'success' : 'failed',
       "fromSelectedPlace": fromSelectedPlace,
       "toSelectedPlace": toSelectedPlace,
@@ -797,9 +802,6 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      // height: screenHeight - 30.0 - 40.0,
-      height: screenHeight * 0.6,
-      // width: width,
       // margin: const EdgeInsets.only(top: 30.0),
       decoration: BoxDecoration(
         color: Palette.thirdColor,
@@ -809,7 +811,8 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
         ),
       ),
       child: Container(
-        margin: const EdgeInsets.all(20.0),
+        height: screenHeight * 0.6,
+        margin: const EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 30.0),
         padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -847,35 +850,21 @@ class _AddRouteScreenState extends State<AddRouteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const Key centerKey = ValueKey('bottom-sliver-list');
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: CustomAppBar(title: Text("Create route")),
       backgroundColor: Palette.primaryColor,
-      body: CustomScrollView(
-        center: centerKey,
-        slivers: <Widget>[
-          SliverList(
-            key: centerKey,
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  height: screenHeight - 80.0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      _buildSearchBar(),
-                      _buildConfirmationCard()
-                    ],
-                  ),
-                );
-              },
-              childCount: 1,
-            ),
+      body: SingleChildScrollView(
+        reverse: false,
+        child: Container(
+          alignment: Alignment.center,
+          height: screenHeight - 80.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[_buildSearchBar(), _buildConfirmationCard()],
           ),
-        ],
+        ),
       ),
     );
   }
