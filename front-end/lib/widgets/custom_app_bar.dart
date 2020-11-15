@@ -1,6 +1,7 @@
+import 'dart:io' show Platform;
+
 import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
 import 'package:khedni_maak/config/palette.dart';
 import 'package:khedni_maak/utils/custom_app/custom_app_bar_dropdown.dart';
 
@@ -17,15 +18,17 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      key:key,
+      key: key,
       title: title,
       backgroundColor: Palette.primaryColor,
       elevation: 0.0,
       leading: IconButton(
-        icon: Platform.isIOS ? const Icon(FlevaIcons.arrow_ios_back) : const Icon(FlevaIcons.arrow_back),
+        icon: Platform.isIOS
+            ? const Icon(FlevaIcons.arrow_ios_back)
+            : const Icon(FlevaIcons.arrow_back),
         iconSize: 28.0,
         onPressed: () {
-          onBackClick();
+          if (onBackClick != null) onBackClick();
           Navigator.of(context).pop();
         },
       ),
