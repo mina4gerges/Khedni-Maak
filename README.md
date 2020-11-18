@@ -29,9 +29,6 @@
 8. [Faire Run](#faireRun)
    1. [Faire Run partie front-end](#faireRunPartieFrontEnd)
    2. [Faire Run partie back-end](#faireRunPartieBackEnd)
-9. [Documentation](#documentation)
-10. [Problème Rencontré](#problemeRencontre)
-11. [Conclusion](#conclusion)
 
 -  <h2 name="ideeGenerale">Introduction et idee generale</h2>
 
@@ -483,12 +480,5 @@
             
             ![flutter run](back-end/Screenshots/flask-run.PNG?raw=true)
    
-
--  <h2 name="Documentation">Documentation</h2>
-
--  <h2 name="problemeRencontre">Problème Rencontré</h2>
-
--  <h2 name="conclusion">Conclusion</h2>
-
    
      
